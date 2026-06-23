@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Six Python packages used in genomics and phenotype tooling were pushed with malicious releases that hid a credential-stealing payload inside compiled extensions." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/bioinformatics-endor-hades-hits-pypi-shai-hulud-six-stolen.html" />
+  <title>Shai-Hulud resurfaces in PyPI bioinformatics packages through stolen publishing tokens</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Updated 2026-06-23 / 1 source</p>
+          <h1>Shai-Hulud resurfaces in PyPI bioinformatics packages through stolen publishing tokens</h1>
+          <p class="hero-copy">Six Python packages used in genomics and phenotype tooling were pushed with malicious releases that hid a credential-stealing payload inside compiled extensions.</p>
+          <div class="source-list">
+          <a href="https://www.endorlabs.com/learn/shai-hulud-hades-wave-hits-six-pypi-bioinformatics-packages" target="_blank" rel="noreferrer">Endor Labs</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Endor Labs reported a coordinated PyPI compromise on June 8, 2026 affecting six bioinformatics and graph-analysis packages: ensmallen, embiggen, pyphetools, gpsea, phenopacket-store-toolkit, and ppkt2synergy. The malicious versions were uploaded within about a minute using publishing tokens rather than the projects’ normal release pipelines. The packages carried a Shai-Hulud credential-stealing worm, with execution embedded in native binary extensions that run when the Python module is imported. Endor says the releases were quarantined on PyPI after reporting, but organizations may still be exposed through local caches, mirrors, build artifacts, notebooks, or containers that installed the affected versions before removal.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>Affected PyPI releases: ensmallen 0.8.101, embiggen 0.11.97, pyphetools 0.9.120, gpsea 0.9.14, phenopacket-store-toolkit 0.1.7, and ppkt2synergy 0.1.1.</li>
+          <li>The releases reportedly had no matching upstream GitHub commits, tags, or project releases, indicating unauthorized registry-only publication.</li>
+          <li>All uploads used a Bun JavaScript runtime user agent rather than common Python packaging tools, suggesting direct token abuse through custom automation.</li>
+          <li>The payload was not limited to Python source changes; Endor reports malicious behavior was placed in compiled .abi3.so extensions and triggered during module import.</li>
+          <li>The campaign reused Shai-Hulud-style credential theft and worm behavior previously observed in npm and earlier PyPI incidents.</li>
+          <li>The source attributes the publication to stolen API tokens, but does not describe how those tokens were obtained.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>PyPI / Python packaging, Academic and commercial bioinformatics tooling, Genomics, phenotype-analysis, graph machine-learning, and knowledge-graph research environments, Downstream CI systems, notebooks, containers, package mirrors, and artifact caches that may have pulled the malicious versions</p>
+          <h2>Security analysis</h2>
+          <p>This incident is notable because it combines classic package registry account abuse with a harder-to-review execution path. Many dependency reviews focus on Python source diffs, setup scripts, or install-time hooks. In this case, the reported trigger sat in compiled native extensions that are normally loaded as part of legitimate package functionality. That raises the risk for scientific Python users, who often rely on binary wheels for performance and may execute packages inside high-trust research environments containing API credentials, datasets, and cloud access. The narrow package set suggests targeted compromise of maintainers or project publishing credentials rather than broad typosquatting, but the source material does not establish the initial token theft method. Because PyPI reportedly quarantined the releases quickly, the main exposure question is whether organizations installed them during the short availability window or cached them internally afterward.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Search dependency manifests, lockfiles, SBOMs, package-manager logs, internal PyPI mirrors, container images, and notebook environments for the six affected package versions.</li>
+          <li>Treat any environment that installed and imported one of the malicious versions as potentially credential-exposed; prioritize developer machines, CI runners, research workstations, and shared notebook servers.</li>
+          <li>Rotate secrets accessible from exposed hosts, including PyPI, GitHub, npm, cloud, SSH, database, and CI/CD tokens where applicable.</li>
+          <li>Remove the affected versions from internal package caches and block reinstallation through dependency policy controls.</li>
+          <li>Review runtime telemetry for unexpected JavaScript execution, Bun usage, unusual outbound network activity, or new files/processes spawned from Python workloads around the reported publication window.</li>
+          <li>For maintainers, revoke existing PyPI publishing tokens, migrate to PyPI Trusted Publishing where possible, enforce 2FA, scope tokens tightly, and monitor for releases that do not correspond to signed source-control tags.</li>
+          <li>Add package review checks for native extensions and large embedded scripts, especially when a release differs from the upstream repository or build provenance is missing.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Primary source: Endor Labs report published June 8, 2026.</li>
+          <li>The source states the packages were quarantined through PyPI reporting; independent registry status was not provided in the supplied material.</li>
+          <li>Details about the full payload behavior, exfiltration endpoints, and token-theft origin are incomplete in the supplied snippet, so affected organizations should validate with their own telemetry.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>© <span id="year"></span> Arnab Roy</span><span>Portfolio and research notes.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+

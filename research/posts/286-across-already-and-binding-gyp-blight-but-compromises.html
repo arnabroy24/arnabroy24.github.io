@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Semgrep reports a second Miasma wave affecting 57 npm packages and 286+ versions, using native build configuration to run malware during install and steal developer and CI credentials." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/286-across-already-and-binding-gyp-blight-but-compromises.html" />
+  <title>Miasma npm worm shifts to binding.gyp execution, compromising 57 packages</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Updated 2026-06-23 / 1 source</p>
+          <h1>Miasma npm worm shifts to binding.gyp execution, compromising 57 packages</h1>
+          <p class="hero-copy">Semgrep reports a second Miasma wave affecting 57 npm packages and 286+ versions, using native build configuration to run malware during install and steal developer and CI credentials.</p>
+          <div class="source-list">
+          <a href="https://semgrep.dev/blog/2026/miasma-v2-self-spreading-npm-worm-now-uses-malicious-bindinggyp-file-and-compromises-57-packages" target="_blank" rel="noreferrer">Semgrep</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Semgrep describes a new wave of the Miasma self-propagating npm malware campaign. The reported v2 campaign compromised 57 npm packages across more than 286 malicious versions. Instead of relying on visible npm lifecycle scripts in package.json, the malicious packages use a small binding.gyp file that invokes node index.js during native build processing, causing code execution when the package is installed. The payload reportedly steals cloud and developer credentials, abuses GitHub infrastructure for exfiltration, and uses stolen publishing access to push additional malicious package versions.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>The affected ecosystem is npm, with Semgrep reporting 57 compromised packages and 286+ malicious versions.</li>
+          <li>The execution mechanism is notable: malicious behavior is triggered through binding.gyp rather than preinstall or postinstall scripts, so controls that only block or review lifecycle scripts may miss it.</li>
+          <li>The payload is reported to target AWS, GCP, Azure, GitHub Actions secrets, and local password stores including 1Password, gopass, and pass.</li>
+          <li>Semgrep says the malware attempts to extract GitHub Actions secrets from runner process memory via /proc/*/mem, increasing risk for CI environments that installed affected packages.</li>
+          <li>The campaign reportedly tampers with AI coding-assistant configuration files to create persistence or influence generated code.</li>
+          <li>The worm allegedly forges provenance attestations while publishing follow-on malicious versions, so provenance metadata alone should not be treated as proof that a package version is safe.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>npm packages and npm-based build pipelines, GitHub Actions environments that installed affected versions, Developer workstations with npm installs of affected versions, Cloud accounts exposed through stolen AWS, GCP, or Azure credentials, Password/secret stores accessible to the install process, AI coding-assistant configuration files on affected developer systems</p>
+          <h2>Security analysis</h2>
+          <p>This incident is significant because it moves npm malware execution away from the most commonly monitored location. Many organizations have added policy checks for install scripts after prior npm malware campaigns, but binding.gyp is a legitimate native addon build file and may be overlooked by allowlists, manual review, or simple package diffing. A package does not need to advertise a lifecycle hook in package.json for installation to become dangerous if the build toolchain evaluates command substitutions from native build metadata.
+
+The campaign also illustrates how package compromise becomes an identity compromise problem. If the malware runs in CI, it may inherit registry tokens, GitHub Actions secrets, cloud credentials, and deployment permissions. If it runs on a developer workstation, it may reach local password stores and configuration files. The reported use of stolen credentials to publish more malicious versions means defenders should investigate publisher account integrity, not just remove the dependency.
+
+The source provides a large affected-package list, but the supplied snippet appears incomplete relative to the stated total of 57 packages and 286+ versions. Teams should use Semgrep’s full advisory or package-registry takedown data as the authoritative package/version inventory before closing exposure assessments.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Search dependency manifests, lockfiles, package manager caches, artifact SBOMs, and CI logs for the affected packages and versions reported by Semgrep. Treat both direct and transitive dependency installs as relevant.</li>
+          <li>Do not limit detection to package.json lifecycle scripts. Inspect suspicious npm packages for binding.gyp entries that execute shell commands or invoke Node scripts during install.</li>
+          <li>For any system that installed a reported malicious version, rotate npm tokens, GitHub tokens, GitHub Actions secrets, cloud keys, and other credentials accessible to the user or CI runner at install time.</li>
+          <li>Review GitHub Actions runner logs and host telemetry for unusual access to /proc/*/mem, unexpected node execution during npm install, outbound traffic to GitHub repositories not owned by the organization, and creation of unexpected package versions.</li>
+          <li>Audit npm publisher accounts for anomalous logins, token use, new automation tokens, changed maintainers, and unexplained releases. Revoke stale automation credentials and enforce MFA where available.</li>
+          <li>Check developer workstations and build images for modified AI assistant configuration files, unexpected persistence, and credential-store access during the install window.</li>
+          <li>Pin known-good versions, clear dependency caches, rebuild images from trusted bases, and avoid reusing CI workspaces that may have executed affected packages.</li>
+          <li>Use provenance as one signal, not a sole allow decision, because this campaign is reported to manipulate attestations.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Primary source: Semgrep, “Miasma v2: Self-Spreading npm Worm Now Uses Malicious binding.gyp file and Compromises 57 Packages,” published June 4, 2026.</li>
+          <li>The snippet reports 57 affected npm packages and 286+ malicious versions, but only part of the package/version list is visible in the supplied material.</li>
+          <li>No independent secondary source was provided in the snippets, so campaign details should be validated against registry data, internal telemetry, and any subsequent advisories.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>© <span id="year"></span> Arnab Roy</span><span>Portfolio and research notes.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+

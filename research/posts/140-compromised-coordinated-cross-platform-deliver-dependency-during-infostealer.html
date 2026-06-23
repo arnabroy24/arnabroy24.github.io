@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="More than 140 packages in the @mastra npm scope were reportedly republished with a malicious dependency that executed during installation, putting developer workstations and CI runners at risk before application code was ever run." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/140-compromised-coordinated-cross-platform-deliver-dependency-during-infostealer.html" />
+  <title>Compromised Mastra npm Releases Pulled a Typosquatted Infostealer Dependency</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Updated 2026-06-23 / 1 source</p>
+          <h1>Compromised Mastra npm Releases Pulled a Typosquatted Infostealer Dependency</h1>
+          <p class="hero-copy">More than 140 packages in the @mastra npm scope were reportedly republished with a malicious dependency that executed during installation, putting developer workstations and CI runners at risk before application code was ever run.</p>
+          <div class="source-list">
+          <a href="https://socket.dev/blog/mastra-npm-packages-compromised?utm_medium=feed" target="_blank" rel="noreferrer">Socket</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Socket reports that on June 17, 2026, a single npm account published malicious versions of 141 packages in the @mastra/* namespace. The package contents were reportedly unchanged from legitimate releases, but their manifests added a dependency on easy-day-js, a typosquat of the popular dayjs library. A later version of easy-day-js contained a postinstall script that downloaded and ran a second-stage payload. Socket describes the payload as a cross-platform infostealer targeting browser data and more than 160 cryptocurrency wallet browser extensions, with persistence mechanisms for Windows, macOS, and Linux.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>The campaign abused the npm ecosystem by modifying legitimate package manifests rather than visibly changing application code.</li>
+          <li>The malicious dependency, easy-day-js, was reportedly published clean first and then updated with a weaponized postinstall hook.</li>
+          <li>Execution occurred during npm install, so importing or using an affected Mastra package was not required for exposure.</li>
+          <li>Socket states that @mastra/core alone has more than 918,000 weekly npm downloads, suggesting a potentially large blast radius.</li>
+          <li>The exact number of compromised downstream systems is not yet known from the available source.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>npm, @mastra/* packages, including @mastra/core, Developer workstations running npm installs, CI/CD runners and build environments that installed affected versions, Windows, macOS, and Linux hosts targeted by the reported second-stage malware</p>
+          <h2>Security analysis</h2>
+          <p>This incident is a strong example of why dependency review cannot stop at package names or source diffs. According to Socket, the compromised Mastra releases were largely identical to prior legitimate builds; the malicious behavior entered through a newly added dependency. That makes lockfile review, provenance checks, publisher-account monitoring, and install-script controls especially important.
+
+The most important operational detail is timing of execution. Because the payload ran from a postinstall hook, exposure begins when the package manager resolves and installs the dependency tree. CI systems are particularly sensitive because they often contain deploy keys, registry tokens, cloud credentials, and signing material. Developer laptops are also high value because the reported malware targeted browser and cryptocurrency wallet data.
+
+The available reporting does not establish how the npm account was compromised, which exact downstream projects installed the bad versions, or the complete set of C2 indicators. Defenders should therefore scope from local package-manager evidence: package-lock.json, npm cache, artifact build logs, CI logs, and endpoint telemetry from the compromise window.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Inventory whether any @mastra/* packages were installed or built from versions published during the reported June 17, 2026 compromise window.</li>
+          <li>Treat any host or CI runner that installed affected versions as potentially compromised, even if the package was never imported by application code.</li>
+          <li>Remove affected versions, delete node_modules and lockfiles as appropriate, and reinstall from known-good versions after verification.</li>
+          <li>Search dependency manifests and lockfiles for easy-day-js, especially version 1.11.22 or later versions associated with the campaign.</li>
+          <li>Rotate credentials that may have been present on exposed systems, including npm tokens, Git credentials, SSH keys, cloud keys, CI secrets, and wallet-related secrets.</li>
+          <li>Review CI job logs and endpoint telemetry for unexpected node postinstall execution, outbound connections to unfamiliar infrastructure, detached background processes, or persistence changes.</li>
+          <li>Consider blocking install scripts by default in high-risk build contexts where feasible, and allow them only for reviewed dependencies.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Socket reported the campaign and attributed the delivery mechanism to a typosquatted npm dependency named easy-day-js added to malicious @mastra/* releases.</li>
+          <li>Socket reported that 141 @mastra/* packages were published by the npm account ehindero between roughly 01:15 and 02:36 UTC on 2026-06-17.</li>
+          <li>Socket reported that easy-day-js was first published as a clean package and later updated with a postinstall payload.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>© <span id="year"></span> Arnab Roy</span><span>Portfolio and research notes.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+

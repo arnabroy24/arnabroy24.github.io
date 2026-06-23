@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A malicious Nx Console release reportedly reached both VS Code Marketplace and Open VSX and was tied to theft of GitHub-internal repositories, highlighting the risk of trusted developer extensions." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/and-before-blocks-code-compromised-developers-editor-extensions.html" />
+  <title>Poisoned VS Code Extension Shows Editor Marketplaces Are a Software Supply-Chain Control Point</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Updated 2026-06-23 / 1 source</p>
+          <h1>Poisoned VS Code Extension Shows Editor Marketplaces Are a Software Supply-Chain Control Point</h1>
+          <p class="hero-copy">A malicious Nx Console release reportedly reached both VS Code Marketplace and Open VSX and was tied to theft of GitHub-internal repositories, highlighting the risk of trusted developer extensions.</p>
+          <div class="source-list">
+          <a href="https://socket.dev/blog/socket-firewall-blocks-malicious-code-extensions?utm_medium=feed" target="_blank" rel="noreferrer">Socket</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Socket’s post is primarily a product announcement, but it cites a concrete supply-chain incident: GitHub disclosed in May 2026 that a poisoned third-party VS Code extension compromised an employee device and enabled exfiltration of roughly 3,800 internal repositories. The cited extension was Nx Console 18.95.0, described as a malicious release that appeared in both the Visual Studio Marketplace and Open VSX before being removed. The same source also references recurring GlassWorm activity abusing Open VSX with malicious or compromised extensions intended to steal developer credentials and propagate through editor marketplaces.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>The affected supply-chain surface is not a traditional package manager but developer editor extensions, which run inside workstations that often hold source code, secrets, terminals, and authenticated internal access.</li>
+          <li>Nx Console 18.95.0 is identified by the source as a malicious extension release that reached both VS Code Marketplace and Open VSX before removal.</li>
+          <li>The reported GitHub impact was significant: compromise of an employee device and exfiltration of approximately 3,800 internal repositories.</li>
+          <li>Open VSX exposure matters beyond VSCodium; the source notes use by VS Code-derived and AI-oriented editors such as Cursor, Windsurf, Antigravity, and others.</li>
+          <li>Details remain incomplete from the provided source: it does not include indicators of compromise, the exact malicious behavior in Nx Console 18.95.0, how many non-GitHub users installed it, or whether related packages/extensions were affected.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>Visual Studio Code Marketplace, Open VSX, VS Code-compatible editors and forks, Developer workstations and build/development environments with installed editor extensions</p>
+          <h2>Security analysis</h2>
+          <p>This incident reinforces that editor extensions should be treated as executable dependencies in the software supply chain. They are often installed by individual developers, updated automatically, and trusted because they come from familiar marketplaces or known project names. Once installed, an extension can operate in a high-value context: the developer’s local repositories, shell environment, credentials, cloud sessions, and internal network access. That makes extension compromise a practical path to source-code theft and downstream supply-chain intrusion.
+
+The Nx Console 18.95.0 case is especially notable because the source says the malicious release appeared in both major extension ecosystems before removal. That reduces the effectiveness of marketplace choice as a risk boundary: organizations using VS Code, Open VSX-based editors, or multiple AI-centric coding tools may have the same extension risk distributed across different registries.
+
+Because the provided source lacks technical indicators, defenders should focus first on exposure assessment and credential containment rather than assuming a complete detection recipe exists. The highest-value control is preventing unreviewed extensions from installing or updating in the first place, backed by centralized inventory, version pinning where practical, and rapid removal procedures for known-bad releases.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Audit current and historical installations of Nx Console, specifically version 18.95.0, across developer machines and remote development environments.</li>
+          <li>Review extension inventories for VS Code, VSCodium, Cursor, Windsurf, and other Open VSX-backed editors; do not limit checks to the standard VS Code Marketplace.</li>
+          <li>Correlate extension install or update times with unusual source-code access, token use, Git operations, terminal activity, and outbound network connections.</li>
+          <li>Rotate credentials and developer tokens exposed on systems where the malicious extension may have run, prioritizing repository, package registry, cloud, CI/CD, and SSO-linked credentials.</li>
+          <li>Implement allowlisting or approval workflows for editor extensions, especially extensions with broad filesystem, terminal, network, or language-server access.</li>
+          <li>Add install-time and update-time controls where possible; inventory-only approaches may identify exposure after execution has already occurred.</li>
+          <li>Monitor for repeated marketplace abuse such as renamed, republished, or compromised extensions that imitate trusted developer tooling.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Socket states that GitHub disclosed a May 2026 compromise involving a poisoned third-party VS Code extension and exfiltration of about 3,800 internal repositories.</li>
+          <li>Socket identifies the malicious release as Nx Console 18.95.0 and says it reached both Visual Studio Marketplace and Open VSX before removal.</li>
+          <li>Socket also references repeated GlassWorm attacks against Open VSX involving malicious or compromised extensions, but the snippet does not provide detailed campaign indicators.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>© <span id="year"></span> Arnab Roy</span><span>Portfolio and research notes.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+
