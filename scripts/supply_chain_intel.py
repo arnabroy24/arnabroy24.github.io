@@ -188,6 +188,32 @@ def incident_lastmod_date(incident: dict[str, Any]) -> str:
     return incident.get("last_seen_on") or incident.get("updated_at", "")[:10] or incident_display_date(incident)
 
 
+def local_date_from_iso(value: str) -> str:
+    try:
+        parsed = dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return local_today()
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=dt.timezone.utc)
+    try:
+        zone = ZoneInfo(SITE_TIMEZONE)
+    except Exception:
+        zone = dt.timezone.utc
+    return parsed.astimezone(zone).date().isoformat()
+
+
+def migrate_incident_dates(state: dict[str, Any]) -> bool:
+    changed = False
+    for incident in state.get("incidents", {}).values():
+        if not incident.get("discovered_on"):
+            incident["discovered_on"] = local_date_from_iso(incident.get("created_at") or incident.get("updated_at", ""))
+            changed = True
+        if not incident.get("last_seen_on"):
+            incident["last_seen_on"] = local_date_from_iso(incident.get("updated_at") or incident.get("created_at", ""))
+            changed = True
+    return changed
+
+
 def load_json(path: Path, fallback: dict[str, Any]) -> dict[str, Any]:
     if not path.exists():
         return fallback
@@ -733,6 +759,24 @@ def render_post(slug: str, incident: dict[str, Any], article: dict[str, Any]) ->
     incident["post_path"] = f"research/posts/{slug}.html"
 
 
+def patch_existing_post_dates(state: dict[str, Any]) -> bool:
+    changed = False
+    for incident in state.get("incidents", {}).values():
+        post_path = incident.get("post_path")
+        if not incident.get("published") or not post_path:
+            continue
+        path = ROOT / post_path
+        if not path.exists():
+            continue
+        original = path.read_text(encoding="utf-8")
+        replacement = f'<p class="article-meta">Discovered {incident_display_date(incident)} /'
+        updated = re.sub(r'<p class="article-meta">(?:Updated|Discovered) \d{4}-\d{2}-\d{2} /', replacement, original, count=1)
+        if updated != original:
+            path.write_text(updated, encoding="utf-8")
+            changed = True
+    return changed
+
+
 def render_research_page(state: dict[str, Any]) -> None:
     incidents = [
         incident
@@ -817,6 +861,7 @@ def main() -> int:
     args = parser.parse_args()
 
     state = load_json(STATE_PATH, {"version": 1, "incidents": {}, "last_run_at": None})
+    migrate_incident_dates(state)
     POSTS_DIR.mkdir(parents=True, exist_ok=True)
 
     items = fetch_all_feeds()
@@ -853,6 +898,7 @@ def main() -> int:
 
     state["last_run_at"] = iso_now()
     if not args.dry_run:
+        patch_existing_post_dates(state)
         write_json(STATE_PATH, state)
         render_research_page(state)
         render_sitemap(state)
