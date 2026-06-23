@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A hijacked npm account reportedly republished 116 @mastra packages with a dependency on the malicious dayjs lookalike easy-day-js, exposing AI application build pipelines to install-time code execution." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/account-across-carrying-combined-compromised-dependency-downloads-drop.html" />
+  <title>Compromised Mastra npm Maintainer Pushed Trojanized @mastra Releases</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Updated 2026-06-23 / 1 source</p>
+          <h1>Compromised Mastra npm Maintainer Pushed Trojanized @mastra Releases</h1>
+          <p class="hero-copy">A hijacked npm account reportedly republished 116 @mastra packages with a dependency on the malicious dayjs lookalike easy-day-js, exposing AI application build pipelines to install-time code execution.</p>
+          <div class="source-list">
+          <a href="https://www.endorlabs.com/learn/mastra-npm-org-compromised-multiple-packages-trojanized-to-drop-a-remote-payload-via-easy-day-js" target="_blank" rel="noreferrer">Endor Labs</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Endor Labs reports that an attacker used a compromised Mastra maintainer account to publish malicious versions across the @mastra npm scope on June 17, 2026. The Mastra package code was largely left intact; the attacker added a dependency on easy-day-js, a typosquat of dayjs. The weaponized easy-day-js release used an npm postinstall hook to fetch and run a second-stage payload from a raw IP address. Because npm lifecycle scripts execute during installation, projects could be affected even if the Mastra package or easy-day-js module was never imported at runtime.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>The reported campaign affected 116 @mastra packages published in a short window, suggesting abuse of an account with broad publish rights rather than compromise of a single package.</li>
+          <li>The malicious behavior was placed in a transitive dependency, easy-day-js, making exposure dependent on resolved dependency trees and lockfiles rather than only direct source imports.</li>
+          <li>easy-day-js reportedly mimicked dayjs metadata/content but added an install-time dropper in version 1.11.22; version 1.11.21 was described as a pre-positioned benign-looking release.</li>
+          <li>The dropper allegedly disabled TLS certificate validation, downloaded a remote payload from a raw IP address, executed it from a temporary directory as a hidden/detached child process, and removed its own file.</li>
+          <li>Endor Labs estimates the @mastra packages involved have more than 28 million combined monthly downloads, but the source snippet does not provide the full list of all 116 package/version pairs.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>npm, JavaScript/TypeScript AI application development, Projects using Mastra packages in the @mastra scope or the unscoped mastra package, Build systems, CI runners, developer workstations, and container builds that installed the compromised versions</p>
+          <h2>Security analysis</h2>
+          <p>This incident is a strong example of why dependency risk cannot be assessed only by reviewing first-party package code. According to Endor Labs, the attacker modified Mastra package manifests to pull in a malicious package one level down the tree. That means static review of the @mastra package contents could appear clean while installation still executes attacker-controlled code through npm lifecycle hooks.
+
+For AppSec teams, the primary question is not whether the application calls easy-day-js; it is whether any build, test, developer, or deployment environment resolved and installed the affected package graph. Lockfiles and build logs are the best starting point. If easy-day-js@1.11.22 appears anywhere, assume install-time execution occurred unless scripts were blocked. If compromised @mastra versions appear without easy-day-js in the final lockfile, confirm whether the lockfile was generated after the malicious publish and whether package manager behavior could have skipped or overridden the dependency.
+
+The available source does not include the remote payload, the destination IP address, or confirmed post-compromise objectives. Because the reported behavior includes fetching and executing a second stage, defenders should handle confirmed installs as possible host compromise rather than as a simple malicious package removal event.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Search package-lock.json, npm-shrinkwrap.json, yarn.lock, pnpm-lock.yaml, SBOMs, artifact repositories, and container image layers for easy-day-js, especially easy-day-js@1.11.22.</li>
+          <li>Check for @mastra package versions reported as malicious, including high-download examples such as @mastra/schema-compat@1.2.12, @mastra/core@1.42.1, mastra@1.13.1, @mastra/memory@1.20.4, @mastra/server@2.1.1, @mastra/deployer@1.42.1, @mastra/observability@1.14.2, @mastra/loggers@1.1.3, @mastra/pg@1.13.1, @mastra/mcp@1.10.1, @mastra/ai-sdk@1.4.6, and @mastra/libsql@1.13.1.</li>
+          <li>Treat systems that installed the malicious dependency as potentially compromised, including CI runners and developer machines; review process execution, temporary directory activity, outbound connections to raw IP addresses, and credential access during the install window.</li>
+          <li>Rebuild affected applications from clean environments after removing compromised versions from lockfiles and caches. Pin to known-good Mastra releases published before the incident or to maintainer-confirmed fixed releases.</li>
+          <li>Purge package manager caches, internal npm mirrors, build caches, and base images that may contain the malicious tarballs.</li>
+          <li>Rotate credentials exposed to affected install environments, including npm tokens, CI secrets, cloud credentials, package registry credentials, and deployment keys.</li>
+          <li>Add controls for npm lifecycle-script risk: use --ignore-scripts where feasible, isolate dependency installation, require MFA and scoped publish rights for maintainers, and alert on new dependencies that are typosquats of popular packages.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Endor Labs, “Mastra npm Org Compromised: Multiple Packages Trojanized to Drop a Remote Payload via easy-day-js,” published/updated June 16–17, 2026.</li>
+          <li>The source attributes the attack to a hijacked Mastra maintainer account and reports 116 affected @mastra packages, but the provided snippet contains only a partial affected-package table.</li>
+          <li>The source reports combined @mastra reach above 28 million monthly downloads; this is an ecosystem exposure indicator, not a count of confirmed compromised installations.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>© <span id="year"></span> Arnab Roy</span><span>Portfolio and research notes.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+

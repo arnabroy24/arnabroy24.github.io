@@ -41,15 +41,82 @@
       <div class="container split-grid">
         <p class="section-label">LATEST</p>
         <div class="research-list">
-          <div class="empty-state">
-            No research notes have been published yet. The scheduled workflow will add entries here after it finds relevant supply-chain coverage and opens a review PR.
-          </div>
+          <article class="research-card">
+            <a href="research/posts/286-across-already-and-binding-gyp-blight-but-compromises.html">
+              <p class="research-meta">2026-06-23 / 1 source</p>
+              <h2>Miasma npm worm shifts to binding.gyp execution, compromising 57 packages</h2>
+              <p>Semgrep reports a second Miasma wave affecting 57 npm packages and 286+ versions, using native build configuration to run malware during install and steal developer and CI credentials.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/active-ai-sdk-ollama-and-binding-gyp-cloud-credentials-delivers-detected.html">
+              <p class="research-meta">2026-06-23 / 1 source</p>
+              <h2>Self-replicating npm worm abuses binding.gyp in ai-sdk-ollama and other packages</h2>
+              <p>Endor Labs reports an active npm campaign, dubbed Miasma, that trojanized ai-sdk-ollama and many other packages to execute during install, steal cloud and registry credentials, and spread through maintainer accounts.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/bioinformatics-endor-hades-hits-pypi-shai-hulud-six-stolen.html">
+              <p class="research-meta">2026-06-23 / 1 source</p>
+              <h2>Shai-Hulud resurfaces in PyPI bioinformatics packages through stolen publishing tokens</h2>
+              <p>Six Python packages used in genomics and phenotype tooling were pushed with malicious releases that hid a credential-stealing payload inside compiled extensions.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/2026-ailing-am-and-announced-anyone-automatic-been.html">
+              <p class="research-meta">2026-06-23 / 1 source</p>
+              <h2>npm v12 default change reduces install-time script risk in JavaScript supply chains</h2>
+              <p>npm is moving away from automatically running package lifecycle scripts by default, addressing a long-abused path for malicious dependency execution during install.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/account-across-carrying-combined-compromised-dependency-downloads-drop.html">
+              <p class="research-meta">2026-06-23 / 1 source</p>
+              <h2>Compromised Mastra npm Maintainer Pushed Trojanized @mastra Releases</h2>
+              <p>A hijacked npm account reportedly republished 116 @mastra packages with a dependency on the malicious dayjs lookalike easy-day-js, exposing AI application build pipelines to install-time code execution.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/actions-attacks-blocks-checkout-checkouts-default-help-now.html">
+              <p class="research-meta">2026-06-23 / 1 source</p>
+              <h2>GitHub Actions Checkout Adds Default Guardrail Against Privileged PR Workflow Abuse</h2>
+              <p>The actions/checkout v7 change targets a long-running CI/CD supply-chain failure mode: workflows that run with repository privileges while checking out untrusted fork code.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/and-before-blocks-code-compromised-developers-editor-extensions.html">
+              <p class="research-meta">2026-06-23 / 1 source</p>
+              <h2>Poisoned VS Code Extension Shows Editor Marketplaces Are a Software Supply-Chain Control Point</h2>
+              <p>A malicious Nx Console release reportedly reached both VS Code Marketplace and Open VSX and was tied to theft of GitHub-internal repositories, highlighting the risk of trusted developer extensions.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/140-compromised-coordinated-cross-platform-deliver-dependency-during-infostealer.html">
+              <p class="research-meta">2026-06-23 / 1 source</p>
+              <h2>Compromised Mastra npm Releases Pulled a Typosquatted Infostealer Dependency</h2>
+              <p>More than 140 packages in the @mastra npm scope were reportedly republished with a malicious dependency that executed during installation, putting developer workstations and CI runners at risk before application code was ever run.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/and-comments-context-disrupt-flooding-injection-javascript-malware.html">
+              <p class="research-meta">2026-06-23 / 1 source</p>
+              <h2>npm Package Probes AI Malware Scanners With Prompt Injection and Token Flooding</h2>
+              <p>A newly observed npm package appears designed less to steal data than to stress-test AI-assisted dependency review, using comments, excessive token volume, and obfuscated JavaScript to interfere with automated analysis.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/and-command-and-control-extensions-found-glasswasm-infrastructure-malware-memos.html">
+              <p class="research-meta">2026-06-23 / 1 source</p>
+              <h2>Trojanized Open VSX Extensions Used WebAssembly and Solana Memos for Malware Staging</h2>
+              <p>Two impersonated VS Code-compatible extensions on Open VSX reportedly embedded a TinyGo WebAssembly loader that fetched operator instructions from Solana transaction memos and executed follow-on payloads.</p>
+            </a>
+          </article>
         </div>
       </div>
     </section>
   </main>
-
-  <footer class="site-footer"><div class="container"><span>© <span id="year"></span> Arnab Roy</span><span>Supply-chain notes for builders.</span></div></footer>
+  <footer class="site-footer"><div class="container"><span>© <span id="year"></span> Arnab Roy</span><span>Portfolio and research notes.</span></div></footer>
   <script src="script.js"></script>
 </body>
 </html>
+

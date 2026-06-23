@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="npm is moving away from automatically running package lifecycle scripts by default, addressing a long-abused path for malicious dependency execution during install." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/2026-ailing-am-and-announced-anyone-automatic-been.html" />
+  <title>npm v12 default change reduces install-time script risk in JavaScript supply chains</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Updated 2026-06-23 / 1 source</p>
+          <h1>npm v12 default change reduces install-time script risk in JavaScript supply chains</h1>
+          <p class="hero-copy">npm is moving away from automatically running package lifecycle scripts by default, addressing a long-abused path for malicious dependency execution during install.</p>
+          <div class="source-list">
+          <a href="https://semgrep.dev/blog/2026/rip-npm-postinstall-scripts-npm-v12-default-change" target="_blank" rel="noreferrer">Semgrep</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Semgrep reports that npm v12, announced in June 2026 and expected to ship in July 2026, will stop automatic execution of lifecycle scripts such as preinstall, install, postinstall, and prepare by default. This is not a single newly disclosed package compromise, but it is a material supply-chain security change for the npm ecosystem. Install-time scripts have repeatedly been used by compromised or malicious packages to execute code on developer workstations and CI systems as soon as dependencies are installed.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>The affected behavior is npm lifecycle script execution during dependency installation, including scripts in transitive packages that application teams may not directly review.</li>
+          <li>The source links this risk to prior coordinated npm compromise campaigns where attackers published backdoored releases and used postinstall behavior to deliver payloads.</li>
+          <li>The change is expected to reduce a common malware execution path, but it may also break packages that legitimately rely on install-time build, native compilation, or setup steps.</li>
+          <li>The source does not provide a complete npm advisory, package list, or exact compatibility matrix, so teams should validate the behavior against official npm release notes before enforcing it broadly.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>npm, Node.js, JavaScript, TypeScript, CI/CD environments that run npm install or equivalent commands</p>
+          <h2>Security analysis</h2>
+          <p>This npm change targets one of the highest-impact design risks in the JavaScript supply chain: dependency installation has historically been able to execute arbitrary maintainer-controlled shell commands automatically. That creates an attractive path for attackers because a compromised package release can run before application code is even built or tested, often inside environments containing registry tokens, cloud credentials, signing keys, or source access. Disabling automatic lifecycle execution by default will not eliminate malicious packages, typosquatting, maintainer account takeover, or dependency confusion, but it materially reduces the chance that simply installing a dependency immediately runs attacker code. The main AppSec task now is migration: organizations should find where they depend on lifecycle scripts, decide which ones are acceptable, and make execution explicit rather than implicit. Because the available source is a vendor analysis rather than the primary npm release documentation, operational decisions should be confirmed against npm’s official v12 behavior and any available npm 11.16.0 preview or warning mode details.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Inventory projects and CI jobs that rely on npm lifecycle scripts, especially packages with preinstall, install, postinstall, or prepare entries in package.json.</li>
+          <li>Test builds with npm versions that expose the new behavior or warnings, and identify dependencies that fail when install scripts are disabled.</li>
+          <li>Prefer explicit, reviewed build steps over automatically executed dependency scripts. Where scripts are required, allow them narrowly and document the business need.</li>
+          <li>Harden CI environments that install npm dependencies: use least-privilege tokens, short-lived credentials, network egress controls, and separate build secrets from package install steps.</li>
+          <li>Review recent dependency updates for unexpected lifecycle script additions, especially in transitive dependencies or packages from maintainers with weak account security.</li>
+          <li>Pin and lock dependencies, monitor lockfile changes, and treat new install scripts as a security-relevant code change during review.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Semgrep described npm v12 as changing the default behavior for automatic lifecycle script execution and framed it as a response to recurring npm supply-chain malware patterns.</li>
+          <li>The source mentions prior coordinated npm attacks and postinstall-based payload delivery but does not enumerate affected package names or provide a new compromise indicator list.</li>
+          <li>This article treats the item as ecosystem-level dependency risk rather than a discrete incident with known victims.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>© <span id="year"></span> Arnab Roy</span><span>Portfolio and research notes.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+
