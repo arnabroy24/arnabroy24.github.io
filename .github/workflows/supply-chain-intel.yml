@@ -1,0 +1,38 @@
+name: Supply-chain intelligence
+
+on:
+  schedule:
+    - cron: "17 12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  synthesize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Generate research updates
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-5.5' }}
+        run: python scripts/supply_chain_intel.py
+
+      - name: Open review pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: automation/supply-chain-intel
+          delete-branch: true
+          title: "Update supply-chain research"
+          commit-message: "Update supply-chain research"
+          body: |
+            Daily supply-chain intelligence run.
+
+            Review the generated or updated incident writeups before merging.
+          labels: |
+            automated
+            research
