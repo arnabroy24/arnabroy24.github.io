@@ -20,6 +20,7 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-5.5' }}
+          SITE_TIMEZONE: America/New_York
         run: python scripts/supply_chain_intel.py
 
       - name: Open review pull request

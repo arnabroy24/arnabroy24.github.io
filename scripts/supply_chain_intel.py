@@ -24,6 +24,7 @@ import urllib.request
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -31,6 +32,7 @@ STATE_PATH = ROOT / ".data" / "supply-chain-intel" / "state.json"
 POSTS_DIR = ROOT / "research" / "posts"
 RESEARCH_PAGE = ROOT / "research.html"
 DEFAULT_MODEL = os.environ.get("OPENAI_MODEL", "gpt-5.5")
+SITE_TIMEZONE = os.environ.get("SITE_TIMEZONE", "America/New_York")
 
 DEFAULT_FEEDS = {
     "Socket": [
@@ -164,6 +166,26 @@ def now_utc() -> dt.datetime:
 
 def iso_now() -> str:
     return now_utc().replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def local_now() -> dt.datetime:
+    try:
+        zone = ZoneInfo(SITE_TIMEZONE)
+    except Exception:
+        zone = dt.timezone.utc
+    return now_utc().astimezone(zone)
+
+
+def local_today() -> str:
+    return local_now().date().isoformat()
+
+
+def incident_display_date(incident: dict[str, Any]) -> str:
+    return incident.get("discovered_on") or incident.get("created_at", "")[:10] or local_today()
+
+
+def incident_lastmod_date(incident: dict[str, Any]) -> str:
+    return incident.get("last_seen_on") or incident.get("updated_at", "")[:10] or incident_display_date(incident)
 
 
 def load_json(path: Path, fallback: dict[str, Any]) -> dict[str, Any]:
@@ -459,6 +481,8 @@ def ensure_incident(item: dict[str, Any], state: dict[str, Any]) -> tuple[str, b
             "title": item["title"],
             "created_at": iso_now(),
             "updated_at": iso_now(),
+            "discovered_on": local_today(),
+            "last_seen_on": local_today(),
             "post_path": f"research/posts/{slug}.html",
             "sources": [],
             "source_urls": [],
@@ -474,6 +498,7 @@ def ensure_incident(item: dict[str, Any], state: dict[str, Any]) -> tuple[str, b
         incident.setdefault("sources", []).append(item)
         incident.setdefault("source_urls", []).append(item["url"])
         incident["updated_at"] = iso_now()
+        incident["last_seen_on"] = local_today()
         created = True
 
     indicators = set(incident.get("indicators", []))
@@ -667,7 +692,7 @@ def render_post(slug: str, incident: dict[str, Any], article: dict[str, Any]) ->
     <article>
       <header class="article-header">
         <div class="container">
-          <p class="article-meta">Updated {html.escape(incident["updated_at"][:10])} / {len(sources)} source{"s" if len(sources) != 1 else ""}</p>
+          <p class="article-meta">Discovered {html.escape(incident_display_date(incident))} / {len(sources)} source{"s" if len(sources) != 1 else ""}</p>
           <h1>{html.escape(title)}</h1>
           <p class="hero-copy">{html.escape(article.get("dek", ""))}</p>
           <div class="source-list">
@@ -719,7 +744,7 @@ def render_research_page(state: dict[str, Any]) -> None:
         cards = "\n".join(
             f"""          <article class="research-card">
             <a href="{html.escape(incident["post_path"])}">
-              <p class="research-meta">{html.escape(incident.get("updated_at", "")[:10])} / {len(incident.get("sources", []))} source{"s" if len(incident.get("sources", [])) != 1 else ""}</p>
+              <p class="research-meta">{html.escape(incident_display_date(incident))} / {len(incident.get("sources", []))} source{"s" if len(incident.get("sources", [])) != 1 else ""}</p>
               <h2>{html.escape(incident.get("title", "Supply-chain incident"))}</h2>
               <p>{html.escape(incident.get("dek", "Synthesized supply-chain incident analysis."))}</p>
             </a>
@@ -771,12 +796,12 @@ def render_research_page(state: dict[str, Any]) -> None:
 
 def render_sitemap(state: dict[str, Any]) -> None:
     urls = [
-        ("https://arnabroy24.github.io/", iso_now()[:10]),
-        ("https://arnabroy24.github.io/research.html", iso_now()[:10]),
+        ("https://arnabroy24.github.io/", local_today()),
+        ("https://arnabroy24.github.io/research.html", local_today()),
     ]
     for incident in state.get("incidents", {}).values():
         if incident.get("published") and incident.get("post_path"):
-            urls.append((f"https://arnabroy24.github.io/{incident['post_path']}", incident.get("updated_at", iso_now())[:10]))
+            urls.append((f"https://arnabroy24.github.io/{incident['post_path']}", incident_lastmod_date(incident)))
     entries = "\n".join(
         f"  <url><loc>{html.escape(url)}</loc><lastmod>{html.escape(lastmod)}</lastmod></url>" for url, lastmod in urls
     )
