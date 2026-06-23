@@ -693,7 +693,7 @@ def nav(prefix: str = "") -> str:
 
 
 def footer(prefix: str = "") -> str:
-    return f"""  <footer class="site-footer"><div class="container"><span>© <span id="year"></span> Arnab Roy</span><span>Portfolio and research notes.</span></div></footer>
+    return f"""  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
   <script src="{prefix}script.js"></script>
 </body>
 </html>
