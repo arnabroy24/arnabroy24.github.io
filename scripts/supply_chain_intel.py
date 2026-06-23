@@ -34,19 +34,13 @@ DEFAULT_MODEL = os.environ.get("OPENAI_MODEL", "gpt-5.5")
 
 DEFAULT_FEEDS = {
     "Socket": [
-        "https://socket.dev/blog/rss.xml",
-        "https://socket.dev/blog/feed.xml",
-        "https://socket.dev/rss.xml",
+        "https://socket.dev/api/blog/feed.atom",
     ],
     "Endor Labs": [
         "https://www.endorlabs.com/blog/rss.xml",
-        "https://www.endorlabs.com/blog/feed.xml",
-        "https://www.endorlabs.com/rss.xml",
     ],
     "Semgrep": [
-        "https://semgrep.dev/blog/rss.xml",
-        "https://semgrep.dev/blog/feed.xml",
-        "https://semgrep.dev/feed.xml",
+        "https://semgrep.dev/blog/rss",
     ],
 }
 
@@ -93,6 +87,40 @@ NOISE_TERMS = {
     "funding",
     "hiring",
     "release notes",
+}
+
+COLLABORATION_TERMS = {
+    "partner",
+    "partners with",
+    "partnership",
+    "collaboration",
+    "collaborates with",
+    "integration partner",
+    "customer story",
+    "case study",
+    "webinar",
+    "event",
+    "joins",
+    "appoints",
+    "raises",
+    "series a",
+    "series b",
+    "series c",
+    "launch week",
+}
+
+NOISE_CATEGORIES = {
+    "announcements",
+    "case studies",
+    "company news",
+    "customer",
+    "customer stories",
+    "events",
+    "partners",
+    "press",
+    "product",
+    "product updates",
+    "webinars",
 }
 
 STOP_WORDS = {
@@ -228,12 +256,28 @@ def first_link(element: ET.Element) -> str:
     link = first_text(element, ["link", "{http://www.w3.org/2005/Atom}link"])
     if link:
         return link
+    fallback = ""
     for child in list(element):
         if child.tag.split("}")[-1] == "link":
             href = child.attrib.get("href")
-            if href:
+            rel = child.attrib.get("rel", "alternate")
+            if href and rel == "alternate":
                 return href
-    return ""
+            if href and not fallback:
+                fallback = href
+    return fallback
+
+
+def categories_for(element: ET.Element) -> list[str]:
+    categories: list[str] = []
+    for child in list(element):
+        if child.tag.split("}")[-1] != "category":
+            continue
+        value = child.attrib.get("term") or child.text or ""
+        value = clean_text(value).lower()
+        if value:
+            categories.append(value)
+    return sorted(set(categories))
 
 
 def parse_feed(source: str, url: str, payload: bytes) -> list[dict[str, Any]]:
@@ -270,6 +314,7 @@ def parse_feed(source: str, url: str, payload: bytes) -> list[dict[str, Any]]:
                 "title": clean_text(title),
                 "url": link,
                 "summary": clean_text(summary)[:1200],
+                "categories": categories_for(entry),
                 "published_at": published,
             }
         )
@@ -322,6 +367,29 @@ def enrich_with_article_text(item: dict[str, Any]) -> dict[str, Any]:
 
 def looks_relevant(item: dict[str, Any]) -> bool:
     text = f"{item['title']} {item.get('summary', '')}".lower()
+    categories = {category.lower() for category in item.get("categories", [])}
+    has_strong_indicator = bool(extract_indicators(item)) or any(
+        term in text
+        for term in {
+            "backdoor",
+            "compromised",
+            "credential stealer",
+            "dependency confusion",
+            "infostealer",
+            "malicious package",
+            "malware",
+            "postinstall",
+            "supply chain attack",
+            "token theft",
+            "trojanized",
+            "typosquat",
+            "worm",
+        }
+    )
+    if categories.intersection(NOISE_CATEGORIES) and not has_strong_indicator:
+        return False
+    if any(term in text for term in COLLABORATION_TERMS) and not has_strong_indicator:
+        return False
     if any(term in text for term in NOISE_TERMS) and not any(term in text for term in SUPPLY_CHAIN_TERMS):
         return False
     return any(term in text for term in SUPPLY_CHAIN_TERMS)
@@ -498,6 +566,9 @@ def synthesize_article(incident: dict[str, Any], api_key: str, model: str) -> di
         - Publish only if the sources describe a software supply-chain attack,
           compromised dependency, malicious package campaign, package ecosystem
           abuse, or directly relevant dependency risk.
+        - Do not publish collaboration, partner, customer, webinar, funding,
+          hiring, launch, or product announcement posts unless they add concrete
+          facts about an actual attack or affected package ecosystem.
         - Focus on practical AppSec value: affected ecosystems, how exposure
           should be assessed, and what defenders should do next.
         - Mention uncertainty where the sources are incomplete.
