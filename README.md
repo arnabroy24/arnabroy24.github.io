@@ -1,30 +1,32 @@
-# Arnab Roy Portfolio
+# arnabroy24.github.io
 
-Static GitHub Pages portfolio for Arnab Roy, focused on application security, DevSecOps, and software supply-chain security.
+Source for [arnabroy24.github.io](https://arnabroy24.github.io), my public portfolio and AppSec research notebook.
 
-The site is intentionally lightweight: plain HTML, CSS, and JavaScript with no build step. It includes a portfolio homepage, a supply-chain research notebook, and a scheduled workflow that can create reviewable research updates from security RSS feeds.
+The site highlights my work in application security, DevSecOps, vulnerability management, and software supply-chain security. It is built as a static GitHub Pages site so the source remains easy to inspect, fork, and audit.
 
-## Site Structure
+## What This Repo Contains
 
-- `index.html` - portfolio homepage
-- `research.html` - supply-chain research notebook index
-- `research/posts/` - generated research note pages
-- `styles.css` - site styling
-- `script.js` - mobile navigation and footer year behavior
-- `robots.txt` and `sitemap.xml` - basic search indexing metadata
+- A personal portfolio homepage with experience, skills, credentials, and contact links.
+- A supply-chain research notebook for package ecosystem incidents and defender-focused analysis.
+- A scheduled GitHub Actions workflow that monitors selected security research feeds and opens pull requests for new or updated research notes.
 
-## Research Automation
+## Repository Map
 
-The repository includes a daily GitHub Actions workflow for supply-chain research notes. It checks selected AppSec RSS feeds, groups related coverage into incidents, and opens a pull request with a single synthesized note per attack or campaign.
+- `index.html` - main portfolio page
+- `research.html` - research notebook index
+- `research/posts/` - generated incident notes
+- `styles.css` - shared visual system
+- `script.js` - mobile navigation behavior
+- `scripts/supply_chain_intel.py` - RSS ingestion, clustering, and note generation
+- `.github/workflows/supply-chain-intel.yml` - scheduled research workflow
+- `.data/supply-chain-intel/state.json` - automation state used to avoid duplicate writeups
 
-Automation files:
+## Research Workflow
 
-- `.github/workflows/supply-chain-intel.yml`
-- `scripts/supply_chain_intel.py`
-- `.data/supply-chain-intel/state.json`
+The research automation checks selected AppSec sources once per day, clusters related coverage, and creates one note per attack or campaign. The goal is to avoid duplicating vendor posts and instead produce a single practical summary focused on exposure, affected ecosystems, and remediation.
 
-The workflow is review-gated by design: generated notes are proposed through pull requests rather than committed directly to the live site.
+Generated changes are proposed through pull requests before they reach the live site.
 
-## Local Preview
+## Design Notes
 
-Open `index.html` directly in a browser. No local server is required for the current static site.
+The site uses plain HTML, CSS, and JavaScript. There is no frontend framework, package manager, or build step. That keeps deployment simple and makes the portfolio source readable without tooling.
