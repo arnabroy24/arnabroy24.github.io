@@ -1,41 +1,30 @@
 # Arnab Roy Portfolio
 
-A lightweight static portfolio built for GitHub Pages. No build tools, paid hosting, or server-side code required.
+Static GitHub Pages portfolio for Arnab Roy, focused on application security, DevSecOps, and software supply-chain security.
 
-## Publish on GitHub Pages
+The site is intentionally lightweight: plain HTML, CSS, and JavaScript with no build step. It includes a portfolio homepage, a supply-chain research notebook, and a scheduled workflow that can create reviewable research updates from security RSS feeds.
 
-1. Create a **public** GitHub repository named `YOUR-GITHUB-USERNAME.github.io`.
-   - Example: `arnabroy.github.io`.
-2. Upload the contents of this folder to the repository root. `index.html` must remain at the root.
-3. In the repository, open **Settings → Pages**.
-4. Under **Build and deployment**, select **Deploy from a branch**.
-5. Choose `main` and `/(root)`, then select **Save**.
-6. GitHub will publish the site at `https://YOUR-GITHUB-USERNAME.github.io`.
+## Site Structure
 
-## Recommended personalizations
+- `index.html` - portfolio homepage
+- `research.html` - supply-chain research notebook index
+- `research/posts/` - generated research note pages
+- `styles.css` - site styling
+- `script.js` - mobile navigation and footer year behavior
+- `robots.txt` and `sitemap.xml` - basic search indexing metadata
 
-- Add a headshot only if you want one. The current version intentionally uses a clean editorial security design without a photo.
-- Replace the email, phone number, and LinkedIn URL in `index.html` if those change.
-- Add a resume PDF under `assets/` and add a link to it in the hero section when you are ready.
-- Add a custom domain later through GitHub Pages settings if you decide to purchase one.
+## Research Automation
 
-## Local preview
+The repository includes a daily GitHub Actions workflow for supply-chain research notes. It checks selected AppSec RSS feeds, groups related coverage into incidents, and opens a pull request with a single synthesized note per attack or campaign.
 
-Double-click `index.html` to open it in a browser. No installation is needed.
+Automation files:
 
-## Supply-chain research automation
+- `.github/workflows/supply-chain-intel.yml`
+- `scripts/supply_chain_intel.py`
+- `.data/supply-chain-intel/state.json`
 
-The repository includes a daily GitHub Actions workflow that reads supply-chain security RSS feeds, clusters related coverage, and opens a pull request with synthesized research posts.
+The workflow is review-gated by design: generated notes are proposed through pull requests rather than committed directly to the live site.
 
-Required setup:
+## Local Preview
 
-1. Add a GitHub repository secret named `OPENAI_API_KEY`.
-2. Optional: add a repository variable named `OPENAI_MODEL` to override the default model.
-3. Review and merge the pull request opened by the workflow before publishing new writeups.
-
-Main files:
-
-- `.github/workflows/supply-chain-intel.yml` schedules the daily run.
-- `scripts/supply_chain_intel.py` fetches feeds, clusters incidents, calls OpenAI, and renders static HTML.
-- `.data/supply-chain-intel/state.json` tracks prior source URLs and incident clusters.
-- `research.html` lists published writeups.
+Open `index.html` directly in a browser. No local server is required for the current static site.
