@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A Socket essay highlights a growing AppSec blind spot: AI agents can fetch and execute open source packages in short-lived environments that may bypass repository review, CI scanning, and registry controls." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/agents-are-before-can-code-creating-defend-didn.html" />
+  <title>AI Agent Sandboxes Are Becoming an Untracked Dependency Ingestion Path</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-06-24 / 1 source</p>
+          <h1>AI Agent Sandboxes Are Becoming an Untracked Dependency Ingestion Path</h1>
+          <p class="hero-copy">A Socket essay highlights a growing AppSec blind spot: AI agents can fetch and execute open source packages in short-lived environments that may bypass repository review, CI scanning, and registry controls.</p>
+          <div class="source-list">
+          <a href="https://socket.dev/blog/the-code-you-didnt-write-is-still-yours-to-defend?utm_medium=feed" target="_blank" rel="noreferrer">Socket</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>The source does not describe a newly confirmed package compromise. Instead, it describes a supply-chain exposure pattern: AI assistants and coding agents may install and run third-party packages inside temporary sandboxes without committing code, updating lockfiles, or passing through the organization’s normal dependency review process. That turns routine agent-assisted work into a dependency ingestion event that may be invisible to software composition analysis, CI policy checks, and centralized registry proxies.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>AI agent workflows can introduce package execution outside normal developer commit and build paths.</li>
+          <li>Ephemeral environments may leave limited evidence, making post-incident dependency inventory and impact analysis harder.</li>
+          <li>The source argues that malicious package adoption can happen very quickly after publication, while vulnerability exploitation after patch disclosure can also move quickly; fixed package “cooldown” policies may therefore reduce one risk while delaying urgent security updates.</li>
+          <li>No specific malicious package, affected version, CVE, or registry campaign is identified in the snippet, so defenders should treat this as a control-gap analysis rather than a discrete incident report.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>Open source package ecosystems used by AI agents and sandboxed coding environments, Developer workstations and IDE-integrated agent tools, Ephemeral cloud or SaaS agent execution environments, CI/CD pipelines, where they remain an important but incomplete control point</p>
+          <h2>Security analysis</h2>
+          <p>The practical issue is not that AI agents create a new class of package attack, but that they can bypass the places where organizations currently enforce dependency trust. Traditional AppSec programs usually assume dependencies enter through pull requests, lockfiles, builds, or approved developer tooling. Agent-driven work breaks that assumption when a model-generated task installs a library into a temporary runtime, executes it, and discards the environment before scanners or reviewers see the dependency.
+
+This matters because package risk is time-sensitive. Typosquats, dependency-confusion packages, compromised maintainer accounts, and malicious postinstall scripts can cause harm at install or import time. If the first observable artifact is a later alert about a bad package, defenders may struggle to determine whether an agent already fetched and ran it. The source also notes a tension in common mitigation strategies: delaying adoption of new package versions can reduce exposure to newly published malicious releases, but it can also slow intake of security patches during periods when exploit code appears quickly after disclosure.
+
+The main AppSec takeaway is to move dependency policy closer to every place code is fetched and executed. CI scanning remains useful, but it is insufficient for agentic workflows. Security teams should map agent execution paths, force registry access through observable controls, retain install telemetry, and ensure ephemeral environments are covered by the same dependency governance expected of production builds.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Inventory AI coding assistants, data-analysis agents, notebook tools, and SaaS sandboxes that can install packages or run generated code.</li>
+          <li>Require package installation from managed registries or proxies where possible, including for developer laptops and agent runtimes, not only CI.</li>
+          <li>Log package install events from agent environments, including package name, version, registry, timestamp, user, prompt/task context where appropriate, and execution environment identifier.</li>
+          <li>Apply allow/deny policy at dependency ingest time using package reputation, maintainer changes, newly published versions, known compromise indicators, and organization-specific allowlists.</li>
+          <li>Review egress controls for agent sandboxes so arbitrary registry access is not silently permitted.</li>
+          <li>Avoid relying only on repository scanning; add controls for code and dependencies that are executed but never committed.</li>
+          <li>Define an incident response path for ephemeral dependency execution: preserve sandbox logs, identify users/tasks, map downloaded packages to internal data access, and revoke credentials exposed to the runtime.</li>
+          <li>Treat blanket version cool-down rules carefully; pair them with exceptions for verified security updates so patch adoption is not unnecessarily delayed.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Primary source: Socket blog post by Brad Arkin, published June 23, 2026, discussing AI agents fetching open source packages in unmonitored sandboxes.</li>
+          <li>The article includes promotional material and Socket product references; those claims are not treated as independent evidence of a specific incident.</li>
+          <li>The snippet mentions prior issues such as a “copyfail” exploit window and an Axios compromise, but does not provide enough detail to analyze those events here.</li>
+          <li>No package names, indicators of compromise, affected versions, or confirmed victim environments are provided in the source snippet.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+

@@ -432,6 +432,62 @@
       ],
       "updated_at": "2026-06-23T01:50:44Z"
     },
+    "agents-are-before-can-code-creating-defend-didn": {
+      "created_at": "2026-06-24T15:06:59Z",
+      "dek": "A Socket essay highlights a growing AppSec blind spot: AI agents can fetch and execute open source packages in short-lived environments that may bypass repository review, CI scanning, and registry controls.",
+      "discovered_on": "2026-06-24",
+      "indicators": [],
+      "last_seen_on": "2026-06-24",
+      "post_path": "research/posts/agents-are-before-can-code-creating-defend-didn.html",
+      "published": true,
+      "slug": "agents-are-before-can-code-creating-defend-didn",
+      "source_ids": [
+        "3f5a12e312107d6b"
+      ],
+      "source_urls": [
+        "https://socket.dev/blog/the-code-you-didnt-write-is-still-yours-to-defend?utm_medium=feed"
+      ],
+      "sources": [
+        {
+          "article_text": "The Code You Didn't Write Is Still Yours to Defend - Socket \ud83d\ude80 Socket Launch Week Day 5: Introducing Repository Access Permissions and Custom Roles . Learn more \u2192 Blog Security News The Code You Didn't Write Is Still Yours to Defend AI agents are pulling packages into environments no scanner is watching, creating exposure before security teams can see it. Brad Arkin June 23, 2026 4 min read Recently I asked an AI assistant to tidy a messy spreadsheet and chart the result. Nothing exotic. To do the work, it spun up a sandbox, pulled a handful of open source packages into that environment, and ran them. I didn't write any code. I didn't ask for any code. Packages I had never seen were fetched and executed on my behalf, and it was over in seconds. That was a software supply chain event. It happened in a workflow that no scanner, no registry proxy, and no review process was watching. And it is now happening across every company that has handed its people AI agents. I have spent years running security for large enterprises. I have seen how hard it is to make supply chain controls work in real developer workflows. For years, we worried about the dependency a developer chooses and commits. The new exposure is the dependency nobody chooses, pulled into a throwaway environment by an agent doing exactly what we asked. The vibe coding revolution is changing how code gets written and run inside our environments. The same AI capabilities have changed the threat landscape we operate in just as dramatically. Two shifts stand out. The skill barrier collapsed. Turning stolen commit rights into a backdoor that survives review used to take patient, expert context on a codebase. A prompt close to \"help me land a change that looks routine and quietly does something extra\" now produces code that passes a casual read. And the surface exploded. More and more new code never reaches a repository at all. It runs once inside an agent's sandbox, in a place no scanner is watching, and then it is gone. The toolkit most teams own was not built for this. Traditional vulnerability management is a forensic instrument. It answers \"where did we use this package, and which versions,\" which is what you want weeks after a compromise surfaces. Baked in is an assumption: attacks are rare and you have weeks to respond. Today's attacks run in tens of minutes. When the copyfail issue broke, the team that disclosed it said a working exploit existed within about two hours of the patch becoming visible. The window from a malicious package landing in a registry to a real project importing it is even faster, measured in just a few minutes. The popular self-help fix is a cooldown: refuse any package version less than seven days old. The logic holds on the supply chain side. But a cooldown also delays every security patch you ingest, and the patch-to-exploit window is now hours. You have reduced one exposure by widening another. I worked through this trade-off, and the broader agent blind spot, with James Wilson on Risky Business Features . What works is governance at the point of ingest. A threat intelligence feed that knows which packages are compromised right now, updated by the hour. And a control point that can refuse to download, or refuse to build, the moment something on that feed lands in your dependency tree. The hard part is where that control point lives. Code now enters in more places than the org chart admits. The build pipeline is the easy win. The developer laptop is the quiet gap, because the share of developers routing through a central proxy is always smaller than the security team believes. The agent environment is the gap almost nobody has mapped, and it is growing fastest. My first chance to work with Socket was as a customer. In my last operating role, running security at a global company, I ran a Socket deployment. It went live faster than we planned, and that experience as a buyer made the conversation easy when Feross asked me to advise. I joined as a strategic advisor in April. What impresses me from the inside is the hustle. This is a team with a real desire to solve customer problems. It reads the market closely and moves fast on what it hears. The constant is the threat intelligence feed. The interesting part is how many ways they keep finding to bring it to bear. Their original software composition analysis fit the build pipeline. Socket Firewall is the right answer for the vibe-coded endpoint that skips the build pipeline entirely. They are nowhere near done, and what they have brewing is aimed at the right ergonomics for the person actually in the workflow. Feross spent more than a decade as a maintainer before founding Socket. It shows in defenses built by people who understand how maintainers publish and how attackers move. The market is voting. Socket has grown from 7,500 organizations to more than 27,000 and blocks more than ten thousand supply chain attacks every week. When the Axios compromise hit, it flagged the malicio",
+          "categories": [
+            "security news"
+          ],
+          "feed_url": "https://socket.dev/api/blog/feed.atom",
+          "id": "3f5a12e312107d6b",
+          "published_at": "2026-06-24T15:06:56Z",
+          "source": "Socket",
+          "summary": "AI agents are pulling packages into environments no scanner is watching, creating exposure before security teams can see it.",
+          "title": "The Code You Didn't Write Is Still Yours to Defend",
+          "url": "https://socket.dev/blog/the-code-you-didnt-write-is-still-yours-to-defend?utm_medium=feed"
+        }
+      ],
+      "title": "AI Agent Sandboxes Are Becoming an Untracked Dependency Ingestion Path",
+      "tokens": [
+        "agents",
+        "are",
+        "before",
+        "can",
+        "code",
+        "creating",
+        "defend",
+        "didn",
+        "environments",
+        "exposure",
+        "into",
+        "it.",
+        "pulling",
+        "scanner",
+        "see",
+        "still",
+        "teams",
+        "watching",
+        "write",
+        "you",
+        "yours"
+      ],
+      "updated_at": "2026-06-24T15:06:59Z"
+    },
     "and-before-blocks-code-compromised-developers-editor-extensions": {
       "created_at": "2026-06-23T01:50:44Z",
       "dek": "A malicious Nx Console release reportedly reached both VS Code Marketplace and Open VSX and was tied to theft of GitHub-internal repositories, highlighting the risk of trusted developer extensions.",
@@ -631,6 +687,6 @@
       "updated_at": "2026-06-23T01:50:44Z"
     }
   },
-  "last_run_at": "2026-06-23T15:24:03Z",
+  "last_run_at": "2026-06-24T15:07:28Z",
   "version": 1
 }
