@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A reported wave in the Miasma Mini Shai-Hulud campaign republished multiple @immobiliarelabs Backstage plugin versions with credential-stealing payloads, raising exposure concerns for developer portals and CI/CD environments." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/and-auth-backstage-gitlab-hits-immobiliarelabs-ldap-miasma.html" />
+  <title>Malicious npm Releases Hit ImmobiliareLabs Backstage GitLab and LDAP Plugins</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-06-27 / 1 source</p>
+          <h1>Malicious npm Releases Hit ImmobiliareLabs Backstage GitLab and LDAP Plugins</h1>
+          <p class="hero-copy">A reported wave in the Miasma Mini Shai-Hulud campaign republished multiple @immobiliarelabs Backstage plugin versions with credential-stealing payloads, raising exposure concerns for developer portals and CI/CD environments.</p>
+          <div class="source-list">
+          <a href="https://socket.dev/blog/miasma-mini-shai-hulud-hits-immobiliarelabs-npm-packages?utm_medium=feed" target="_blank" rel="noreferrer">Socket</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Socket reported that attackers published malicious npm versions under the legitimate @immobiliarelabs scope on June 26, 2026, affecting Backstage plugins for GitLab integration and LDAP authentication. The activity is described as part of the broader Miasma Mini Shai-Hulud supply-chain campaign, which has focused on compromising trusted developer infrastructure, pushing tainted package releases, and stealing secrets from developer and CI/CD environments. The exact initial compromise path is still not fully confirmed; Socket noted GitHub Actions deployment activity and a possible upstream link involving codfish/semantic-release-action, but characterized the investigation as ongoing.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>The affected packages are legitimate npm packages under the @immobiliarelabs scope, not typosquats.</li>
+          <li>Socket identified malicious releases across multiple plugin families: @immobiliarelabs/backstage-plugin-gitlab, @immobiliarelabs/backstage-plugin-gitlab-backend, @immobiliarelabs/backstage-plugin-ldap-auth, and @immobiliarelabs/backstage-plugin-ldap-auth-backend.</li>
+          <li>The reported malicious versions span several major release lines, suggesting attackers attempted to reach users pinned to older versions as well as those consuming the latest release.</li>
+          <li>The payload reportedly stages JavaScript malware using Bun and targets developer credentials and CI/CD secrets.</li>
+          <li>The packages are relevant to Backstage environments, especially internal developer portals with GitLab and LDAP authentication integrations.</li>
+          <li>The initial access vector and full blast radius remain uncertain based on the available source.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>npm, Backstage plugin ecosystem, GitLab-integrated developer portals, LDAP authentication integrations, GitHub Actions / CI/CD environments</p>
+          <h2>Security analysis</h2>
+          <p>This incident is notable because the malicious releases targeted packages that can sit close to sensitive internal systems: Backstage developer portals, source-control integrations, and authentication workflows. A compromised frontend or backend plugin in this context may run in environments with access to service credentials, source repository tokens, internal APIs, or identity infrastructure. The reported republishing of multiple historical versions is also important for exposure analysis: organizations cannot limit checks to users tracking latest releases. Teams should inspect lockfiles and artifact repositories for exact installed versions and installation timestamps. The source attributes this to the ongoing Miasma Mini Shai-Hulud campaign, but some details remain unresolved, including the confirmed initial compromise path and whether all downstream users of the listed versions executed the payload. Defensive response should therefore combine package inventory review with credential exposure handling for any environment that installed or built the affected artifacts.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Search dependency manifests, lockfiles, SBOMs, artifact caches, and build logs for the affected @immobiliarelabs packages and versions published around June 26, 2026.</li>
+          <li>Prioritize review of Backstage deployments that include GitLab or LDAP authentication plugins from the @immobiliarelabs scope.</li>
+          <li>If a malicious version was installed or built, treat developer tokens, npm tokens, GitHub/GitLab credentials, CI/CD secrets, and cloud credentials available to that environment as potentially exposed.</li>
+          <li>Rotate secrets used by affected build jobs, Backstage deployments, release automation, and package publishing workflows.</li>
+          <li>Review CI logs for unexpected Bun installation or execution, outbound network activity, repository creation, token access, or unusual package publish events.</li>
+          <li>Pin to known-good package versions only after verifying package integrity from trusted sources; do not assume older major versions are safe because several historical release lines were reportedly republished.</li>
+          <li>Audit GitHub Actions and semantic-release workflows for unexpected dependency changes, compromised tokens, or unauthorized release activity.</li>
+          <li>Monitor npm advisory data and Socket updates for confirmed IOCs and any additional packages added to the campaign.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Primary reporting came from Socket’s June 26/27, 2026 analysis of malicious @immobiliarelabs npm releases.</li>
+          <li>Socket listed affected versions across @immobiliarelabs/backstage-plugin-gitlab, @immobiliarelabs/backstage-plugin-gitlab-backend, @immobiliarelabs/backstage-plugin-ldap-auth, and @immobiliarelabs/backstage-plugin-ldap-auth-backend.</li>
+          <li>The source describes the campaign as ongoing and notes uncertainty around the upstream compromise path.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+

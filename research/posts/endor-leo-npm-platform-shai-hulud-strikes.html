@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A June 24 npm compromise pushed malicious Leo Platform releases that abused native build configuration rather than package lifecycle scripts, redirected at least one dist-tag, and attempted credential theft and further propagation." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/endor-leo-npm-platform-shai-hulud-strikes.html" />
+  <title>Stolen npm token used to poison 23 Leo Platform packages</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-06-27 / 1 source</p>
+          <h1>Stolen npm token used to poison 23 Leo Platform packages</h1>
+          <p class="hero-copy">A June 24 npm compromise pushed malicious Leo Platform releases that abused native build configuration rather than package lifecycle scripts, redirected at least one dist-tag, and attempted credential theft and further propagation.</p>
+          <div class="source-list">
+          <a href="https://www.endorlabs.com/learn/shai-hulud-strikes-leo-platform-npm" target="_blank" rel="noreferrer">Endor Labs</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Endor Labs reports that an attacker used a compromised npm maintainer token for the Leo Platform JavaScript ecosystem to publish 23 malicious package versions on June 24, 2026. The packages were published within seconds under the maintainer account czirker and included a large obfuscated payload placed in index.js. Instead of relying on obvious npm lifecycle scripts, the malware was triggered through a binding.gyp native build path and could also execute when required by an application. The campaign targeted developer and CI/CD secrets, including cloud credentials, GitHub-related secrets, password manager data, Anthropic API keys, and other package registry credentials. The source also reports that the attacker manipulated npm dist-tags, including making leo-sdk resolve to a malicious 6.0.19 release via latest while clean 7.x versions remained available under a different tag.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>The affected npm account reportedly published 23 poisoned Leo Platform-related packages in a six-second window on June 24, 2026.</li>
+          <li>The malware avoided package.json install scripts and instead used binding.gyp plus a replaced index.js payload, reducing the chance that simple lifecycle-script checks would catch it.</li>
+          <li>Endor Labs says the payload unpacked multiple secondary tools and attempted both credential theft and worm-like propagation through GitHub and other registries.</li>
+          <li>The reported dist-tag change is especially risky: projects installing leo-sdk without an exact version may have resolved to the malicious version despite newer clean 7.x releases existing.</li>
+          <li>Known affected versions include leo-sdk@6.0.19, leo-aws@2.0.4, leo-cli@3.0.3, leo-auth@4.0.6, multiple leo-connector packages, serverless-leo@3.0.14, serverless-convention@2.0.4, solo-nav@1.0.1, rstreams-metrics@2.0.2, rstreams-shard-util@1.0.1, leo-cdk-lib@0.0.2, and related release-candidate or beta connector packages.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>npm / JavaScript packages in the Leo Platform ecosystem, Node.js applications and CI jobs that installed affected versions after the malicious publish time, GitHub repositories and GitHub Actions environments reachable from infected developer or CI hosts, Cloud environments whose credentials were present on infected systems, Other package registries and developer tooling environments where harvested tokens may have been available</p>
+          <h2>Security analysis</h2>
+          <p>This incident has the hallmarks of a high-impact package ecosystem compromise: a legitimate maintainer credential was abused, multiple related packages were published nearly simultaneously, and npm metadata was changed so unpinned installs could select malicious code. The use of binding.gyp is a notable evasion technique because many dependency controls focus on preinstall/install/postinstall scripts and may miss native build execution paths. AppSec teams should treat exposure as broader than application runtime dependency use: a CI runner, developer workstation, or build container that merely installed one of the affected packages may have executed the payload. The source provides detailed package names and versions, but defenders should still validate current npm metadata independently because dist-tags and package availability can change after disclosure. The full victim scope is not stated in the source, so organizations should assume possible exposure only where affected packages were installed or built during the relevant window and then confirm through logs and lockfiles.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Search SBOMs, lockfiles, npm cache, CI logs, and artifact build records for the affected package names and versions, especially installs on or after 2026-06-24 23:04 UTC.</li>
+          <li>Do not rely only on package.json lifecycle-script detection; inspect native build files such as binding.gyp and unexpected large entry-point changes in dependencies.</li>
+          <li>Pin known-good versions explicitly and verify npm dist-tags before reinstalling Leo Platform packages. For leo-sdk, investigate any resolution to 6.0.19.</li>
+          <li>Rotate credentials exposed to systems that installed the packages, prioritizing npm tokens, GitHub tokens, cloud keys, Vault credentials, PyPI/RubyGems credentials, Anthropic API keys, and CI/CD secrets.</li>
+          <li>Review GitHub organizations for unexpected public repositories, suspicious commits, new or modified GitHub Actions workflows, and unauthorized repository secrets or deploy keys.</li>
+          <li>Inspect developer-assistant and IDE configuration paths mentioned by the source, including .claude/, .cursor/, .vscode/, and .github/copilot-instructions.md, for attacker-added hooks or instructions.</li>
+          <li>Rebuild affected artifacts from clean environments after dependency remediation and credential rotation.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Primary source: Endor Labs, &quot;Shai-Hulud Strikes Leo Platform npm,&quot; published June 25, 2026.</li>
+          <li>The report attributes the malicious publication to use of a stolen npm token for maintainer czirker and lists 23 affected package versions.</li>
+          <li>The available source is a single vendor analysis; independent confirmation and any package maintainer remediation status were not included in the provided snippets.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+
