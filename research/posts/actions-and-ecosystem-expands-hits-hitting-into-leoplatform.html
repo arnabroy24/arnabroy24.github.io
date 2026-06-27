@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Socket reports a new campaign affecting LeoPlatform/RStreams npm packages, several unrelated npm packages, GitHub Actions workflows, and a Verana Blockchain Go module repository path." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/actions-and-ecosystem-expands-hits-hitting-into-leoplatform.html" />
+  <title>Mini Shai-Hulud wave compromises npm packages and reaches GitHub Actions and Go source workflows</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-06-27 / 1 source</p>
+          <h1>Mini Shai-Hulud wave compromises npm packages and reaches GitHub Actions and Go source workflows</h1>
+          <p class="hero-copy">Socket reports a new campaign affecting LeoPlatform/RStreams npm packages, several unrelated npm packages, GitHub Actions workflows, and a Verana Blockchain Go module repository path.</p>
+          <div class="source-list">
+          <a href="https://socket.dev/blog/miasma-mini-shai-hulud-hits-leoplatform-npm-packages-go-ecosystem?utm_medium=feed" target="_blank" rel="noreferrer">Socket</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Socket describes a fresh software supply-chain attack wave tied to the Mini Shai-Hulud/Miasma/Hades malware family. The activity includes malicious npm releases published in a short window on June 24, 2026, affecting LeoPlatform/RStreams packages and additional packages published by another npm account. The reported tradecraft centers on install-time execution through package metadata and native build hooks, staged obfuscated JavaScript, credential theft from developer and CI/CD environments, and attempts to use GitHub workflows and repository configuration as execution points. Socket also reports related poisoning in the Verana Blockchain Go module source repository, although the observed execution path there appears to rely on editor/repository hooks rather than Go-native module execution.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>Affected npm packages reportedly include LeoPlatform/RStreams packages such as leo-auth@4.0.6 and leo-aws@2.0.4; the source snippet indicates more LeoPlatform/RStreams packages were affected but the full list is incomplete in the provided text.</li>
+          <li>Additional npm packages named by Socket are hexo-deployer-wrangler@1.0.4, hexo-shoka-swiper@0.1.10, and prism-silq, published by npm user llxlr.</li>
+          <li>The npm payloads reportedly use install-time execution, including binding.gyp-based triggering, to run staged JavaScript malware.</li>
+          <li>The malware is described as targeting credentials and secrets in developer machines and CI/CD environments, with GitHub Actions called out as a major target.</li>
+          <li>Socket links the campaign to overlapping operational markers seen in recent GitHub Actions compromises, including RevokeAndItGoesKaboom, but the snippet does not prove every named compromise came from the same initial access path.</li>
+          <li>The Go ecosystem exposure is described as source-repository poisoning involving the Verana Blockchain project. Socket says the clearest trigger observed was a VS Code folder-open task running node .claude/setup.mjs; a referenced Claude hook pointed to a missing file, so that path should be treated as uncertain or possibly leftover campaign scaffolding.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>npm packages used by LeoPlatform/RStreams consumers, including cloud, SDK, CLI, serverless, logging, connector, and data pipeline use cases, npm packages published by the llxlr account: hexo-deployer-wrangler, hexo-shoka-swiper, and prism-silq, GitHub Actions workflows and repositories that may have consumed compromised packages or exposed secrets to attacker-controlled workflow execution, Go module consumers or contributors interacting with the affected Verana Blockchain source repository, Developer workstations using VS Code or AI-coding-assistant configuration hooks present in cloned repositories</p>
+          <h2>Security analysis</h2>
+          <p>This incident is notable because it combines package-registry compromise with developer-workflow abuse. The npm portion fits a familiar pattern: compromise or misuse publisher access, ship a malicious release, trigger code during installation, and steal credentials that can be reused to compromise more packages or repositories. The GitHub Actions angle increases blast radius because CI environments often hold high-value deployment, package publishing, and cloud credentials. The reported Go ecosystem connection should be interpreted carefully: based on the provided source, Socket does not describe a Go-native malicious module execution path. Instead, the risk appears to come from repository-level automation that can execute JavaScript when a developer opens or works with the project. Defenders should therefore assess both dependency consumption and repository trust boundaries, especially where developer tools, AI assistant hooks, and CI jobs execute code automatically.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Inventory direct and transitive use of the named npm packages and versions. If present, remove or pin to known-good versions and rebuild from a clean environment.</li>
+          <li>Search CI logs, package-lock/yarn/pnpm lockfiles, artifact metadata, and dependency cache records for installs around June 24, 2026 involving the affected packages.</li>
+          <li>Treat systems that installed affected versions as potentially credential-exposed. Rotate npm tokens, GitHub personal access tokens, GitHub Actions secrets, cloud credentials, SSH keys, and any secrets available to build jobs or developer shells.</li>
+          <li>Review GitHub Actions workflow history for unexpected workflow edits, new scheduled jobs, unusual token permission changes, secret access, or outbound network activity during package install/build steps.</li>
+          <li>Audit repositories for suspicious execution hooks, including binding.gyp changes, postinstall scripts, .vscode/tasks.json, .claude or AI-assistant hook files, and hidden JavaScript loaders under .github or dot-directories.</li>
+          <li>For Go projects, do not assume module code alone captures the risk. Review repository configuration and editor automation that may execute when a developer opens or initializes the project.</li>
+          <li>Clear dependency caches and rebuild CI runners from trusted base images if affected packages were installed in shared build infrastructure.</li>
+          <li>Monitor for follow-on package publications or repository pushes from maintainers whose credentials may have been exposed.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Primary source: Socket, “Miasma Mini Shai-Hulud Hits LeoPlatform npm Packages and GitHub Actions, Expands to the Go Ecosystem,” published June 25, 2026 and surfaced in the provided feed with timestamp June 27, 2026.</li>
+          <li>The supplied article text is truncated, so the full LeoPlatform/RStreams package list and all indicators of compromise are not available here.</li>
+          <li>Socket reports notifying the Go security team and Verana maintainers; remediation status for all affected packages is not fully visible in the provided snippet.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+

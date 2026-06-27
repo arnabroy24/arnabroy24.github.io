@@ -328,6 +328,56 @@
       ],
       "updated_at": "2026-06-23T01:50:44Z"
     },
+    "actions-and-ecosystem-expands-hits-hitting-into-leoplatform": {
+      "created_at": "2026-06-27T14:05:34Z",
+      "dek": "Socket reports a new campaign affecting LeoPlatform/RStreams npm packages, several unrelated npm packages, GitHub Actions workflows, and a Verana Blockchain Go module repository path.",
+      "discovered_on": "2026-06-27",
+      "indicators": [],
+      "last_seen_on": "2026-06-27",
+      "post_path": "research/posts/actions-and-ecosystem-expands-hits-hitting-into-leoplatform.html",
+      "published": true,
+      "slug": "actions-and-ecosystem-expands-hits-hitting-into-leoplatform",
+      "source_ids": [
+        "d89331e1cc70998f"
+      ],
+      "source_urls": [
+        "https://socket.dev/blog/miasma-mini-shai-hulud-hits-leoplatform-npm-packages-go-ecosystem?utm_medium=feed"
+      ],
+      "sources": [
+        {
+          "article_text": "Miasma Mini Shai-Hulud Hits LeoPlatform npm Packages and Git... \ud83d\ude80 Socket Launch Week Day 5: Introducing Repository Access Permissions and Custom Roles . Learn more \u2192 Blog Security News Research Miasma Mini Shai-Hulud Hits LeoPlatform npm Packages and GitHub Actions, Expands to the Go Ecosystem Mini Shai-Hulud expands into the Go ecosystem after hitting LeoPlatform npm packages and targeting GitHub Actions workflows. Socket Research Team June 25, 2026 9 min read Table of Contents A fast publish burst across npm packages The install trigger: binding.gyp ROT, AES-GCM, Bun, and obfuscated JavaScript Credential theft targets developer and CI/CD environments GitHub Actions is a primary target RevokeAndItGoesKaboom connects the LeoPlatform wave to GitHub Actions compromises codfish/semantic-release-action: adjacent compromise, same tradecraft AI coding assistant persistence continues Go module and source-repository poisoning Defensive guidance Indicators of compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Table of Contents A fast publish burst across npm packages The install trigger: binding.gyp ROT, AES-GCM, Bun, and obfuscated JavaScript Credential theft targets developer and CI/CD environments GitHub Actions is a primary target RevokeAndItGoesKaboom connects the LeoPlatform wave to GitHub Actions compromises codfish/semantic-release-action: adjacent compromise, same tradecraft AI coding assistant persistence continues Go module and source-repository poisoning Defensive guidance Indicators of compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Latest wave affects LeoPlatform/RStreams npm packages, three llxlr -published npm packages, the Verana Blockchain Go module, and GitHub Actions/developer-tool workflows. Socket Threat Research is tracking a new supply chain attack wave tied to the Mini Shai-Hulud, Miasma, and Hades malware family. The latest activity includes malicious npm releases affecting LeoPlatform and RStreams packages, GitHub Actions workflow abuse, and a related Go module compromise involving the Verana Blockchain project. While many of the affected npm packages were published through the czirker account, the activity is not limited to that publisher: three additional malicious packages, hexo-deployer-wrangler , hexo-shoka-swiper , and prism-silq , were published by the npm user llxlr . This wave combines npm registry poisoning, binding.gyp install-time execution, Bun-staged JavaScript malware, GitHub dead-drop infrastructure, GitHub Actions secret theft, AI coding assistant persistence, developer-tool execution hooks, and encrypted credential exfiltration. The campaign overlaps with recent GitHub Actions compromises that use the same operational markers, including RevokeAndItGoesKaboom . The Verana finding expands the campaign beyond npm, but the execution path is not Go-native. The malicious payload is staged through source-repository configuration. In this sample, the clearest observed trigger is a VS Code folder-open task that runs node .claude/setup.mjs ; the included Claude SessionStart hook points to .github/setup.js , which is not present in the archive, so we treat it as a nonfunctional or leftover campaign template rather than a confirmed trigger. The campaign continues the pattern seen across recent Mini Shai-Hulud, Miasma, and Hades waves: compromise developer or maintainer credentials, plant a small execution trigger, stage a larger obfuscated payload through Bun, steal secrets from developer and CI/CD environments, and use the stolen access to spread across package registries, repositories, and trusted developer workflows. Socket has been tracking this broader Mini Shai-Hulud, Miasma, and Hades activity across prior campaigns, including earlier coverage \" Shai-Hulud Descends to Hades: Miasma Worm Campaign Spreads with New PyPI Wave \" and \" Mini Shai-Hulud, Miasma, and Hades Worms Target Bioinformatics and MCP Developers via Malicious PyPI Wheels \". Socket AI Scanner\u2019s analysis of leo-aws@2.0.4 , one of the malicious packages identified in the current Miasma Mini Shai-Hulud wave, flags the compromised release as confirmed malware with multiple detections across the package contents. The Go security team acted quickly after we notified them, promptly reviewing the report and coordinating remediation. Socket notified Verana maintainers on GitHub to alert them to the compromise. A fast publish burst across npm packages # The malicious npm releases were published in a tight window on June 24, 2026. The affected packages are part of the LeoPlatform and RStreams ecosystems, including SDK, CLI, AWS, cron, logging, connector, and serverless packages used in data pipeline and cloud integration workflows. The package set includes the following affected versions: hexo-deployer-wrangler@1.0.4 hexo-shoka-swiper@0.1.10 leo-auth@4.0.6 leo-aws@2.0.4 leo-cache",
+          "categories": [
+            "research",
+            "security news"
+          ],
+          "feed_url": "https://socket.dev/api/blog/feed.atom",
+          "id": "d89331e1cc70998f",
+          "published_at": "2026-06-27T14:05:31Z",
+          "source": "Socket",
+          "summary": "Mini Shai-Hulud expands into the Go ecosystem after hitting LeoPlatform npm packages and targeting GitHub Actions workflows.",
+          "title": "Miasma Mini Shai-Hulud Hits LeoPlatform npm Packages and GitHub Actions, Expands to the Go Ecosystem",
+          "url": "https://socket.dev/blog/miasma-mini-shai-hulud-hits-leoplatform-npm-packages-go-ecosystem?utm_medium=feed"
+        }
+      ],
+      "title": "Mini Shai-Hulud wave compromises npm packages and reaches GitHub Actions and Go source workflows",
+      "tokens": [
+        "actions",
+        "and",
+        "ecosystem",
+        "expands",
+        "hits",
+        "hitting",
+        "into",
+        "leoplatform",
+        "miasma",
+        "mini",
+        "npm",
+        "shai-hulud",
+        "targeting",
+        "workflows."
+      ],
+      "updated_at": "2026-06-27T14:05:34Z"
+    },
     "actions-attacks-blocks-checkout-checkouts-default-help-now": {
       "created_at": "2026-06-23T01:50:44Z",
       "dek": "The actions/checkout v7 change targets a long-running CI/CD supply-chain failure mode: workflows that run with repository privileges while checking out untrusted fork code.",
@@ -487,6 +537,116 @@
         "yours"
       ],
       "updated_at": "2026-06-24T15:06:59Z"
+    },
+    "akrites-alone-and-can-carries-endor-enterprises-fall": {
+      "created_at": "2026-06-27T14:05:34Z",
+      "discovered_on": "2026-06-27",
+      "indicators": [],
+      "last_seen_on": "2026-06-27",
+      "post_path": "research/posts/akrites-alone-and-can-carries-endor-enterprises-fall.html",
+      "published": false,
+      "skipped_at": "2026-06-27T14:06:12Z",
+      "slug": "akrites-alone-and-can-carries-endor-enterprises-fall",
+      "source_ids": [
+        "946d71fbaff22456"
+      ],
+      "source_urls": [
+        "https://www.endorlabs.com/learn/mythos-zero-day-patches-project-akrites"
+      ],
+      "sources": [
+        {
+          "article_text": "Open source carries the world. Patching it at Mythos-scale can't fall to maintainers alone. | Blog | Endor Labs --> Open source can't be patched at Mythos-scale alone (so we're starting today) Learn More Learn Research Company LeanAppSec Pricing Docs Login Book a Demo Book Demo By clicking \u201cAccept\u201d, you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. View our Privacy Policy for more information. Deny Accept Blog Open source carries the world. Patching it at Mythos-scale can't fall to maintainers alone. We\u2019re launching Endor Zero-Day Patches and joining the Linux Foundation\u2019s Project Akrites as a founding member to help enterprises and open-source maintainers patch at AI speed and scale. Written by Varun Badhwar Published on June 25, 2026 Updated on June 25, 2026 Topics News Open Source Summarize with AI Since Anthropic announced Project Glasswing, more than 23,000 vulnerabilities have been identified across over 1,000 open source projects in the first month alone . More than 6,000 were assessed as high or critical severity, and over 90% were validated as true positives by independent security researchers. Glasswing's partners found more than 10,000 additional high- and critical-severity vulnerabilities across the critical software systems they operate. Yet, fewer than 5% have been fixed so far. The implications are profound. Today, we're moving to close that gap by launching Endor Zero-Day Patches : verified, tested fixes for novel open source vulnerabilities delivered in under 24 hours, before there's an upstream patch or even a CVE. And we're not going it alone. As a founding member of Project Akrites , the Linux Foundation's new initiative for coordinated remediation and disclosure of vulnerabilities in critical open source projects, Endor Labs is joining Anthropic, OpenAI, Amazon, Chainguard, Cisco, Citi, IBM, JPMorgan Chase, Microsoft, and others to solve the problem. Every fix we write flows back to the community through a shared, trusted channel. Why the gap won't close on its own Around 90% of the software that powers our banks, hospitals, governments, and critical infrastructure depends on open source maintained by a diverse community of companies, foundations, small teams, and volunteers. These maintainers are responding, and many are doing extraordinary work. Some are patching faster than they ever have. This is not a story about maintainers failing. The problem is structural: no volunteer ecosystem was designed to absorb tens of thousands of new, validated vulnerability reports every month. Anthropic itself has reported that maintainers are asking it to slow down disclosures because they cannot keep up. In June 2026, the curl project, whose code runs on 20-30 billion devices, announced it would stop accepting vulnerability reports entirely for the month of July, closing its HackerOne intake and letting its security inbox go dark. Maintainer Daniel Stenberg wrote that after four months of relentless pressure from AI-generated vulnerability reports, the team simply needed rest, and that they did not expect the deluge to be over. Right now, each new frontier model widens the gap between how fast vulnerabilities are found and how fast they get fixed. Anthropic expects Mythos-class capabilities from multiple AI companies within 6 to 12 months, potentially without the safeguards applied today. The same capabilities defenders are using this morning will be available to attackers soon after, pointed at the same millions of open source projects, hunting the same decades-old flaws, with targets that include banks, critical infrastructure, and governments. Introducing zero-day patches for open-source vulnerabilities In response to urgent requests from major enterprises, we are expanding Endor Patches to address the rapid growth in novel open source based zero-days uncovered through Anthropic\u2019s Project Glasswing or OpenAI\u2019s Daybreak. Until now, Endor Patches backported fixes that maintainers had already written, to the older versions you actually run. A zero-day has no upstream fix yet. So Endor Zero-Day Patches does the harder thing: it leverages AURI, our agentic application security platform, to build the call graph, analyze dataflow, create the patch, and verify that it passes tests before it gets deployed into a customer environment. Our customers are already running Mythos- and Daybreak-class models against their own software estates, and those models are surfacing serious flaws in the open source packages their applications depend on. Today, a customer who finds a new critical vulnerability has nowhere to take it except back to the source. With Endor Zero-Day Patches, customers disclose those findings to us, in line with their own disclosure obligations, and we\u2019ll provide them a verified and tested fix in 24 hours. With AI, the pace of vulnerability discovery exceeds the pace at which issues can be fixed, making it cr",
+          "categories": [],
+          "feed_url": "https://www.endorlabs.com/blog/rss.xml",
+          "id": "946d71fbaff22456",
+          "published_at": "2026-06-26T18:36:34Z",
+          "source": "Endor Labs",
+          "summary": "We\u2019re launching Endor Zero-Day Patches and joining the Linux Foundation\u2019s Project Akrites as a founding member to help enterprises and open-source maintainers patch at AI speed and scale.",
+          "title": "Open source carries the world. Patching it at Mythos-scale can't fall to maintainers alone. | Blog | Endor Labs",
+          "url": "https://www.endorlabs.com/learn/mythos-zero-day-patches-project-akrites"
+        }
+      ],
+      "title": "Open source carries the world. Patching it at Mythos-scale can't fall to maintainers alone. | Blog | Endor Labs",
+      "tokens": [
+        "akrites",
+        "alone.",
+        "and",
+        "can",
+        "carries",
+        "endor",
+        "enterprises",
+        "fall",
+        "foundation",
+        "founding",
+        "help",
+        "joining",
+        "launching",
+        "linux",
+        "maintainers",
+        "member",
+        "mythos-scale",
+        "open-source",
+        "patch",
+        "patches",
+        "patching",
+        "project",
+        "scale.",
+        "source",
+        "speed",
+        "world.",
+        "zero-day"
+      ],
+      "updated_at": "2026-06-27T14:05:34Z"
+    },
+    "and-auth-backstage-gitlab-hits-immobiliarelabs-ldap-miasma": {
+      "created_at": "2026-06-27T14:05:34Z",
+      "dek": "A reported wave in the Miasma Mini Shai-Hulud campaign republished multiple @immobiliarelabs Backstage plugin versions with credential-stealing payloads, raising exposure concerns for developer portals and CI/CD environments.",
+      "discovered_on": "2026-06-27",
+      "indicators": [],
+      "last_seen_on": "2026-06-27",
+      "post_path": "research/posts/and-auth-backstage-gitlab-hits-immobiliarelabs-ldap-miasma.html",
+      "published": true,
+      "slug": "and-auth-backstage-gitlab-hits-immobiliarelabs-ldap-miasma",
+      "source_ids": [
+        "0339d99481cce2d3"
+      ],
+      "source_urls": [
+        "https://socket.dev/blog/miasma-mini-shai-hulud-hits-immobiliarelabs-npm-packages?utm_medium=feed"
+      ],
+      "sources": [
+        {
+          "article_text": "Miasma Mini Shai-Hulud Hits ImmobiliareLabs npm Packages - S... \ud83d\ude80 Socket Launch Week Day 5: Introducing Repository Access Permissions and Custom Roles . Learn more \u2192 Blog Research Security News Miasma Mini Shai-Hulud Hits ImmobiliareLabs npm Packages Miasma Mini Shai-Hulud hits @immobiliarelabs Backstage plugins, targeting GitLab and LDAP auth packages on npm. Socket Research Team June 26, 2026 9 min read Table of Contents Publish Burst Under @immobiliarelabs ImmobiliareLabs Hidden Payloads Steal Developer Credentials GitHub Actions Deployment as Initial Trigger Possible upstream compromise path: codfish/semantic-release-action Surge in Exfiltration Repositories Defensive Guidance Indicators of compromise (IOCs) Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Table of Contents Publish Burst Under @immobiliarelabs ImmobiliareLabs Hidden Payloads Steal Developer Credentials GitHub Actions Deployment as Initial Trigger Possible upstream compromise path: codfish/semantic-release-action Surge in Exfiltration Repositories Defensive Guidance Indicators of compromise (IOCs) Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Latest wave affects legitimate @immobiliarelabs Backstage packages, with malicious npm releases published across GitLab and LDAP authentication plugin families on June 26, 2026. Socket Threat Research is tracking a fresh compromise in the ongoing Miasma Mini Shai-Hulud supply chain campaign. The latest activity affects legitimate npm packages published under the @immobiliarelabs scope, including Backstage plugins used for GitLab integration and LDAP authentication. This appears to be a continuation of the activity we reported yesterday involving LeoPlatform and RStreams npm packages, GitHub Actions workflow abuse, AI-agent persistence, and the Verana Go module/source-repository compromise. The new ImmobiliareLabs activity follows the same broader campaign pattern: compromise trusted developer infrastructure, publish malicious package versions, stage JavaScript malware through Bun, steal developer and CI/CD secrets, and use the stolen access to propagate further. The important development is not a new malware family or a materially different payload. It is the expansion of the campaign into another legitimate open source maintainer scope, this time involving Backstage plugins that sit close to internal developer portals, source-control integrations, and authentication workflows. This remains an ongoing investigation. Socket will continue updating the campaign tracker as additional affected artifacts, repository indicators, and exfiltration infrastructure are confirmed. Socket flags @immobiliarelabs/backstage-plugin-gitlab-backend@7.0.2 as part of the Miasma Mini Shai-Hulud campaign, showing that the latest release and multiple historical versions were compromised rather than a single isolated artifact. Publish Burst Under @immobiliarelabs # The malicious releases were published in a tight window on June 26, 2026. Socket identified affected artifacts across related npm packages: @immobiliarelabs/backstage-plugin-gitlab@1.0.1 @immobiliarelabs/backstage-plugin-gitlab@2.1.2 @immobiliarelabs/backstage-plugin-gitlab@3.0.3 @immobiliarelabs/backstage-plugin-gitlab@4.0.2 @immobiliarelabs/backstage-plugin-gitlab@5.2.1 @immobiliarelabs/backstage-plugin-gitlab@6.13.1 @immobiliarelabs/backstage-plugin-gitlab@7.0.2 @immobiliarelabs/backstage-plugin-gitlab-backend@3.0.3 @immobiliarelabs/backstage-plugin-gitlab-backend@4.0.2 @immobiliarelabs/backstage-plugin-gitlab-backend@5.2.1 @immobiliarelabs/backstage-plugin-gitlab-backend@6.13.1 @immobiliarelabs/backstage-plugin-gitlab-backend@7.0.2 @immobiliarelabs/backstage-plugin-ldap-auth@1.1.4 @immobiliarelabs/backstage-plugin-ldap-auth@2.0.5 @immobiliarelabs/backstage-plugin-ldap-auth@3.0.2 @immobiliarelabs/backstage-plugin-ldap-auth@4.3.2 @immobiliarelabs/backstage-plugin-ldap-auth@5.2.1 @immobiliarelabs/backstage-plugin-ldap-auth-backend@1.1.3 @immobiliarelabs/backstage-plugin-ldap-auth-backend@2.0.5 @immobiliarelabs/backstage-plugin-ldap-auth-backend@3.0.2 @immobiliarelabs/backstage-plugin-ldap-auth-backend@4.3.2 @immobiliarelabs/backstage-plugin-ldap-auth-backend@5.2.1 The publication pattern is consistent with a fast automated republish wave. Multiple historical versions were republished with malicious artifacts, suggesting the threat actor attempted to maximize exposure across users pinned to older major versions. ImmobiliareLabs # ImmobiliareLabs is the technology organization behind Immobiliare.it , a major Italian real estate platform. Public company materials describe Immobiliare.it as a leading property portal in Italy, with a large network of agencies, listings, and consumer traffic. ImmobiliareLabs also publicly emphasizes its use of open source, GitLab-based CI/CD, Kubernetes infrastructure, and public GitHub projects. The compromi",
+          "categories": [
+            "research",
+            "security news"
+          ],
+          "feed_url": "https://socket.dev/api/blog/feed.atom",
+          "id": "0339d99481cce2d3",
+          "published_at": "2026-06-27T14:05:31Z",
+          "source": "Socket",
+          "summary": "Miasma Mini Shai-Hulud hits @immobiliarelabs Backstage plugins, targeting GitLab and LDAP auth packages on npm.",
+          "title": "Miasma Mini Shai-Hulud Hits ImmobiliareLabs npm Packages",
+          "url": "https://socket.dev/blog/miasma-mini-shai-hulud-hits-immobiliarelabs-npm-packages?utm_medium=feed"
+        }
+      ],
+      "title": "Malicious npm Releases Hit ImmobiliareLabs Backstage GitLab and LDAP Plugins",
+      "tokens": [
+        "and",
+        "auth",
+        "backstage",
+        "gitlab",
+        "hits",
+        "immobiliarelabs",
+        "ldap",
+        "miasma",
+        "mini",
+        "npm",
+        "npm.",
+        "plugins",
+        "shai-hulud",
+        "targeting"
+      ],
+      "updated_at": "2026-06-27T14:05:34Z"
     },
     "and-before-blocks-code-compromised-developers-editor-extensions": {
       "created_at": "2026-06-23T01:50:44Z",
@@ -685,8 +845,47 @@
         "wave"
       ],
       "updated_at": "2026-06-23T01:50:44Z"
+    },
+    "endor-leo-npm-platform-shai-hulud-strikes": {
+      "created_at": "2026-06-27T14:05:34Z",
+      "dek": "A June 24 npm compromise pushed malicious Leo Platform releases that abused native build configuration rather than package lifecycle scripts, redirected at least one dist-tag, and attempted credential theft and further propagation.",
+      "discovered_on": "2026-06-27",
+      "indicators": [],
+      "last_seen_on": "2026-06-27",
+      "post_path": "research/posts/endor-leo-npm-platform-shai-hulud-strikes.html",
+      "published": true,
+      "slug": "endor-leo-npm-platform-shai-hulud-strikes",
+      "source_ids": [
+        "b20abc72d82b5b1e"
+      ],
+      "source_urls": [
+        "https://www.endorlabs.com/learn/shai-hulud-strikes-leo-platform-npm"
+      ],
+      "sources": [
+        {
+          "article_text": "Shai-Hulud Strikes Leo Platform npm | Blog | Endor Labs --> Open source can't be patched at Mythos-scale alone (so we're starting today) Learn More Learn Research Company LeanAppSec Pricing Docs Login Book a Demo Book Demo By clicking \u201cAccept\u201d, you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. View our Privacy Policy for more information. Deny Accept Blog Shai-Hulud Strikes Leo Platform npm On June 24, 2026, an attacker used a stolen npm token belonging to maintainer czirker to publish 23 poisoned versions across the Leo Platform JavaScript ecosystem in a six-second burst. Each package ships a 5 MB obfuscated worm in index.js, triggers it through a preconfigured binding.gyp file with no lifecycle scripts, repoints the latest dist-tag away from clean 7.x releases, unpacks thirteen embedded secondary tools, and steals cloud credentials, password managers, Anthropic API keys, and masked GitHub Actions secrets before exfiltrating them through a GitHub staging-repo factory, commit dead drops, and multi-registry worm propagation. Written by Kiran Raj Published on June 25, 2026 Updated on June 25, 2026 Topics Malware Summarize with AI On June 24, 2026, an attacker used a stolen npm token belonging to maintainer czirker to publish 23 poisoned versions across the Leo Platform JavaScript ecosystem in a six-second burst. Each package ships a 5 MB obfuscated worm in index.js, triggers it through a preconfigured binding.gyp file with no lifecycle scripts, repoints the latest dist-tag away from clean 7.x releases, unpacks thirteen embedded secondary tools, and steals cloud credentials, password managers, Anthropic API keys, and masked GitHub Actions secrets before exfiltrating them through a GitHub staging-repo factory, commit dead drops, and multi-registry worm propagation. Overview Leo Platform (leoplatform.io) is a streaming data pipeline used by CommerceHub and related e-commerce integrations. Its npm packages (leo-sdk, leo-aws, leo-cli, and 20 siblings) accumulated roughly 52,640 monthly downloads before the compromise. At 23:04:52\u201323:04:58 UTC on June 24, 2026 , all 23 packages under maintainer czirker received new versions within a six-second window. None of the poisoned releases contain a preinstall, install, or postinstall script in package.json. Static analysis confirms the attacker instead added a binding.gyp that executes node index.js during native addon compilation, and replaced each package's index.js (normally ~10 KB) with a 5.18 MB obfuscated payload. The most dangerous supply-chain detail is dist-tag manipulation: leo-sdk's latest tag now resolves to malicious 6.0.19 , while the legitimate 7.1.21 release remains available only under the awsv3 tag. Any project running npm install leo-sdk without an explicit version pin received the worm. Organizations that installed any affected version should rotate npm, GitHub, cloud, Vault, RubyGems, PyPI, and Anthropic credentials immediately, audit repositories for injected GitHub Actions workflows, hunt for new public repos whose description reads Alright Lets See If This Works, and inspect AI-assistant hook files under .claude/, .cursor/, .vscode/, and .github/copilot-instructions.md. Affected Packages Package Version leo-sdk 6.0.19 leo-aws 2.0.4 leo-cli 3.0.3 leo-auth 4.0.6 leo-connector-mysql 3.0.3 leo-connector-mongo 3.0.8 leo-connector-elasticsearch 2.0.6 leo-connector-redshift 3.0.6 leo-connector-oracle 2.0.1 leo-logger 1.0.8 leo-streams 2.0.1 leo-cache 1.0.2 leo-config 1.1.1 leo-cron 2.0.2 serverless-leo 3.0.14 serverless-convention 2.0.4 solo-nav 1.0.1 rstreams-metrics 2.0.2 rstreams-shard-util 1.0.1 leo-cdk-lib 0.0.2 leo-connector-common 4.0.11-rc leo-connector-postgres 4.0.19-beta leo-connector-entity-table 3.0.22-rc All 23 malicious versions share the same publish timestamp cluster ( 2026-06-24T23:04:52\u201358Z ) and the same maintainer account (czirker, CZirker@commercehub.com). Clean leo-sdk releases in the 7.x line (7.1.17 through 7.1.21, last published June 12, 2026) were not modified. Only the latest dist-tag was redirected. How the Attack Works End-to-end chain Static deobfuscation of leo-sdk@6.0.19 maps to six operational stages shared across all 23 poisoned packages. Stage 0: binding.gyp + index.js ROT(N) \u2192 install-time / require-time entry point Stage 1: AES-128-GCM _b blob (907 B) \u2192 Bun v1.3.13 bootstrap Stage 2: AES-128-GCM _p blob (781 KB) \u2192 obfuscator.io stealer + L8-encrypted strings Stage 3: vJ() orchestrator \u2192 harvest \u2192 exfil \u2192 worm modules Stage 4: B1() embedded payloads (\u00d713) \u2192 c6.py, GitHub workflows, IDE hooks Stage 5: four GitHub paths \u2192 staging repos, victim-repo worm, dead drops, signed RCE Stage 6: c6.py + l6.sh \u2192 firedalazer commit monitor + OS persistence Stage 6b: firedalazer commit \u2192 setup.py \u2192 downloads second-stage index.js (l3v1cs) Trigger chain The infection uses two independent execution paths. Neither path appears in package.json scripts, w",
+          "categories": [],
+          "feed_url": "https://www.endorlabs.com/blog/rss.xml",
+          "id": "b20abc72d82b5b1e",
+          "published_at": "2026-06-25T13:08:59Z",
+          "source": "Endor Labs",
+          "summary": "Shai-Hulud Strikes Leo Platform npm",
+          "title": "Shai-Hulud Strikes Leo Platform npm | Blog | Endor Labs",
+          "url": "https://www.endorlabs.com/learn/shai-hulud-strikes-leo-platform-npm"
+        }
+      ],
+      "title": "Stolen npm token used to poison 23 Leo Platform packages",
+      "tokens": [
+        "endor",
+        "leo",
+        "npm",
+        "platform",
+        "shai-hulud",
+        "strikes"
+      ],
+      "updated_at": "2026-06-27T14:05:34Z"
     }
   },
-  "last_run_at": "2026-06-24T15:07:28Z",
+  "last_run_at": "2026-06-27T14:06:49Z",
   "version": 1
 }
