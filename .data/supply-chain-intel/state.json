@@ -262,6 +262,58 @@
       ],
       "updated_at": "2026-06-23T01:50:44Z"
     },
+    "accelerating-agents-are-biz-coding-dependencies-faster-for": {
+      "created_at": "2026-07-02T14:27:54Z",
+      "dek": "A Socket podcast write-up warns that automated coding tools are pulling packages and extensions into projects faster than teams can review them, raising exposure to malicious dependencies and compromised developer tooling.",
+      "discovered_on": "2026-07-02",
+      "indicators": [],
+      "last_seen_on": "2026-07-02",
+      "post_path": "research/posts/accelerating-agents-are-biz-coding-dependencies-faster-for.html",
+      "published": true,
+      "slug": "accelerating-agents-are-biz-coding-dependencies-faster-for",
+      "source_ids": [
+        "308efd6f0bad2d7c"
+      ],
+      "source_urls": [
+        "https://socket.dev/blog/risky-biz-podcast-ai-agents-raising-the-stakes?utm_medium=feed"
+      ],
+      "sources": [
+        {
+          "article_text": "Risky Biz Podcast: AI Agents Are Raising the Stakes for Soft... \ud83d\ude80 Socket Launch Week Day 5: Introducing Repository Access Permissions and Custom Roles . Learn more \u2192 Blog Security News Risky Biz Podcast: AI Agents Are Raising the Stakes for Software Supply Chain Security Open source attacks are accelerating as AI coding agents pull in dependencies faster, with less human review. Sarah Gooding June 30, 2026 1 min read The last six months have been one of the most intense stretches of software supply chain attacks the open source ecosystem has seen. Attackers are compromising widely used packages, abusing trusted developer workflows, stealing credentials, and using package registries, IDE extensions, and source repositories to distribute malicious code. At the same time, AI coding agents are changing how software gets built, pulling in dependencies at machine speed and making unreviewed trust decisions without much context. That combination raises the stakes for teams that rely on open source software. In a new Risky Business sponsor interview , Socket founder and CEO Feross Aboukhadijeh joins Patrick Gray to discuss the surge in supply chain attacks, how AI agents are changing dependency risk, and why malicious packages often evade traditional security tools. The conversation also covers Socket Firewall , which blocks malicious packages and code extensions before they reach developers' machines. Feross explains how teams can use it as a package manager wrapper, in CI, or as a network proxy/upstream for internal package registries. AI is making the supply chain problem louder, faster, and harder to manually track. It can also give defenders the scale to review open source code in ways that were previously out of reach. Watch the full interview below. Subscribe to our newsletter Get notified when we publish new security blog posts! Related posts Back to all posts Security News PolinRider: North Korea-Linked Supply Chain Campaign Expands Across Open Source Ecosystems PolinRider expands across npm, Packagist, Go modules, and Chrome extensions, using hidden loaders to target developer environments. By Karlo Zanki - Jul 01, 2026 Research / Security News Chrome and Firefox Extensions Posing as Free VPNs Add Clipboard Stealers via Malicious Updates Malicious Chrome and Firefox extensions posed as free VPNs while stealing clipboard data through later extension updates. By Kirill Boychenko , Kush Pandya - Jun 29, 2026 Research / Security News Miasma Mini Shai-Hulud Hits ImmobiliareLabs npm Packages Miasma Mini Shai-Hulud hits @immobiliarelabs Backstage plugins, targeting GitLab and LDAP auth packages on npm. By Socket Research Team - Jun 26, 2026",
+          "categories": [
+            "security news"
+          ],
+          "feed_url": "https://socket.dev/api/blog/feed.atom",
+          "id": "308efd6f0bad2d7c",
+          "published_at": "2026-07-02T14:27:53Z",
+          "source": "Socket",
+          "summary": "Open source attacks are accelerating as AI coding agents pull in dependencies faster, with less human review.",
+          "title": "Risky Biz Podcast: AI Agents Are Raising the Stakes for Software Supply Chain Security",
+          "url": "https://socket.dev/blog/risky-biz-podcast-ai-agents-raising-the-stakes?utm_medium=feed"
+        }
+      ],
+      "title": "AI Coding Agents Increase Dependency Intake Risk Across Open Source Workflows",
+      "tokens": [
+        "accelerating",
+        "agents",
+        "are",
+        "biz",
+        "coding",
+        "dependencies",
+        "faster",
+        "for",
+        "human",
+        "less",
+        "podcast",
+        "pull",
+        "raising",
+        "review.",
+        "risky",
+        "source",
+        "stakes"
+      ],
+      "updated_at": "2026-07-02T14:27:54Z"
+    },
     "account-across-carrying-combined-compromised-dependency-downloads-drop": {
       "created_at": "2026-06-23T01:50:44Z",
       "dek": "A hijacked npm account reportedly republished 116 @mastra packages with a dependency on the malicious dayjs lookalike easy-day-js, exposing AI application build pipelines to install-time code execution.",
@@ -327,6 +379,59 @@
         "via"
       ],
       "updated_at": "2026-06-23T01:50:44Z"
+    },
+    "across-and-chrome-developer-ecosystems-environments-expands-extensions": {
+      "created_at": "2026-07-02T14:27:54Z",
+      "dek": "Socket reports 108 malicious packages or extensions tied to a North Korea-linked developer-targeting campaign that hides JavaScript loaders in legitimate repositories and release artifacts.",
+      "discovered_on": "2026-07-02",
+      "indicators": [],
+      "last_seen_on": "2026-07-02",
+      "post_path": "research/posts/across-and-chrome-developer-ecosystems-environments-expands-extensions.html",
+      "published": true,
+      "slug": "across-and-chrome-developer-ecosystems-environments-expands-extensions",
+      "source_ids": [
+        "fc74936f6c19c054"
+      ],
+      "source_urls": [
+        "https://socket.dev/blog/polinrider-north-korea-linked-supply-chain-campaign-expands?utm_medium=feed"
+      ],
+      "sources": [
+        {
+          "article_text": "PolinRider: North Korea-Linked Supply Chain Campaign Expands... \ud83d\ude80 Socket Launch Week Day 5: Introducing Repository Access Permissions and Custom Roles . Learn more \u2192 Blog Security News PolinRider: North Korea-Linked Supply Chain Campaign Expands Across Open Source Ecosystems PolinRider expands across npm, Packagist, Go modules, and Chrome extensions, using hidden loaders to target developer environments. Karlo Zanki July 1, 2026 6 min read Table of Contents New Packages, Old Techniques PolinRider Expands to Packagist Payload Hiding and Loader Execution Defensive Guidance Indicators of Compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Table of Contents New Packages, Old Techniques PolinRider Expands to Packagist Payload Hiding and Loader Execution Defensive Guidance Indicators of Compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Socket Threat Research Team identified 162 malicious release artifacts across 108 packages and extensions in npm, Packagist, Go modules, and Chrome extensions, linking the activity to the broader North Korean Contagious Interview / Famous Chollima developer-targeting campaign. PolinRider is a supply chain campaign linked to North Korean threat actors associated with the broader Contagious Interview / Famous Chollima activity cluster. Our latest findings show that the campaign has expanded beyond npm into additional open source ecosystems, with 162 malicious release artifacts identified across 108 unique packages, including compromise traces in 80 Go modules, 10 Packagist packages, and one Chrome extension. The campaign remains active, and new malicious packages are likely to continue appearing as threat actors compromise maintainer accounts, modify legitimate repositories, and publish infected package versions where they retain or obtain registry access. The core tradecraft remains consistent across the campaign: threat actors plant obfuscated JavaScript loaders in legitimate repositories, conceal the code through whitespace padding or fake .woff2 font files, and trigger execution through developer tooling such as VS Code task files. The threat actors use Git history rewriting, including force pushes and anti-dated commits to make malicious changes appear older and less suspicious. This makes the GitHub landing page and visible commit history unreliable indicators of compromise; defenders should review repository activity logs, package release metadata, VS Code task configuration, and suspicious changes to configuration files. Once deobfuscated, the payload functions as a JavaScript malware loader that reaches out to blockchain and public RPC infrastructure, including TRON, Aptos, and BNB Smart Chain services, retrieves encrypted second-stage payload material, decrypts it with embedded XOR keys, and executes the result with eval() . Current observed payloads include DEV#POPPER and OmniStealer, but the loader-based design means the campaign should be treated as capable of delivering additional malware. Teams that installed affected package versions should treat the environment as compromised, preserve forensic artifacts, rebuild from known-good lockfiles, rotate exposed secrets from a clean machine, and audit developer workstations and repositories for hidden execution paths. PolinRider is ongoing, and Socket continues to identify fresh compromises, malicious package versions, and extensions tied to this campaign. Because the threat actors repeatedly compromise legitimate repositories and expand across ecosystems, additional affected artifacts are likely to surface. Socket is tracking the campaign on a live page, where affected packages, versions, and updates are added as they are confirmed: https://socket.dev/supply-chain-attacks/polinrider New Packages, Old Techniques # PolinRider\u2019s typical operating pattern involves compromising legitimate GitHub repositories and planting malicious commits containing obfuscated JavaScript loaders. In many cases, the malicious code is inserted as a one-line payload and hidden from immediate view by padding the line with whitespace, pushing the executable code beyond the default screen width. In some observed cases, the activity is consistent with GitHub maintainer-account takeover, potentially through expired domain takeover or another account recovery path. Once the threat actors control a maintainer account, they can modify multiple repositories and, where registry access is available, publish malicious package versions to downstream ecosystems. One recent example is the Xpos587 GitHub account. Several repositories maintained by this account were modified in the same narrow time window on June 23 at 10:00 UTC. This synchronized update pattern is unlikely to reflect normal maintainer activity and is consistent with account-level compromise followed by bulk repository modification. The Xpos587 repository l",
+          "categories": [
+            "security news"
+          ],
+          "feed_url": "https://socket.dev/api/blog/feed.atom",
+          "id": "fc74936f6c19c054",
+          "published_at": "2026-07-02T14:27:53Z",
+          "source": "Socket",
+          "summary": "PolinRider expands across npm, Packagist, Go modules, and Chrome extensions, using hidden loaders to target developer environments.",
+          "title": "PolinRider: North Korea-Linked Supply Chain Campaign Expands Across Open Source Ecosystems",
+          "url": "https://socket.dev/blog/polinrider-north-korea-linked-supply-chain-campaign-expands?utm_medium=feed"
+        }
+      ],
+      "title": "PolinRider campaign spreads beyond npm into Packagist, Go modules, and Chrome extensions",
+      "tokens": [
+        "across",
+        "and",
+        "chrome",
+        "developer",
+        "ecosystems",
+        "environments.",
+        "expands",
+        "extensions",
+        "hidden",
+        "korea-linked",
+        "loaders",
+        "modules",
+        "north",
+        "npm",
+        "packagist",
+        "polinrider",
+        "source",
+        "target"
+      ],
+      "updated_at": "2026-07-02T14:27:54Z"
     },
     "actions-and-ecosystem-expands-hits-hitting-into-leoplatform": {
       "created_at": "2026-06-27T14:05:34Z",
@@ -886,6 +991,6 @@
       "updated_at": "2026-06-27T14:05:34Z"
     }
   },
-  "last_run_at": "2026-06-30T14:42:47Z",
+  "last_run_at": "2026-07-02T14:28:39Z",
   "version": 1
 }
