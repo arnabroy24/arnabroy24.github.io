@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A Socket/Risky Biz discussion highlights a practical supply-chain concern: automated coding tools can introduce packages, extensions, and repository code faster than teams can review them." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/accelerating-agents-are-biz-coding-dependencies-faster-for.html" />
+  <title>AI Coding Agents Increase Dependency Intake Risk Across Open Source Workflows</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-07-07 / 1 source</p>
+          <h1>AI Coding Agents Increase Dependency Intake Risk Across Open Source Workflows</h1>
+          <p class="hero-copy">A Socket/Risky Biz discussion highlights a practical supply-chain concern: automated coding tools can introduce packages, extensions, and repository code faster than teams can review them.</p>
+          <div class="source-list">
+          <a href="https://socket.dev/blog/risky-biz-podcast-ai-agents-raising-the-stakes?utm_medium=feed" target="_blank" rel="noreferrer">Socket</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>The source does not document a single newly compromised package. Instead, it describes a broader software supply-chain risk: attackers are abusing open source distribution channels while AI-assisted development tools increasingly select and install dependencies with limited human review. This combination can expand exposure to malicious packages, compromised maintainer workflows, unsafe IDE extensions, and unvetted source repository code.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>The reported issue is ecosystem-level risk rather than a named package compromise in the provided source.</li>
+          <li>AI coding agents may accelerate dependency adoption by adding libraries or extensions before maintainers, AppSec, or platform teams evaluate trust signals.</li>
+          <li>The source notes active abuse of package registries, IDE extensions, developer workflows, credentials, and source repositories as supply-chain distribution paths.</li>
+          <li>Traditional vulnerability scanning may miss malicious behavior when a package is not known-vulnerable but is intentionally harmful or newly published.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>Open source package registries, Developer IDE extension marketplaces, Source code repositories, CI/CD and developer workstation dependency installation workflows</p>
+          <h2>Security analysis</h2>
+          <p>This is best treated as a process and control-plane risk for AppSec teams. AI coding agents can improve development speed, but they also compress the time between package recommendation and package execution. That matters because many supply-chain attacks depend on speed, trust defaults, and gaps in human review: typo-squatted packages, malicious updates, compromised maintainer accounts, and extension marketplace abuse can all reach developer machines before a conventional CVE-based scanner has useful signal. The available source is high-level and does not identify specific affected packages, versions, or organizations, so defenders should not treat this as an indicator-driven incident. The practical response is to reduce implicit trust in automated dependency selection and move enforcement into repeatable controls: dependency policy in CI, registry mediation, behavioral package analysis, and auditable approval for new dependencies.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Inventory where AI coding assistants are allowed to add, update, or recommend dependencies, including IDEs, pull requests, and automated code generation workflows.</li>
+          <li>Require dependency review for new direct dependencies and high-risk transitive changes, especially recently published packages, packages with unusual maintainer changes, or low adoption.</li>
+          <li>Enforce package allowlists, lockfiles, provenance checks, and registry controls in CI rather than relying only on developer discretion.</li>
+          <li>Monitor for suspicious install-time scripts, network calls, credential access, obfuscated code, and unexpected postinstall behavior in new dependencies.</li>
+          <li>Apply similar review standards to IDE extensions and repository-sourced code snippets, not just package manager dependencies.</li>
+          <li>Log and audit dependency changes made or suggested by AI tools so reviewers can distinguish human-authored updates from automated recommendations.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Source: Socket blog post summarizing a Risky Biz podcast interview, published June 30, 2026.</li>
+          <li>The source discusses a surge in software supply-chain attacks and the added risk from AI agents selecting dependencies quickly, but it does not provide package names, hashes, affected versions, or victim details.</li>
+          <li>Product references in the source were not treated as incident facts.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+
