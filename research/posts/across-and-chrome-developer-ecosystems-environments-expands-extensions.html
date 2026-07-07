@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Socket reports an active North Korea-linked supply-chain campaign using compromised repositories and hidden JavaScript loaders to target developer environments across multiple ecosystems." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/across-and-chrome-developer-ecosystems-environments-expands-extensions.html" />
+  <title>PolinRider Campaign Spreads Across npm, Packagist, Go Modules, and Chrome Extensions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-07-07 / 1 source</p>
+          <h1>PolinRider Campaign Spreads Across npm, Packagist, Go Modules, and Chrome Extensions</h1>
+          <p class="hero-copy">Socket reports an active North Korea-linked supply-chain campaign using compromised repositories and hidden JavaScript loaders to target developer environments across multiple ecosystems.</p>
+          <div class="source-list">
+          <a href="https://socket.dev/blog/polinrider-north-korea-linked-supply-chain-campaign-expands?utm_medium=feed" target="_blank" rel="noreferrer">Socket</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Socket’s research describes PolinRider as an ongoing developer-focused supply-chain campaign tied to the Contagious Interview / Famous Chollima activity cluster. The reported activity spans npm, Packagist, Go modules, and at least one Chrome extension, with 162 malicious release artifacts across 108 packages or extensions. Attackers appear to compromise legitimate maintainer accounts or repositories, insert obfuscated JavaScript loaders, and in some cases publish infected package versions downstream. The snippets do not include a full package/version list, so exposure assessment depends on Socket’s live tracker or internal package telemetry.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>Socket identified 162 malicious release artifacts across 108 packages and extensions.</li>
+          <li>The affected scope reportedly includes npm packages, 10 Packagist packages, compromise traces in 80 Go modules, and one Chrome extension.</li>
+          <li>Attackers hide JavaScript loader code using techniques such as long whitespace padding, fake font files, and developer-tooling execution paths including VS Code task files.</li>
+          <li>The campaign reportedly uses Git history manipulation, including force pushes and backdated commits, making normal repository browsing insufficient for verification.</li>
+          <li>Observed loaders contact public blockchain/RPC infrastructure, including TRON, Aptos, and BNB Smart Chain services, to retrieve encrypted follow-on payload material.</li>
+          <li>Socket says observed payloads include DEV#POPPER and OmniStealer, but the loader design could support other second-stage malware.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>npm, Packagist / PHP Composer, Go modules, Chrome extensions, GitHub-hosted source repositories and maintainer accounts, Developer workstations using affected dependencies or repository task configurations</p>
+          <h2>Security analysis</h2>
+          <p>This incident is notable because it combines package ecosystem abuse with repository-level compromise. Rather than relying only on typo-squatting or throwaway packages, the operators reportedly modify legitimate projects and use registry access where available to distribute infected releases. That raises the risk for teams that trust upstream repositories, auto-update dependencies, or run developer tooling automatically during install, build, or editor startup. The use of hidden one-line JavaScript, deceptive file placement, and VS Code task execution is especially relevant to AppSec teams because compromise may occur before production deployment, on developer laptops or CI workers that hold high-value credentials. The source indicates the campaign is active and that more artifacts may be found. Because the provided snippet does not enumerate all affected package names and versions, defenders should treat this as a prioritization signal rather than a complete IOC set.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Inventory recent installs and lockfile changes across npm, Composer, Go modules, and browser extensions, then compare against confirmed affected package/version indicators from Socket or other trusted feeds.</li>
+          <li>Do not rely only on the visible GitHub commit timeline. Review repository audit logs, release metadata, force-push events, tag changes, and anomalous synchronized commits.</li>
+          <li>Inspect VS Code task files, package scripts, build hooks, configuration files, and unusual assets such as font files that may contain hidden loader code.</li>
+          <li>If an affected version was installed or built, treat the developer environment as potentially compromised: preserve forensic evidence, isolate the host, and rebuild from a known-good baseline.</li>
+          <li>Rotate credentials, tokens, SSH keys, package registry tokens, cloud secrets, and cryptocurrency-related secrets from a clean machine.</li>
+          <li>Pin dependencies to known-good versions and verify package integrity before rebuilding. Recreate lockfiles only after malicious versions have been excluded.</li>
+          <li>Audit maintainer accounts for takeover paths, including stale recovery emails, expired domains, weak MFA coverage, and unnecessary registry publish permissions.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Primary source: Socket, “PolinRider: North Korea-Linked Supply Chain Campaign Expands Across Open Source Ecosystems,” published July 1, 2026.</li>
+          <li>Attribution to North Korean-linked activity is based on Socket’s reporting in the provided source.</li>
+          <li>The snippet references a live Socket tracking page for affected packages and versions, but the complete list is not included in the supplied material.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+
