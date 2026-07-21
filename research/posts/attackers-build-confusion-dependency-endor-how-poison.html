@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A recent Endor Labs write-up revisits how public registry packages can override private dependencies, with historical examples showing secret theft and code execution in CI environments." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/attackers-build-confusion-dependency-endor-how-poison.html" />
+  <title>Dependency Confusion Remains a Build-Time Supply-Chain Risk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-07-21 / 1 source</p>
+          <h1>Dependency Confusion Remains a Build-Time Supply-Chain Risk</h1>
+          <p class="hero-copy">A recent Endor Labs write-up revisits how public registry packages can override private dependencies, with historical examples showing secret theft and code execution in CI environments.</p>
+          <div class="source-list">
+          <a href="https://www.endorlabs.com/learn/dependency-confusion-how-attackers-poison-your-build" target="_blank" rel="noreferrer">Endor Labs</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>The source describes dependency confusion as a software supply-chain attack in which an adversary publishes a public package using the same name as an organization’s private dependency. If a build is configured to search both private and public registries and resolves to the highest available version, the malicious public package may be installed and executed. The article also groups related package ecosystem abuse patterns, including typosquatting, combosquatting, package poisoning, and maintainer account hijacking. This appears to be an analysis of an established attack class rather than disclosure of a new active campaign; the source does not provide fresh indicators, newly affected organizations, or a current malicious package list.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>Dependency confusion exploits package resolution behavior and registry configuration rather than a conventional software bug.</li>
+          <li>Exposure depends on whether internal package names are discoverable and whether builds can fall back to public registries for those names.</li>
+          <li>Install-time scripts are a major execution path: once a malicious dependency is selected, it may run during preinstall or postinstall steps and attempt to collect secrets, environment variables, SSH keys, or cloud credentials.</li>
+          <li>The source cites Alex Birsan’s 2021 proof-of-concept campaign and the 2022 PyTorch nightly dependency incident involving a malicious PyPI package named torchtriton.</li>
+          <li>Related risks include typosquatted or combosquatted packages and compromise of legitimate maintainer accounts, but the source does not identify a new ongoing campaign.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>Private package registries used alongside public registries, JavaScript/npm-style projects, especially where package names or package.json files leak publicly, Python/PyPI projects, as illustrated by the PyTorch nightly torchtriton incident, CI/CD systems that install dependencies with access to secrets, tokens, SSH keys, or cloud metadata</p>
+          <h2>Security analysis</h2>
+          <p>The practical risk is highest where internal package names are exposed through public repositories, build logs, documentation, client-side JavaScript, or error output, and where dependency managers are allowed to query public and private registries without strict source pinning. In those conditions, an attacker does not need to compromise a maintainer account; publishing a convincing public package with a preferred version may be enough to gain execution inside a developer workstation or CI runner. The more damaging outcomes come from the build environment itself: CI jobs often hold credentials, signing material, deployment tokens, and network access that exceed what application runtime dependencies should ever receive. Defenders should treat dependency resolution as part of the trusted build boundary, not as a passive download step. The source is useful as a risk refresher, but it does not establish a new wave of attacks or provide current malicious package indicators, so teams should use it to validate controls rather than hunt for a specific campaign.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Inventory private package names and check whether identical names exist in public registries, especially with higher version numbers.</li>
+          <li>Configure package managers so private scopes and internal package names resolve only from trusted internal registries; avoid public fallback for private dependencies.</li>
+          <li>Use lockfiles, pinned versions, and reproducible build controls so unexpected registry resolution changes are detected before deployment.</li>
+          <li>Reserve or defensively register critical internal package names in public registries where appropriate and allowed by policy.</li>
+          <li>Restrict install-time scripts in CI where feasible, and run dependency installation with least-privilege credentials.</li>
+          <li>Remove long-lived secrets from build environments, segment CI permissions, and monitor dependency install jobs for outbound network calls or unexpected DNS/HTTP activity.</li>
+          <li>Add dependency review checks for typo-like names, unofficial companion packages, and newly introduced transitive dependencies.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Endor Labs published the dependency confusion overview on July 13, 2026.</li>
+          <li>The article cites prior public incidents, including Alex Birsan’s 2021 dependency confusion research and the December 2022 PyTorch nightly dependency compromise involving torchtriton on PyPI.</li>
+          <li>No new victim list, active attacker infrastructure, hashes, or package indicators were provided in the supplied source.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+

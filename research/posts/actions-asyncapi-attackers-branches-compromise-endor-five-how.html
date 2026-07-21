@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Five official @asyncapi packages reportedly shipped malicious code after attackers pushed to unprotected release branches, producing npm releases through legitimate GitHub Actions workflows." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/actions-asyncapi-attackers-branches-compromise-endor-five-how.html" />
+  <title>AsyncAPI npm Packages Compromised Through Release Branch and CI Abuse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-07-21 / 1 source</p>
+          <h1>AsyncAPI npm Packages Compromised Through Release Branch and CI Abuse</h1>
+          <p class="hero-copy">Five official @asyncapi packages reportedly shipped malicious code after attackers pushed to unprotected release branches, producing npm releases through legitimate GitHub Actions workflows.</p>
+          <div class="source-list">
+          <a href="https://www.endorlabs.com/learn/how-unprotected-release-branches-let-attackers-compromise-asyncapi" target="_blank" rel="noreferrer">Endor Labs</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Endor Labs reports that on July 14, 2026, five official AsyncAPI npm package releases were published with obfuscated malware. The compromise appears to have occurred at the GitHub branch and CI/CD layer rather than through stolen npm credentials: unsigned commits were pushed to auto-publish release branches, triggering trusted GitHub Actions publishing workflows. Because the packages were built and published by the legitimate pipeline, the resulting npm artifacts reportedly carried valid SLSA provenance despite containing malicious code.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>Affected releases named by the source are @asyncapi/generator 3.3.1, @asyncapi/generator-components 0.7.1, @asyncapi/generator-helpers 1.1.1, @asyncapi/specs 6.11.2, and @asyncapi/specs 6.11.2-alpha.1.</li>
+          <li>The malware execution path is reported to be require-time loading, not npm lifecycle scripts, so installing with --ignore-scripts would not prevent execution if the compromised package is later imported.</li>
+          <li>The generator-related payload reportedly retrieved a larger third-stage component from IPFS; Endor identifies the analyzed framework as Miasma and describes capabilities including command-and-control, persistence, and optional modules for credential theft and propagation.</li>
+          <li>The source says some Miasma capabilities were disabled in the analyzed build, and the separate @asyncapi/specs IPFS payload had not been fully decrypted or analyzed, so the full behavior and impact remain uncertain.</li>
+          <li>The highest-risk package is likely @asyncapi/specs because it is a core dependency used transitively by AsyncAPI tooling, including parser, CLI, and generator-related dependency trees.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>npm, GitHub Actions-based release pipelines, AsyncAPI tooling and downstream projects that depend on @asyncapi/specs, @asyncapi/generator, @asyncapi/generator-components, or @asyncapi/generator-helpers</p>
+          <h2>Security analysis</h2>
+          <p>This incident is a useful reminder that package provenance does not eliminate the need to secure the release process that feeds the build. In this case, the attacker reportedly did not need to compromise npm accounts; they used write access to branches that the project’s CI trusted for publishing. That means downstream consumers could see an official package, from the expected namespace, published by the expected automation, with provenance metadata, while still receiving malicious code. AppSec teams should prioritize transitive exposure to @asyncapi/specs because of its reported download volume and central role in AsyncAPI tooling. The practical investigation question is not only whether a malicious version was installed, but whether it was loaded at runtime in a developer tool, test job, generator run, or CI workflow.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Search package-lock.json, npm-shrinkwrap.json, pnpm-lock.yaml, yarn.lock, SBOMs, artifact manifests, and CI logs for the affected versions.</li>
+          <li>Treat any developer workstation, CI runner, or build container that installed and executed these packages as potentially exposed, especially if application code or tooling imported @asyncapi/specs or @asyncapi/generator.</li>
+          <li>Do not rely on npm install --ignore-scripts as a compensating control for this incident; assess whether the compromised package was required or executed after installation.</li>
+          <li>Rebuild affected environments from trusted images, rotate credentials available to exposed developer or CI contexts, and review outbound network activity for IPFS retrievals or unusual command-and-control behavior around July 14, 2026.</li>
+          <li>Pin to known-good versions after maintainer remediation, refresh lockfiles, and block the identified malicious versions in internal package proxies or dependency policy tooling.</li>
+          <li>For maintainers, protect release branches, require signed commits or enforced reviews for publish-triggering branches, restrict who can push to release refs, and treat provenance attestations as build-origin evidence rather than malware-free guarantees.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Primary source: Endor Labs, “How Unprotected Release Branches Let Attackers Compromise AsyncAPI,” published July 14, 2026.</li>
+          <li>Download figures in the source are for all versions during the measured periods, not confirmed installs of the malicious releases.</li>
+          <li>Attribution is unknown based on the provided source, and analysis of the @asyncapi/specs third-stage payload was incomplete in the snippet.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+

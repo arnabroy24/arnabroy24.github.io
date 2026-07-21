@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Endor Labs reports that AI-generated code can add more—and older—open source dependencies, creating exposure to known CVEs and package-name abuse such as slopsquatting." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/ai-generated-code-dependencies-endor-imports-securing-vulnerable-when.html" />
+  <title>AI coding agents expand dependency risk through vulnerable and invented packages</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-07-21 / 1 source</p>
+          <h1>AI coding agents expand dependency risk through vulnerable and invented packages</h1>
+          <p class="hero-copy">Endor Labs reports that AI-generated code can add more—and older—open source dependencies, creating exposure to known CVEs and package-name abuse such as slopsquatting.</p>
+          <div class="source-list">
+          <a href="https://www.endorlabs.com/learn/when-ai-imports-vulnerable-dependencies-securing-ai-generated-code" target="_blank" rel="noreferrer">Endor Labs</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>This is not a report of a single compromised package or active breach. The source describes a software supply-chain risk pattern: AI coding assistants may introduce open source dependencies that developers did not explicitly choose or review. Those packages can be outdated, vulnerable, transitive, hallucinated, typosquatted, or otherwise attacker-controlled if a plausible package name is registered and installed.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>Endor Labs says AI-generated code can pull in substantially more dependencies than human-written code, increasing direct and transitive attack surface.</li>
+          <li>The source reports that 49% of dependency versions imported by AI coding agents in its research had known vulnerabilities, though the snippet does not provide the full dataset, ecosystem breakdown, or methodology.</li>
+          <li>A key risk is that developers may review generated application logic but accept the suggested dependency and lockfile changes with less scrutiny.</li>
+          <li>Hallucinated package names create an opportunity for slopsquatting: attackers register packages matching names that AI tools are likely to invent.</li>
+          <li>The most serious exposure may be hidden in transitive dependencies, where vulnerable code is less visible to the developer who accepted the AI suggestion.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>Open source dependency ecosystems used by AI-assisted development; the source does not name specific registries or packages., Applications that allow AI coding tools to modify manifests, import statements, install commands, or lockfiles., Build pipelines that rely only on late CI scanning rather than validating dependencies when they are introduced.</p>
+          <h2>Security analysis</h2>
+          <p>The practical AppSec issue is not that AI-generated code is automatically unsafe; it is that AI tools can quietly become dependency selectors. When an assistant adds an import or installation command, it may also expand the transitive dependency tree. If the model learned from older examples, it may choose stale versions with known CVEs. If it invents a plausible package name, an attacker can exploit that trust gap by publishing malware under the hallucinated name. This makes AI-assisted development a supply-chain control problem as much as a code-review problem. Organizations should ensure dependency policy is enforced at the moment a package is introduced, not only after it has already entered the build. The source does not identify a specific malicious package campaign, so defenders should treat this as a risk model and control gap rather than an incident with a defined IOC set.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Treat AI-suggested imports, package installs, and lockfile changes as untrusted supply-chain input requiring review.</li>
+          <li>Require automated checks in the IDE, pre-commit hooks, and CI for package existence, version age, known vulnerabilities, malware indicators, license policy, and maintainer/provenance signals.</li>
+          <li>Review both direct and transitive dependencies introduced by AI-generated code, not only the top-level package.</li>
+          <li>Alert on new packages with low maturity, suspicious naming similarity, unusual maintainer changes, or little usage history before allowing installation.</li>
+          <li>Use lockfile and SBOM diffing in pull requests so reviewers can see exactly which dependencies were added by an AI-assisted change.</li>
+          <li>Prioritize remediation with reachability or runtime evidence where available, so teams focus first on vulnerable dependency code that the application can actually execute.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Source: Endor Labs, “When AI Imports Vulnerable Dependencies: Securing AI-Generated Code,” published July 13, 2026.</li>
+          <li>The source provides aggregate claims about AI-introduced dependency risk but the snippet does not include package names, affected registries, IOCs, or full research methodology.</li>
+          <li>No duplicate incident coverage was present in the provided sources.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+

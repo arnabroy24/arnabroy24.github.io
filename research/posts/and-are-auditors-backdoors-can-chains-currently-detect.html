@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A Semgrep analysis argues that open-weight and third-party AI models introduce dependency risk that current reverse-engineering and provenance practices do not adequately cover." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/and-are-auditors-backdoors-can-chains-currently-detect.html" />
+  <title>AI Models Are Emerging Supply-Chain Dependencies With Weak Tamper Detection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-07-21 / 1 source</p>
+          <h1>AI Models Are Emerging Supply-Chain Dependencies With Weak Tamper Detection</h1>
+          <p class="hero-copy">A Semgrep analysis argues that open-weight and third-party AI models introduce dependency risk that current reverse-engineering and provenance practices do not adequately cover.</p>
+          <div class="source-list">
+          <a href="https://semgrep.dev/blog/2026/ai-supply-chain-problem" target="_blank" rel="noreferrer">Semgrep</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Semgrep’s source material does not report a confirmed compromise of a widely used model or package. Instead, it describes a supply-chain risk class: organizations are adopting third-party AI models, including open-weight models, without reliable ways to inspect model behavior, prove training-data provenance, or detect targeted backdoors introduced during training, fine-tuning, or model hosting. The practical concern is that models are becoming application dependencies, but defenders lack the mature audit and verification mechanisms available for conventional software libraries.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>The source states there is currently no public evidence that widely used open-source models have been deliberately poisoned.</li>
+          <li>Model weights, even when public, are not equivalent to source code; defenders cannot reliably reverse engineer them to enumerate behavior.</li>
+          <li>Research cited by the source suggests small amounts of training-data poisoning can create persistent model behaviors, and required poisoning volume may not scale with model size.</li>
+          <li>Potential tampering points include training data, post-training or fine-tuning, and distribution of modified hosted model versions.</li>
+          <li>Existing logs may show prompts and responses, but they may not reveal whether the underlying model weights or fine-tuning process were altered.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>Open-weight AI model distribution and hosting platforms, Internal AI/ML model registries, Applications that treat third-party models as runtime dependencies, Training-data and fine-tuning pipelines, AI-assisted development and security tooling that relies on external models</p>
+          <h2>Security analysis</h2>
+          <p>This is not a conventional malicious package incident; it is a dependency assurance gap. Traditional software supply-chain programs rely on source review, binary analysis, signatures, SBOMs, vulnerability feeds, and malware scanning. The source argues those controls do not translate cleanly to large AI models because model behavior is not readily explainable from weights, and subtle training or fine-tuning manipulation may evade current inspection. For AppSec teams, the immediate takeaway is to classify models as third-party components with elevated opacity, not as interchangeable infrastructure. Exposure should be assessed by finding where external models can influence code, decisions, data access, or autonomous tool use. The highest-risk deployments are those where model output can trigger actions, access sensitive data, generate code that is merged, or operate with agentic permissions. Because the source does not identify a confirmed poisoned model, defenders should avoid panic-driven removals and instead improve inventory, provenance requirements, version control, behavioral testing, and runtime containment.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Inventory AI models used in production, development, security tooling, and data workflows; record provider, version, hash or artifact identifier where available, hosting location, and business owner.</li>
+          <li>Treat model changes like dependency changes: require review, approval, rollback plans, and environment-specific promotion rather than ad hoc model swaps.</li>
+          <li>Prefer sources that provide provenance metadata, signed artifacts, reproducible release notes, documented fine-tuning history, and clear model card or safety documentation.</li>
+          <li>Pin model versions where possible and monitor for unexpected provider-side changes, especially for hosted models that may update without an application deployment.</li>
+          <li>Log prompts, responses, model identifiers, tool calls, and retrieval context for auditability, while recognizing that logs do not prove model integrity.</li>
+          <li>Isolate model privileges: limit network access, secrets access, code execution, and write permissions granted to AI agents or applications using model outputs.</li>
+          <li>Evaluate models with organization-specific abuse cases and regression tests before adoption and after any model update.</li>
+          <li>Include AI model suppliers and model-hosting services in third-party risk reviews and incident response plans.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Based on Semgrep, “You Can&#x27;t Reverse Engineer Your Way Out of the AI Supply Chain Problem,” published July 10, 2026.</li>
+          <li>The source is a risk analysis, not a disclosure of a specific compromised AI model or package.</li>
+          <li>The source explicitly notes uncertainty: current tooling cannot reliably detect all model tampering or targeted backdoors, and there is no public evidence cited of deliberate poisoning in widely used open-source models.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+

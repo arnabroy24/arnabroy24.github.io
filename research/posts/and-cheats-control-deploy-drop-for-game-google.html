@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A campaign of 11 NuGet DotnetTool packages used game-utility themes to deliver a second-stage Windows executable, with telemetry and control tied to Google Sheets and other hosted infrastructure." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/and-cheats-control-deploy-drop-for-game-google.html" />
+  <title>Malicious NuGet .NET tools posed as game cheats and installed Windows surveillance payloads</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-07-21 / 1 source</p>
+          <h1>Malicious NuGet .NET tools posed as game cheats and installed Windows surveillance payloads</h1>
+          <p class="hero-copy">A campaign of 11 NuGet DotnetTool packages used game-utility themes to deliver a second-stage Windows executable, with telemetry and control tied to Google Sheets and other hosted infrastructure.</p>
+          <div class="source-list">
+          <a href="https://socket.dev/blog/11-malicious-nuget-tools-pose-as-game-cheats?utm_medium=feed" target="_blank" rel="noreferrer">Socket</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Socket reported 11 malicious NuGet packages published as .NET command-line tools that impersonated game cheats, bots, calculators, and control panels. The packages acted as first-stage downloaders: after installation and execution through the .NET tool mechanism, they retrieved a Windows payload named pepesoft.exe from GitHub Releases and Hugging Face locations associated with the username pepegit666. The recovered payloads were PyInstaller-packed Python applications with licensing, telemetry, hardware-binding, and remote ban-list behavior; some builds also exposed Telegram-based screenshot control. The source does not provide the full package list in the supplied snippet, so defenders should consult the original IOC list before scoping by package name alone.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>The affected ecosystem is NuGet, specifically packages using the DotnetTool package type and installed via dotnet tool install.</li>
+          <li>The packages masqueraded as utilities for games including Albion Online, GTA5RP, GrandRP, Majestic RP, RMRP, Amazing RP, Lineage 2, Throne and Liberty, and Russian Fishing 4, plus generic trigger-bot or calculator-themed tools.</li>
+          <li>Each package bundled a .NET downloader under tools/net8.0/any/ and shared supporting libraries, suggesting a common build process or operator.</li>
+          <li>The first stage fetched pepesoft.exe from external hosting and reportedly used DNS-over-HTTPS to resolve GitHub download hosts, reducing the effectiveness of hosts-file blocks and some local DNS controls.</li>
+          <li>Ten of the 11 downloaders requested elevation to resynchronize the system clock before payload retrieval, according to the source.</li>
+          <li>The second-stage payloads used shared AWS-style key material, Google Sheets authentication, hardware identifiers, and a remote HWID/UUID ban-list.</li>
+          <li>In three direct-bytecode payloads, Socket recovered larger game-automation applications with Telegram bot commands capable of sending screenshots.</li>
+          <li>Dormant BitTorrent fallback code was present, but the provided source does not establish that peer-to-peer delivery was active.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>NuGet, dotnet tool / .NET CLI tool installations, Windows hosts where the tools were installed or executed, Developer, gamer, and automation environments that install NuGet tools from untrusted publishers</p>
+          <h2>Security analysis</h2>
+          <p>This is a software supply-chain incident because the attacker abused NuGet’s tool distribution model to place executable downloader packages in a public package ecosystem. The social engineering was aimed at users seeking game cheats or automation rather than conventional application libraries, but the risk pattern is the same: a package registry delivered code that executed outside the normal application review path and installed a second-stage payload.
+
+The most important AppSec lesson is that NuGet exposure is not limited to project library references. DotnetTool packages are installed and invoked as command-line programs, often globally, and may not appear in the same dependency review workflows used for csproj PackageReference entries. Organizations that allow developers or contractors to install arbitrary .NET tools should include dotnet tool inventories, NuGet cache inspection, and endpoint execution telemetry in their supply-chain monitoring.
+
+The available source strongly links the 11 packages through shared downloader behavior, shared key material, a common mutex, and common hosting patterns. However, the snippet does not include the complete package-name list, version set, hashes, or removal status. Scoping should therefore combine named IOCs from the full Socket report with behavioral detection for game-themed NuGet tools that spawn downloaded Windows executables or contact Google Sheets, Telegram, GitHub Releases, Hugging Face, or DNS-over-HTTPS endpoints.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Inventory global and local .NET tools using dotnet tool list -g and repository tool manifests; look for unfamiliar game-cheat, bot, panel, trigger-bot, calculator, or RP-themed tools.</li>
+          <li>Review NuGet dependency and tool installation logs for the package names and hashes published in Socket’s IOC list. The supplied snippet names amazing-x-x@7.7.8 as one flagged example but does not include the full set of 11 packages.</li>
+          <li>Remove suspected tools, delete cached package artifacts, and reimage or deeply inspect Windows hosts where the downloaded executable ran.</li>
+          <li>Hunt for execution of pepesoft.exe, PyInstaller-packed binaries launched by dotnet tools, and .NET assemblies under tools/net8.0/any/ with game-themed names such as albion.dll, gta5rp.dll, lineage2.dll, or setup.dll.</li>
+          <li>Check network and endpoint telemetry for downloads from GitHub Releases and Hugging Face paths associated with pepegit666, plus unusual Google Sheets API usage, Telegram bot traffic, and DNS-over-HTTPS activity from these processes.</li>
+          <li>Do not rely only on DNS sinkholes or hosts-file blocking, because the downloader behavior reportedly used DNS-over-HTTPS for some resolution steps.</li>
+          <li>Restrict NuGet tool installation in managed environments, require trusted sources and publisher review, and treat .NET tools as executable software rather than passive dependencies.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Socket reported the campaign on July 14, 2026, describing 11 malicious NuGet DotnetTool packages and a second-stage payload named pepesoft.exe.</li>
+          <li>The supplied source excerpt includes one explicit flagged example, amazing-x-x@7.7.8, but not the full package list or complete IOC table.</li>
+          <li>Some second-stage capabilities were recovered only from subsets of the payload corpus; Telegram screenshot control was described for the direct-bytecode builds, not necessarily every package.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+

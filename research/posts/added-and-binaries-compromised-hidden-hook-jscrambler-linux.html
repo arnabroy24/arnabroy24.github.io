@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Multiple malicious jscrambler versions delivered bundled binaries for Windows, macOS, and Linux, first through npm install hooks and later through package import/CLI execution." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/added-and-binaries-compromised-hidden-hook-jscrambler-linux.html" />
+  <title>Compromised jscrambler npm releases executed hidden native payloads across developer and CI environments</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-07-21 / 1 source</p>
+          <h1>Compromised jscrambler npm releases executed hidden native payloads across developer and CI environments</h1>
+          <p class="hero-copy">Multiple malicious jscrambler versions delivered bundled binaries for Windows, macOS, and Linux, first through npm install hooks and later through package import/CLI execution.</p>
+          <div class="source-list">
+          <a href="https://socket.dev/blog/jscrambler-supply-chain-attack?utm_medium=feed" target="_blank" rel="noreferrer">Socket</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Socket reports that the npm package jscrambler was compromised on July 11, 2026. The first identified malicious release, 8.14.0, added new install-time JavaScript and embedded platform-specific native binaries that could run during npm installation. The campaign reportedly continued with additional malicious releases, including 8.16.0, 8.17.0, 8.18.0, and 8.20.0. Earlier versions used a preinstall script; later versions removed the install hook and placed the same dropper logic in package runtime entry points, meaning exposure could occur when the package was imported or its CLI was executed. The number of affected users is not known from the available source.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>Affected package: npm package jscrambler.</li>
+          <li>Reported malicious versions: 8.14.0, 8.16.0, 8.17.0, 8.18.0, and 8.20.0.</li>
+          <li>Version 8.14.0 introduced files not present in 8.13.0, including dist/setup.js and dist/intro.js, plus bundled native payloads for Linux, macOS, and Windows.</li>
+          <li>Versions 8.14.0, 8.16.0, and 8.17.0 reportedly executed the dropper via an npm preinstall script.</li>
+          <li>Versions 8.18.0 and 8.20.0 reportedly moved the same dropper into dist/index.js and dist/bin/jscrambler.js, reducing the effectiveness of defenses that only block lifecycle scripts.</li>
+          <li>Because jscrambler is commonly used in build workflows, affected installations may have exposed source code, environment variables, package tokens, CI secrets, signing material, or deployment credentials available to the npm process.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>npm / JavaScript package ecosystem, Developer workstations using jscrambler, CI/CD and build systems that installed or executed jscrambler, Windows, macOS, and Linux environments</p>
+          <h2>Security analysis</h2>
+          <p>This incident is significant because the malicious behavior targeted the software build boundary rather than application runtime alone. A development dependency installed in CI can see high-value secrets and source code before production artifacts are created. The reported shift from preinstall execution to import/CLI-triggered execution is also notable: many package security controls focus on npm lifecycle scripts, but this campaign adapted to run from normal package entry points. Defenders should therefore assess both installation and execution paths. Available reporting does not confirm how the maintainer account or publishing process was compromised, how many downstream users installed the malicious releases, or what the native binaries ultimately did after execution. Until those details are available, affected environments should be handled as potentially exposed secret-bearing systems.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Search package-lock.json, npm-shrinkwrap.json, pnpm-lock.yaml, yarn.lock, SBOMs, dependency cache records, CI logs, and build images for jscrambler versions 8.14.0, 8.16.0, 8.17.0, 8.18.0, or 8.20.0.</li>
+          <li>Remove affected versions and pin to a verified clean version, such as 8.13.0, until maintainers provide a trusted remediation path.</li>
+          <li>Do not treat npm install --ignore-scripts as sufficient mitigation for this incident, because later malicious versions reportedly execute when the package is imported or its CLI runs.</li>
+          <li>Review logs for execution of dist/setup.js, dist/index.js, dist/bin/jscrambler.js, or unexpected native binaries launched from the jscrambler package directory.</li>
+          <li>Rebuild potentially affected CI runners, developer containers, and build images from clean sources rather than reusing environments that installed the compromised package.</li>
+          <li>Rotate credentials that may have been present in affected environments, including npm tokens, CI secrets, cloud credentials, deployment keys, code-signing material, and repository access tokens.</li>
+          <li>Add detection coverage for sudden package diffs that introduce lifecycle scripts, opaque binary blobs, or new runtime entry-point code in development dependencies.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Socket reported the compromise and identified the malicious jscrambler versions and delivery changes.</li>
+          <li>Socket stated that jscrambler receives roughly 15,800 weekly downloads, but the number of installations of the affected versions remains unknown in the provided source.</li>
+          <li>The available snippet does not include hashes, full binary behavior, or a confirmed root cause for the package compromise.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+

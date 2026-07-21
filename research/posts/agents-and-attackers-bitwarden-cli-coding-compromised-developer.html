@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A compromised Bitwarden CLI npm package briefly exposed users of @bitwarden/cli 2026.4.0 to a payload that reportedly harvested CI credentials and attempted to propagate through npm projects." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/agents-and-attackers-bitwarden-cli-coding-compromised-developer.html" />
+  <title>Malicious @bitwarden/cli release targeted developer secrets through npm install hooks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-07-21 / 1 source</p>
+          <h1>Malicious @bitwarden/cli release targeted developer secrets through npm install hooks</h1>
+          <p class="hero-copy">A compromised Bitwarden CLI npm package briefly exposed users of @bitwarden/cli 2026.4.0 to a payload that reportedly harvested CI credentials and attempted to propagate through npm projects.</p>
+          <div class="source-list">
+          <a href="https://www.endorlabs.com/learn/shai-hulud-the-third-coming----inside-the-bitwarden-cli-2026-4-0-supply-chain-attack" target="_blank" rel="noreferrer">Endor Labs</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Bitwarden’s npm-distributed CLI package, @bitwarden/cli, was reportedly compromised in version 2026.4.0 on April 22, 2026. According to the available source, the malicious release was live on npm for about 90 minutes, from approximately 5:57 PM to 7:30 PM ET, before a clean follow-up version was published. The package is high impact because the Bitwarden CLI is commonly used in developer automation and CI/CD workflows to retrieve secrets. The source attributes the compromise to a chain involving Checkmarx GitHub Actions used in Bitwarden’s repository, but the full intrusion path remains incomplete from the provided material.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>Affected package: npm package @bitwarden/cli, specifically version 2026.4.0.</li>
+          <li>The last known clean version cited by the source is @bitwarden/cli 2026.3.0; a clean replacement, 2026.4.1, was reportedly released on April 23, 2026.</li>
+          <li>The malicious package added new files, including bwsetup.js and bw1.js, and modified package.json to execute bwsetup.js during preinstall.</li>
+          <li>The package’s CLI entry point was reportedly redirected so invoking bw would run the attacker-controlled bootstrap path rather than the normal built CLI bundle.</li>
+          <li>The payload is described as collecting CI secrets such as SSH keys and API tokens and exfiltrating them to public GitHub repositories created under victim namespaces.</li>
+          <li>The source says the campaign also attempted worm-like propagation through victims’ npm projects, similar to prior Shai-Hulud activity.</li>
+          <li>A Bun runtime check and download path were used as part of the stager, with an obfuscated secondary payload executed afterward.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>npm packages and JavaScript/Node.js build environments, CI/CD systems that installed @bitwarden/cli 2026.4.0 during the exposure window, Developer workstations or automation hosts where the Bitwarden CLI was installed or invoked, GitHub accounts and repositories associated with exposed developer or CI credentials, Downstream npm projects that may have been modified if the propagation behavior executed successfully</p>
+          <h2>Security analysis</h2>
+          <p>This incident is a direct software supply-chain compromise: a trusted package used as developer infrastructure allegedly shipped attacker-controlled install-time code. The most important exposure question is not only whether an application imports Bitwarden code, but whether any build, release, or automation environment installed the specific npm version during the short publication window. Because npm lifecycle scripts run during installation, compromise could occur even if the CLI was never intentionally invoked after installation.
+
+The attacker’s choice of @bitwarden/cli is significant. Password-manager CLIs often run in privileged automation contexts and can be adjacent to the very credentials needed for release, deployment, and repository access. The reported preinstall hook and CLI entry-point redirection gave the malicious code multiple chances to execute: during dependency installation and during normal bw command usage.
+
+The source links this incident to a prior compromise of Checkmarx GitHub Actions used by Bitwarden, but the provided information does not fully establish each step from that compromise to npm publication. Defenders should therefore separate confirmed local exposure indicators — installation of @bitwarden/cli 2026.4.0, suspicious files and scripts, unexpected GitHub repositories, and credential use — from still-developing attribution or root-cause claims.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Search package-lock.json, npm-shrinkwrap.json, pnpm-lock.yaml, yarn.lock, SBOMs, build logs, container layers, and artifact metadata for @bitwarden/cli@2026.4.0.</li>
+          <li>Treat any system that installed or executed @bitwarden/cli 2026.4.0 as potentially exposed, especially CI runners with access to deployment keys, npm tokens, GitHub tokens, cloud credentials, or Bitwarden-derived secrets.</li>
+          <li>Upgrade to a known clean release and avoid reinstalling from cached package artifacts that may still contain the malicious version.</li>
+          <li>Rotate secrets available to affected CI jobs or developer environments, including SSH keys, API tokens, npm publishing tokens, GitHub tokens, cloud credentials, and service account credentials.</li>
+          <li>Review GitHub accounts and organizations for unexpected public repositories, suspicious commits, new workflow files, altered package manifests, or unauthorized npm package changes.</li>
+          <li>Inspect affected projects for unexpected package.json lifecycle scripts, altered bin entries, newly added JavaScript payload files, or unauthorized package publication activity.</li>
+          <li>Harden CI by minimizing long-lived credentials, scoping tokens per workflow, disabling unnecessary package lifecycle scripts where feasible, and requiring provenance or trusted publishing controls for release pipelines.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Endor Labs reports that @bitwarden/cli 2026.4.0 was malicious and available on npm for roughly 1.5 hours on April 22, 2026.</li>
+          <li>The same source identifies added files bwsetup.js and bw1.js plus package.json changes involving a preinstall script and modified CLI bin mapping.</li>
+          <li>The source states the malicious behavior included CI secret theft, GitHub-based exfiltration, and npm-project propagation, but the full compromise chain is described as still developing.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+
