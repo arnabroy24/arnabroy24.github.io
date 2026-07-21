@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A recent explainer highlights recurring supply-chain failure modes—malicious packages, maintainer compromise, dependency confusion, and CI/CD abuse—but does not identify a new affected package or active campaign." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/endor-explained-trust-veiled.html" />
+  <title>Supply-chain risk brief: trusted dependencies and build automation remain high-value attack paths</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-07-21 / 1 source</p>
+          <h1>Supply-chain risk brief: trusted dependencies and build automation remain high-value attack paths</h1>
+          <p class="hero-copy">A recent explainer highlights recurring supply-chain failure modes—malicious packages, maintainer compromise, dependency confusion, and CI/CD abuse—but does not identify a new affected package or active campaign.</p>
+          <div class="source-list">
+          <a href="https://www.endorlabs.com/learn/veiled-in-trust-software-supply-chain-attacks-explained" target="_blank" rel="noreferrer">Endor Labs</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>The source describes common software supply-chain attack patterns rather than a single newly disclosed incident. The core risk is that attackers compromise an upstream component or build process that downstream teams already trust, allowing malicious code to enter developer workstations, CI systems, or production through normal dependency and release workflows. The article references real-world campaign categories, including malicious package activity and self-propagating dependency abuse, but the provided material does not include package names, indicators of compromise, affected versions, or confirmed victims.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>No specific new compromised package, registry namespace, maintainer account, or CI/CD provider is identified in the source snippet.</li>
+          <li>The described attack paths include malicious open source packages, typosquatting, dependency confusion, maintainer takeover, over-permissioned third-party integrations, and compromised build or signing infrastructure.</li>
+          <li>The practical exposure risk is highest where dependency resolution is automated, versions are loosely pinned, private package names can be shadowed by public packages, or build tokens have broad permissions.</li>
+          <li>Valid signatures or trusted project reputation do not by themselves prove that a dependency or artifact is safe if the upstream account, build environment, or release process was compromised.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>Open source package registries, Private package registries and dependency proxy setups, CI/CD pipelines and build systems, GitHub Actions and other third-party automation integrations, Developer workstations consuming dependencies directly</p>
+          <h2>Security analysis</h2>
+          <p>This is not a discrete incident report; it is a dependency-risk brief based on recurring attack mechanics. The AppSec takeaway is that trust boundaries in modern software delivery are often implicit: package managers trust registries, build systems trust plugins and actions, and production deployment trusts signed or previously approved artifacts. Attackers exploit those assumptions by moving upstream, where one compromise can reach many downstream consumers. Teams should treat dependency intake and build automation as enforcement points, not passive plumbing. The highest-value controls are those that reduce ambiguity—complete dependency inventory, deterministic builds, pinned versions, provenance metadata, and narrowly scoped credentials. Because the source does not provide concrete IOCs or package identifiers, defenders should not hunt for a named artifact from this report; instead, they should use it to validate whether their own pipelines could resist the described classes of abuse.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Inventory direct and transitive dependencies and generate SBOMs during builds, not only at release time.</li>
+          <li>Pin dependency versions, commit lockfiles, and require reviewed update pull requests instead of uncontrolled automatic upgrades.</li>
+          <li>Check for dependency confusion exposure by comparing internal package names against public registries and enforcing private registry priority where supported.</li>
+          <li>Add malicious package detection before install steps in local development and CI pipelines; CVE scanning alone will not catch intentionally malicious new packages.</li>
+          <li>Restrict CI/CD tokens and third-party integrations to least privilege, rotate secrets, and remove long-lived credentials from build environments.</li>
+          <li>Adopt provenance controls such as signed commits, artifact verification, build attestations, and isolated or ephemeral build runners.</li>
+          <li>Prepare a compromised-dependency response playbook that can quickly identify affected applications, rebuild from known-good inputs, rotate exposed credentials, and redeploy clean artifacts.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Endor Labs published the referenced explainer on July 13, 2026.</li>
+          <li>The source discusses supply-chain attack categories and defensive practices, but the provided snippet does not disclose a specific newly compromised dependency, campaign timeline, affected versions, hashes, or victim organizations.</li>
+          <li>References to named campaigns in the source are not detailed enough in the snippet to support incident-specific conclusions.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Four packages under the @asyncapi npm scope shipped malicious versions that execute on module load and retrieve a second-stage payload from IPFS." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/and-asyncapi-botnet-compromised-deliver-linux-loader-macos.html" />
+  <title>AsyncAPI npm Releases Compromised to Load Miasma Botnet Payloads</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-07-21 / 1 source</p>
+          <h1>AsyncAPI npm Releases Compromised to Load Miasma Botnet Payloads</h1>
+          <p class="hero-copy">Four packages under the @asyncapi npm scope shipped malicious versions that execute on module load and retrieve a second-stage payload from IPFS.</p>
+          <div class="source-list">
+          <a href="https://socket.dev/blog/asyncapi-supply-chain-attack?utm_medium=feed" target="_blank" rel="noreferrer">Socket</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Socket reports that several AsyncAPI npm packages were compromised on July 14, 2026 and published with injected JavaScript implants. The malicious releases affect @asyncapi/generator-helpers, @asyncapi/generator-components, @asyncapi/generator, and @asyncapi/specs. Unlike many npm attacks, the payload did not rely on install lifecycle scripts; it ran when the affected module was imported by Node.js, then spawned a detached process to download and execute an encrypted second stage identified as the Miasma botnet loader. Socket says the campaign targets macOS, Linux, and Windows environments.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>Affected versions reported by Socket are @asyncapi/generator-helpers@1.1.1, @asyncapi/generator-components@0.7.1, @asyncapi/generator@3.3.1, and @asyncapi/specs@6.11.2-alpha.1 / 6.11.2.</li>
+          <li>The malicious code was inserted into normal source files rather than package lifecycle hooks, increasing the chance that CI, build tools, or developer machines execute it during ordinary use.</li>
+          <li>The first stage launches a background node -e process and retrieves an encrypted follow-on payload from IPFS.</li>
+          <li>Socket links the final payload to the Miasma tasking framework.</li>
+          <li>npm metadata and provenance reportedly point to GitHub Actions trusted publishing for the compromised releases, but Socket noted that public unauthenticated API access did not expose the workflow run and job logs at the time of analysis.</li>
+          <li>The poisoned changes reportedly appeared in a GitHub commit as well as in the npm tarballs, suggesting the compromise involved the release source path rather than only registry-side tampering.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>npm, Node.js applications and tooling that import the affected AsyncAPI packages, Developer workstations and CI runners on macOS, Linux, or Windows that installed and loaded the compromised versions</p>
+          <h2>Security analysis</h2>
+          <p>This incident is a high-impact npm supply-chain compromise because the malicious payload was placed in code paths that can execute during normal module loading. That bypasses common controls focused only on preinstall or postinstall behavior. The use of trusted publishing and provenance also shows a practical limitation: provenance can identify how a package was built and published, but it does not prove the source or workflow was legitimate if the repository, release workflow, or commit path was compromised. Exposure assessment should therefore be usage-based, not just install-based. Teams should identify where the affected versions were present, determine whether AsyncAPI tooling ran in those environments, and treat CI systems as sensitive targets because they often hold deployment credentials. Some details remain incomplete from the available source, including the exact initial access vector and the full scope of downstream execution, so defenders should prioritize environment review over assumptions about containment.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Search package-lock.json, npm-shrinkwrap.json, pnpm-lock.yaml, yarn.lock, SBOMs, and artifact manifests for the affected package versions.</li>
+          <li>Do not assume safety because install scripts were disabled; assess whether the packages were imported or executed after installation.</li>
+          <li>Upgrade to known-clean or patched AsyncAPI releases when available, or pin to earlier unaffected versions such as the immediately preceding versions identified by Socket pending maintainer guidance.</li>
+          <li>Rebuild potentially affected artifacts from clean environments after dependency remediation.</li>
+          <li>Review CI runners and developer endpoints that used these packages for suspicious detached Node.js processes, unexpected node -e execution, IPFS retrieval activity, persistence changes, or outbound connections matching published indicators.</li>
+          <li>Rotate credentials exposed to affected build or developer environments, including npm, GitHub, cloud, and deployment tokens, if execution is plausible.</li>
+          <li>Audit GitHub Actions release workflows, trusted publishing configuration, branch protections, and recent commits for unauthorized changes.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Primary source: Socket, “Compromised npm Packages in the AsyncAPI Namespace Deliver Miasma Botnet Loader,” published July 14, 2026 and syndicated July 21, 2026 in the provided snippet.</li>
+          <li>Socket reports that public API access did not reveal the relevant GitHub Actions workflow run and job logs during its analysis, leaving the direct workflow actor and some release details uncertain.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+

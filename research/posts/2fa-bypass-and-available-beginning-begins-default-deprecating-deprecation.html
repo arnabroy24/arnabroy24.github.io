@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="The npm CLI now skips dependency install scripts by default and begins removing high-risk 2FA-bypass token capabilities, addressing common execution paths used in recent malicious package campaigns." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/2fa-bypass-and-available-beginning-begins-default-deprecating-deprecation.html" />
+  <title>npm v12 Reduces Install-Time Supply-Chain Risk by Requiring Script Opt-In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-07-21 / 1 source</p>
+          <h1>npm v12 Reduces Install-Time Supply-Chain Risk by Requiring Script Opt-In</h1>
+          <p class="hero-copy">The npm CLI now skips dependency install scripts by default and begins removing high-risk 2FA-bypass token capabilities, addressing common execution paths used in recent malicious package campaigns.</p>
+          <div class="source-list">
+          <a href="https://socket.dev/blog/npm-12?utm_medium=feed" target="_blank" rel="noreferrer">Socket</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>npm v12 is generally available with security-focused defaults that change how packages are installed. Dependency lifecycle scripts such as preinstall, install, and postinstall no longer run unless explicitly allowed. The change also covers implicit native builds triggered by binding.gyp, a path attackers have reportedly used to execute code without declaring lifecycle scripts. Git and remote URL dependencies are also blocked unless permitted. Separately, npm has begun deprecating sensitive uses of 2FA-bypass granular access tokens.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>Install-time execution in npm is now opt-in by default for dependency lifecycle scripts.</li>
+          <li>Implicit node-gyp rebuilds are included in the default blocking behavior, reducing exposure to packages that execute during installation without obvious script fields.</li>
+          <li>Git dependencies and remote tarball dependencies now require explicit allowance, limiting less-auditable dependency resolution paths.</li>
+          <li>Skipped scripts warn but do not fail installs by default; CI environments may need stricter configuration to prevent silent runtime breakage.</li>
+          <li>Native modules and binary-downloading packages may fail later at runtime if their build or download steps are not approved.</li>
+          <li>npm is also reducing the power of 2FA-bypass publishing tokens, though the source excerpt does not provide full operational details or dates.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>npm, Node.js, JavaScript and TypeScript applications using npm v12, Projects depending on native modules such as sharp, better-sqlite3, bcrypt, or node-sass, Projects using packages that download binaries during install, including browser automation and desktop tooling packages</p>
+          <h2>Security analysis</h2>
+          <p>This is not a newly disclosed compromise, but it is a meaningful supply-chain control change for the npm ecosystem. Recent npm attacks have frequently depended on code execution during package installation, because install hooks run before an application is executed and often inside developer workstations or CI systems with secrets available. Moving those hooks behind explicit approval reduces the default blast radius of malicious dependencies and narrows a known scanning gap around implicit native builds. The operational tradeoff is compatibility: many legitimate packages still use install-time work for compilation or binary retrieval. Teams should treat the npm v12 upgrade as both a security improvement and a dependency governance project, validating which packages truly need execution rights rather than restoring the old behavior globally.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Inventory packages that rely on install scripts, native compilation, or binary downloads before upgrading CI and developer environments to npm v12.</li>
+          <li>Create an allowlist for packages whose install-time behavior is expected and necessary; avoid broad approvals for all scripts.</li>
+          <li>Enable stricter install behavior in CI where appropriate so skipped scripts produce a hard failure instead of a warning.</li>
+          <li>Review use of git, file, link, and remote URL dependencies; replace them with registry-pinned dependencies where possible.</li>
+          <li>Audit npm tokens and migrate away from 2FA-bypass publishing workflows as npm removes those capabilities.</li>
+          <li>Monitor runtime test failures after upgrade, especially for native modules that may install successfully but fail when loaded.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Socket reported that npm v12 is generally available and changes install-script, git dependency, remote dependency, and token behavior.</li>
+          <li>The source references prior malicious npm activity and the &#x27;Phantom Gyp&#x27; technique, but does not provide a complete list of affected malicious packages in this excerpt.</li>
+          <li>Details of the 2FA-bypass token deprecation are incomplete in the provided source text, so defenders should confirm timelines and migration requirements with npm/GitHub documentation.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+

@@ -1,5 +1,57 @@
 {
   "incidents": {
+    "1-20-21-and-compromised-exfiltrates-fake-functionality-injective-keys": {
+      "created_at": "2026-07-21T14:20:07Z",
+      "dek": "A malicious @injectivelabs/sdk-ts 1.20.21 release and related scoped packages reportedly hooked normal wallet key-derivation paths to exfiltrate private keys and mnemonics.",
+      "discovered_on": "2026-07-21",
+      "indicators": [],
+      "last_seen_on": "2026-07-21",
+      "post_path": "research/posts/1-20-21-and-compromised-exfiltrates-fake-functionality-injective-keys.html",
+      "published": true,
+      "slug": "1-20-21-and-compromised-exfiltrates-fake-functionality-injective-keys",
+      "source_ids": [
+        "e4702dec0a496806"
+      ],
+      "source_urls": [
+        "https://socket.dev/blog/compromised-injective-sdk-npm-package?utm_medium=feed"
+      ],
+      "sources": [
+        {
+          "article_text": "Compromised Injective SDK npm Package Exfiltrates Wallet Key... \ud83c\udfa9 You're Invited: Meet the Socket team at Black Hat in Las Vegas, August 3-6 . RSVP \u2192 Blog Security News Research Compromised Injective SDK npm Package Exfiltrates Wallet Keys and Mnemonics Compromised Injective SDK npm version 1.20.21 exfiltrates wallet private keys and mnemonics through fake telemetry functionality. Karlo Zanki July 9, 2026 4 min read Table of Contents Compromised Packages and Versions The Stealer Functionality Impact Defensive Guidance Indicators of Compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Table of Contents Compromised Packages and Versions The Stealer Functionality Impact Defensive Guidance Indicators of Compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install @injectivelabs/sdk-ts@1.20.21 records private keys and mnemonics, enabling wallet compromise via 17 scoped packages pinned to the malicious version. Socket detected a malicious @injectivelabs/sdk-ts@1.20.21 release published to npm with fake telemetry functionality that exfiltrates wallet private keys and mnemonic phrases. The affected package is part of the Injective Labs TypeScript SDK and receives roughly 50,000 weekly downloads, making the incident significant for developers and applications that handle Injective wallet workflows. The malicious functionality was introduced to the project\u2019s official GitHub repository through commits submitted by a GitHub account belonging to a developer with an established history of contributions to the repository. The suspicious activity started on June 8, 2026 20:06 GMT+2 with commits likely used to test the access and rights by creating a branch called test-backdoor-check . The malicious version 1.20.21 was published at 22:59 GMT+2 but the malicious activity appears to be detected and contained relatively fast by the true owner of the developer account. A commit reverting the fix has been submitted to the GitHub repository at 23:18 GMT+2 and a clean version was published at 23:48 GMT+2. However, release artifacts belonging to the compromised version were still present in release pages of the corresponding GitHub repository at the moment of writing. Compromised version of the package was deprecated in npm but still not removed at the moment of writing. The impact extends beyond direct users of @injectivelabs/sdk-ts . The threat actor also published version 1.20.21 across 17 additional @injectivelabs scoped packages that depended on and pinned the malicious SDK version, exposing transitive users who may not have installed @injectivelabs/sdk-ts directly. Socket package view for npm/@injectivelabs/sdk-ts , showing a known-malware alert. Compromised Packages and Versions # Only one version of the @injectivelabs/sdk-ts package contains the malicious functionality, but other packages from the @injectivelabs scope have a version 1.20.21 released and each of them has a dependency to the @injectivelabs/sdk-ts package pinned to the malicious version 1.20.21 @injectivelabs/sdk-ts@1.20.21 Malicious versions of the packages from the scope that directly or transitively depend on the malicious version of the compromised package: @injectivelabs/utils@1.20.21 @injectivelabs/networks@1.20.21 @injectivelabs/ts-types@1.20.21 @injectivelabs/exceptions@1.20.21 @injectivelabs/wallet-base@1.20.21 @injectivelabs/wallet-core@1.20.21 @injectivelabs/wallet-cosmos@1.20.21 @injectivelabs/wallet-private-key@1.20.21 @injectivelabs/wallet-evm@1.20.21 @injectivelabs/wallet-trezor@1.20.21 @injectivelabs/wallet-cosmostation@1.20.21 @injectivelabs/wallet-ledger@1.20.21 @injectivelabs/wallet-wallet-connect@1.20.21 @injectivelabs/wallet-magic@1.20.21 @injectivelabs/wallet-strategy@1.20.21 @injectivelabs/wallet-turnkey@1.20.21 @injectivelabs/wallet-cosmos-strategy@1.20.21 The Stealer Functionality # The malicious functionality is minimalistic and straightforward. The execution is not triggered at install time, but rather during usage of the library functionality. Such approach usually helps keep the malicious functionality under the radar. The malicious code is located in /dist/esm/accounts-jQ1GSgaW.js and /dist/cjs/accounts-Cy0p4lLW.cjs files. The functions fromMnemonic and fromHex used in regular workflows to generate private keys are hooked with a call to the trackKeyDerivation function. var PrivateKey = class PrivateKey { constructor(wallet) { require_defineProperty._defineProperty(this, \"wallet\", void 0); this.wallet = wallet; } /** * Generate new private key with random mnemonic phrase * @returns { privateKey: PrivateKey, mnemonic: string } */ static generate() { const mnemonic = (0, __scure_bip39.generateMnemonic)(__scure_bip39_wordlists_english.wordlist); return { privateKey: PrivateKey.fromMnemonic(mnemonic), mnemonic }; } /** * Create a PrivateKey instance from a given mnemonic phrase and a HD derivation path. * ",
+          "categories": [
+            "research",
+            "security news"
+          ],
+          "feed_url": "https://socket.dev/api/blog/feed.atom",
+          "id": "e4702dec0a496806",
+          "published_at": "2026-07-21T14:20:03Z",
+          "source": "Socket",
+          "summary": "Compromised Injective SDK npm version 1.20.21 exfiltrates wallet private keys and mnemonics through fake telemetry functionality.",
+          "title": "Compromised Injective SDK npm Package Exfiltrates Wallet Keys and Mnemonics",
+          "url": "https://socket.dev/blog/compromised-injective-sdk-npm-package?utm_medium=feed"
+        }
+      ],
+      "title": "Compromised Injective npm SDK release targeted wallet secrets",
+      "tokens": [
+        "1.20.21",
+        "and",
+        "compromised",
+        "exfiltrates",
+        "fake",
+        "functionality.",
+        "injective",
+        "keys",
+        "mnemonics",
+        "npm",
+        "private",
+        "sdk",
+        "telemetry",
+        "through",
+        "version",
+        "wallet"
+      ],
+      "updated_at": "2026-07-21T14:20:07Z"
+    },
     "140-compromised-coordinated-cross-platform-deliver-dependency-during-infostealer": {
       "created_at": "2026-06-23T01:50:44Z",
       "dek": "More than 140 packages in the @mastra npm scope were reportedly republished with a malicious dependency that executed during installation, putting developer workstations and CI runners at risk before application code was ever run.",
@@ -178,6 +230,72 @@
       ],
       "updated_at": "2026-06-23T01:50:44Z"
     },
+    "222-activity-actor-and-archives-commit-farming-dead-drops": {
+      "created_at": "2026-07-21T14:20:07Z",
+      "dek": "A fake DNS/subdomain scanning module exposed a broader GitHub-based operation using commit activity, dead-drop infrastructure, and archive payloads to deliver RATs, stealers, and miners.",
+      "discovered_on": "2026-07-21",
+      "indicators": [],
+      "last_seen_on": "2026-07-21",
+      "post_path": "research/posts/222-activity-actor-and-archives-commit-farming-dead-drops.html",
+      "published": true,
+      "slug": "222-activity-actor-and-archives-commit-farming-dead-drops",
+      "source_ids": [
+        "d566cc7c32d46c34"
+      ],
+      "source_urls": [
+        "https://socket.dev/blog/malicious-go-module-exposes-github-malware-lure-network?utm_medium=feed"
+      ],
+      "sources": [
+        {
+          "article_text": "Malicious Go Module Exposes GitHub Malware Lure Network Span... \ud83c\udfa9 You're Invited: Meet the Socket team at Black Hat in Las Vegas, August 3-6 . RSVP \u2192 Blog Research Security News Malicious Go Module Exposes GitHub Malware Lure Network Spanning 222 Repositories Socket tracks the activity as Operation \u201cMuck and Load\u201d: a threat actor uses commit-farming workflows, public dead drops, and protected archives to stage Windows RAT and infostealer malware. Kirill Boychenko July 8, 2026 15 min read Table of Contents The Malicious Go Module PowerShell Loader and Dead-Drop Resolver AsyncRAT, Quasar, Remcos, and Infostealer Activity GitHub Infrastructure: A 222-Repository Lure Network Malware-Bearing GitHub Repositories Overlap with Previously Reported ischhfd83-Linked Activity Outlook and Recommendations MITRE ATT&CK Indicators of Compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Table of Contents The Malicious Go Module PowerShell Loader and Dead-Drop Resolver AsyncRAT, Quasar, Remcos, and Infostealer Activity GitHub Infrastructure: A 222-Repository Lure Network Malware-Bearing GitHub Repositories Overlap with Previously Reported ischhfd83-Linked Activity Outlook and Recommendations MITRE ATT&CK Indicators of Compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Our investigation began with a malicious Go module, github[.]com/kaleidora/dnsub-scanning-tool , that posed as a DNS/subdomain scanner. The module did more than impersonate a developer utility: it exposed a Windows malware-staging chain that used hidden PowerShell execution, public dead-drop resolution, protected archive delivery, and RAT/infostealer deployment. Pivoting from that module revealed the larger finding: a GitHub-based lure network of 222 confirmed repositories across 190 accounts, built to make malicious or deceptive software projects look active, plausible, and recently maintained. We track this activity as Operation Muck and Load because the name captures both the infrastructure and the behavior. \u201cMuck\u201d comes from observed Muck-themed infrastructure, including muckcoding[.]com and muckdeveloper[.]com . \u201cLoad\u201d describes the campaign\u2019s execution chain: a deceptive Go module loads PowerShell, PowerShell loads encrypted resolver material from public dead drops, and the resolver loads a protected archive that launches the Windows malware. The name is a tracking label, not an attribution boundary. Domains, emails, and repository names can change; the recurring operational pattern is harder to disguise. The GitHub cluster was not limited to lure repositories. Across analyzed threat actor-controlled repositories, we confirmed at least 14 malware files, including loaders and downloaders, Vidar infostealer, spyware/dropper payloads, trojan-downloader activity, and Monero cryptominers related to XMRig/BitMiner. We reported the confirmed GitHub infrastructure to the GitHub security team because the operation uses GitHub-hosted accounts and repositories as its lure and delivery layer. We also reported the malicious Go module to the Go security team because it had been distributed as a Go module while embedding Windows malware-staging logic. The Go security team responded promptly, reviewed the report, and blocked the malicious module from the Go module proxy. Takedowns and ecosystem-level blocks will not eliminate the threat actor\u2019s tradecraft, but they can disrupt the operation and reduce developer exposure. GitHub infrastructure validation for Operation Muck and Load. The funnel shows how the analysis narrowed broad GitHub search results into a conservative high-confidence core: repositories where the threat actor-linked email and synthetic GitHub Actions commit-farming workflow appeared together. The final 222 repositories across 190 accounts are the confirmed lure-network core, not the full universe of suspicious, related, or lure-themed GitHub activity. The Malicious Go Module # Our entry point into Operation Muck and Load was a Go module published as a DNS/subdomain scanning tool: github[.]com/kaleidora/dnsub-scanning-tool . It was an impersonation-style lure built around a legitimate open source dnsub project: the README presented the module as a dnsub scanner and pointed readers toward legitimate subdomain-enumeration functionality, while the published package lived under a different GitHub namespace. The threat actor\u2019s repository used the identity and expectations of a known defensive/reconnaissance tool category as cover for a malware loader. The package metadata shows another immediate anomaly: version sprawl. There are more than 1,200 versions for the module, over 700 of them are malicious. For a small scanner-themed Go module created only months earlier, with its first version published on January 24, 2026, the volume of published versions is highly unusual. The likely cause is not normal release engineerin",
+          "categories": [
+            "research",
+            "security news"
+          ],
+          "feed_url": "https://socket.dev/api/blog/feed.atom",
+          "id": "d566cc7c32d46c34",
+          "published_at": "2026-07-21T14:20:03Z",
+          "source": "Socket",
+          "summary": "Socket tracks the activity as Operation \u201cMuck and Load\u201d: a threat actor uses commit-farming workflows, public dead drops, and protected archives to stage Windows RAT and infostealer malware.",
+          "title": "Malicious Go Module Exposes GitHub Malware Lure Network Spanning 222 Repositories",
+          "url": "https://socket.dev/blog/malicious-go-module-exposes-github-malware-lure-network?utm_medium=feed"
+        }
+      ],
+      "title": "Malicious Go Module Linked to GitHub Lure Network Used for Windows Malware Staging",
+      "tokens": [
+        "222",
+        "activity",
+        "actor",
+        "and",
+        "archives",
+        "commit-farming",
+        "dead",
+        "drops",
+        "exposes",
+        "infostealer",
+        "load",
+        "lure",
+        "malicious",
+        "malware",
+        "malware.",
+        "module",
+        "muck",
+        "network",
+        "operation",
+        "protected",
+        "public",
+        "rat",
+        "repositories",
+        "spanning",
+        "stage",
+        "threat",
+        "tracks",
+        "uses",
+        "windows",
+        "workflows"
+      ],
+      "updated_at": "2026-07-21T14:20:07Z"
+    },
     "286-across-already-and-binding-gyp-blight-but-compromises": {
       "created_at": "2026-06-23T01:50:44Z",
       "dek": "Semgrep reports a second Miasma wave affecting 57 npm packages and 286+ versions, using native build configuration to run malware during install and steal developer and CI credentials.",
@@ -261,6 +379,60 @@
         "worm"
       ],
       "updated_at": "2026-06-23T01:50:44Z"
+    },
+    "2fa-bypass-and-available-beginning-begins-default-deprecating-deprecation": {
+      "created_at": "2026-07-21T14:20:07Z",
+      "dek": "The npm CLI now skips dependency install scripts by default and begins removing high-risk 2FA-bypass token capabilities, addressing common execution paths used in recent malicious package campaigns.",
+      "discovered_on": "2026-07-21",
+      "indicators": [],
+      "last_seen_on": "2026-07-21",
+      "post_path": "research/posts/2fa-bypass-and-available-beginning-begins-default-deprecating-deprecation.html",
+      "published": true,
+      "slug": "2fa-bypass-and-available-beginning-begins-default-deprecating-deprecation",
+      "source_ids": [
+        "f924e38b3bd03043"
+      ],
+      "source_urls": [
+        "https://socket.dev/blog/npm-12?utm_medium=feed"
+      ],
+      "sources": [
+        {
+          "article_text": "npm v12 Ships With Install Scripts Off by Default, Begins De... \ud83c\udfa9 You're Invited: Meet the Socket team at Black Hat in Las Vegas, August 3-6 . RSVP \u2192 Blog Security News npm v12 Ships With Install Scripts Off by Default, Begins Deprecating 2FA-Bypass Tokens npm v12 is generally available, turning install scripts off by default and beginning the deprecation of 2FA-bypass publishing tokens. Sarah Gooding July 8, 2026 4 min read Table of Contents Install-time execution is now opt-in What the new default does at install time Unknown .npmrc keys will warn instead of error 2FA-bypass tokens lose account and publishing powers npm may backport v12 to Node 24 and 26 Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Table of Contents Install-time execution is now opt-in What the new default does at install time Unknown .npmrc keys will warn instead of error 2FA-bypass tokens lose account and publishing powers npm may backport v12 to Node 24 and 26 Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install npm v12 is now generally available and tagged latest . The release turns on the install-time security defaults GitHub announced in June and starts winding down the most sensitive uses of 2FA-bypass granular access tokens (GATs). Both changes landed in today's changelog . The direction will be familiar to anyone who followed the past year of npm supply chain attacks. Almost every worm and credential stealer that hit the registry since late 2025 ran at install time, before any application code loaded. v12 makes that execution path opt-in. Install-time execution is now opt-in # Three npm install behaviors that used to run automatically now require explicit approval: allowScripts defaults to off. preinstall , install , and postinstall scripts from dependencies do not run unless you allow them. This includes the implicit node-gyp rebuild npm triggers for any package that ships a binding.gyp , even when there is no explicit install script. prepare scripts from git, file, and link dependencies are blocked the same way. --allow-git defaults to none . Git dependencies, direct or transitive, no longer resolve unless allowed. This closes a path where a git dependency's .npmrc could override the git executable, which ran code even under --ignore-scripts . We covered this change when it first shipped behind a flag in February . --allow-remote defaults to none . Dependencies from remote URLs, such as https tarballs, no longer resolve unless allowed. Attackers already moved to the implicit node-gyp path. The Miasma \"Phantom Gyp\" waves used a small binding.gyp file to run code during npm install with no lifecycle script in package.json , which let the payload slip past scanners that only watch preinstall and postinstall fields. Our team has tracked this technique across multiple waves . Blocking the implicit rebuild by default removes that gap. npm is not first to turn install scripts off by default. pnpm blocked lifecycle scripts by default in version 10 and added a 24-hour minimum release age in version 11. Today's v12 release brings npm's default more in line with the rest of the ecosystem. What the new default does at install time # The v12 default is a soft skip, not a hard failure. An unapproved script is skipped, npm prints a warning, and the install still succeeds. A separate opt-in setting, strict-allow-scripts , turns that skip into a hard error and is aimed at CI. This question came up repeatedly in the community discussion that npm maintainers opened to help teams prepare for v12. Native modules behave differently. A skipped node-gyp build does not fail the install. It fails later at runtime, when your code tries to load a module that was never compiled. Packages like sharp , better-sqlite3 , bcrypt , and node-sass need approval, as do binary downloaders such as Cypress, Playwright, Puppeteer, and Electron. vlt, the package manager and registry startup from former npm CLI team lead Darcy Clarke, recommends that authors ship platform-specific binaries through optional dependencies instead of install scripts, the model esbuild popularized. Clarke also has an accepted npm RFC that would make it a native package-distribution format. Unknown .npmrc keys will warn instead of error # One v12 breaking change that would have made the upgrade harder has been walked back. The change turned unknown configuration keys in .npmrc into a hard EUNKNOWNCONFIG error. A merged pull request from GitHub's @reggi restores the pre-v12 behavior: unknown file configs warn by default, with an opt-in strict-npmrc setting for anyone who wants the stricter check. Unknown CLI flags still error. It is a small change, but it removes a real barrier for teams carrying legacy or tool-specific keys in their config, which is exactly the kind of friction that stalls a security upgrade. 2FA-bypass tokens lose account and publishing powers # npm is",
+          "categories": [
+            "security news"
+          ],
+          "feed_url": "https://socket.dev/api/blog/feed.atom",
+          "id": "f924e38b3bd03043",
+          "published_at": "2026-07-21T14:20:03Z",
+          "source": "Socket",
+          "summary": "npm v12 is generally available, turning install scripts off by default and beginning the deprecation of 2FA-bypass publishing tokens.",
+          "title": "npm v12 Ships With Install Scripts Off by Default, Begins Deprecating 2FA-Bypass Tokens",
+          "url": "https://socket.dev/blog/npm-12?utm_medium=feed"
+        }
+      ],
+      "title": "npm v12 Reduces Install-Time Supply-Chain Risk by Requiring Script Opt-In",
+      "tokens": [
+        "2fa-bypass",
+        "and",
+        "available",
+        "beginning",
+        "begins",
+        "default",
+        "deprecating",
+        "deprecation",
+        "generally",
+        "install",
+        "npm",
+        "off",
+        "publishing",
+        "scripts",
+        "ships",
+        "tokens",
+        "tokens.",
+        "turning",
+        "v12"
+      ],
+      "updated_at": "2026-07-21T14:20:07Z"
     },
     "accelerating-agents-are-biz-coding-dependencies-faster-for": {
       "created_at": "2026-07-07T15:13:30Z",
@@ -483,6 +655,58 @@
       ],
       "updated_at": "2026-06-27T14:05:34Z"
     },
+    "actions-asyncapi-attackers-branches-compromise-endor-five-how": {
+      "created_at": "2026-07-21T14:20:07Z",
+      "dek": "Five official @asyncapi packages reportedly shipped malicious code after attackers pushed to unprotected release branches, producing npm releases through legitimate GitHub Actions workflows.",
+      "discovered_on": "2026-07-21",
+      "indicators": [],
+      "last_seen_on": "2026-07-21",
+      "post_path": "research/posts/actions-asyncapi-attackers-branches-compromise-endor-five-how.html",
+      "published": true,
+      "slug": "actions-asyncapi-attackers-branches-compromise-endor-five-how",
+      "source_ids": [
+        "697444996ff8b967"
+      ],
+      "source_urls": [
+        "https://www.endorlabs.com/learn/how-unprotected-release-branches-let-attackers-compromise-asyncapi"
+      ],
+      "sources": [
+        {
+          "article_text": "How Unprotected Release Branches Let Attackers Compromise AsyncAPI | Blog | Endor Labs --> Open source can't be patched at Mythos-scale alone (so we're starting today) Learn More Learn Research Company LeanAppSec Pricing Docs Login Book a Demo Book Demo By clicking \u201cAccept\u201d, you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. View our Privacy Policy for more information. Deny Accept Blog How Unprotected Release Branches Let Attackers Compromise AsyncAPI On July 14, 2026, five official @asyncapi npm packages shipped malware through legitimate GitHub Actions publish pipelines. The attack did not steal npm credentials. An operator pushed unsigned commits to unprotected release branches, and CI signed the result with valid SLSA provenance. A single require() can download an 8 MB Miasma worm from IPFS. npm install --ignore-scripts does not help. Written by Kiran Raj Rachana Misal Published on July 14, 2026 Updated on July 14, 2026 Topics No items found. Summarize with AI \u200d At a glance Attack type Supply-chain compromise via unprotected auto-publish branches Malware family Miasma ( miasma-train-p1 in analyzed stage-3 build) Entry vector Require-time loader (not install scripts) Stage-3 delivery IPFS ( sync.js , ~8.25 MB) Attribution Unknown actor; same placeholder git identity across both repos Status at analysis All five versions were live on npm; spec-json-schemas master still poisoned in GitHub npm download exposure ~2.96M downloads/week across four packages (all versions; see Download volume) Executive Summary On July 14, 2026 , five official @asyncapi npm packages were published containing obfuscated remote-code-execution loaders spanning the generator monorepo and the spec-json-schemas repository. Affected packages include @asyncapi/generator (flagship CLI), three generator workspace packages, and @asyncapi/specs, a core schema dependency used by the parser, CLI, and most AsyncAPI tooling. This was not a typosquat, a rogue npm login, or a maintainer account takeover. An attacker with write access to auto-publish release branches pushed unsigned commits 3eab3ec , 5a70f7b through 689f5b9 on asyncapi/spec-json-schemas that triggered AsyncAPI's trusted GitHub Actions OIDC publish pipelines . The resulting tarballs shipped with valid SLSA provenance attestations : proof of where they were built, not that they were safe. Analysis of the generator campaign's IPFS Stage-3 payload (sync.js, CID QmQobZSp1\u2026) reveals a bundled framework internally branded Miasma . The decrypted source contains modules for C2 beaconing, persistence, and (when build-time toggles are enabled) credential harvesting, registry propagation, and AI-tool poisoning. In the analyzed build, propagation, recon, and poisonAI toggles are off (see Stage 3). The specs campaign uses a different IPFS CID (Qmet4fhs\u2026) with the same stage-2 downloader pattern; that payload was not decrypted or analyzed. Key finding: npm install --ignore-scripts does not protect against this malware. The loader runs at require() time , not via lifecycle hooks. Who is at risk: Any developer or CI job that installed the affected versions, directly or transitively. High-risk paths include require('@asyncapi/specs') (parser, CLI, generator trees), require('@asyncapi/generator'), and lockfiles that resolved to 6.11.2 or generator 3.3.1 / 0.7.1 / 1.1.1 on July 14. Maintainer npm accounts (fmvilas, derberg, asyncapi-bot) were unchanged; the abuse was at the GitHub branch/CI layer . Download volume (ecosystem reach): Per the npm registry downloads API, these packages see heavy traffic across all versions (not isolated to the malicious releases). In the week ending 2026-07-11 , @asyncapi/specs alone recorded ~2.74M downloads; the three generator-family packages combined for ~218k more. That makes specs the highest-blast-radius package because it is pulled transitively by @asyncapi/parser, CLI tooling, and generator dependency trees. Affected packages (published 2026-07-14): Package Version Published (UTC) Repository npm latest at analysis time @asyncapi/generator 3.3.1 07:10:48 asyncapi/generator latest at analysis time\">Yes @asyncapi/generator-components 0.7.1 07:10:44 asyncapi/generator latest at analysis time\">Yes @asyncapi/generator-helpers 1.1.1 07:10:42 asyncapi/generator latest at analysis time\">Yes @asyncapi/specs 6.11.2 08:30:09 asyncapi/spec-json-schemas latest at analysis time\">Yes @asyncapi/specs 6.11.2-alpha.1 08:06:20 asyncapi/spec-json-schemas latest at analysis time\"> No (pre-release only) Download volume (npm registry) Counts from npm downloads API on 2026-07-14 . Figures are all versions of each package in the period, not downloads of the malicious releases alone. They indicate ecosystem reach and transitive exposure, not confirmed compromise count. Package Last week (2026-07-05 \u2013 2026-07-11) Last 30 days (2026-06-12 \u2013 2026-07-11) @asyncapi/specs 2,741,713 10,909,147 @asyncapi/genera",
+          "categories": [],
+          "feed_url": "https://www.endorlabs.com/blog/rss.xml",
+          "id": "697444996ff8b967",
+          "published_at": "2026-07-14T15:42:44Z",
+          "source": "Endor Labs",
+          "summary": "Five official @asyncapi npm packages shipped malware through legitimate GitHub Actions publish pipelines",
+          "title": "How Unprotected Release Branches Let Attackers Compromise AsyncAPI | Blog | Endor Labs",
+          "url": "https://www.endorlabs.com/learn/how-unprotected-release-branches-let-attackers-compromise-asyncapi"
+        }
+      ],
+      "title": "AsyncAPI npm Packages Compromised Through Release Branch and CI Abuse",
+      "tokens": [
+        "actions",
+        "asyncapi",
+        "attackers",
+        "branches",
+        "compromise",
+        "endor",
+        "five",
+        "how",
+        "legitimate",
+        "let",
+        "malware",
+        "npm",
+        "official",
+        "pipelines",
+        "publish",
+        "release",
+        "shipped",
+        "through",
+        "unprotected"
+      ],
+      "updated_at": "2026-07-21T14:20:07Z"
+    },
     "actions-attacks-blocks-checkout-checkouts-default-help-now": {
       "created_at": "2026-06-23T01:50:44Z",
       "dek": "The actions/checkout v7 change targets a long-running CI/CD supply-chain failure mode: workflows that run with repository privileges while checking out untrusted fork code.",
@@ -587,6 +811,109 @@
       ],
       "updated_at": "2026-06-23T01:50:44Z"
     },
+    "added-and-binaries-compromised-hidden-hook-jscrambler-linux": {
+      "created_at": "2026-07-21T14:20:07Z",
+      "dek": "Multiple malicious jscrambler versions delivered bundled binaries for Windows, macOS, and Linux, first through npm install hooks and later through package import/CLI execution.",
+      "discovered_on": "2026-07-21",
+      "indicators": [],
+      "last_seen_on": "2026-07-21",
+      "post_path": "research/posts/added-and-binaries-compromised-hidden-hook-jscrambler-linux.html",
+      "published": true,
+      "slug": "added-and-binaries-compromised-hidden-hook-jscrambler-linux",
+      "source_ids": [
+        "680fb78fd4fd1747"
+      ],
+      "source_urls": [
+        "https://socket.dev/blog/jscrambler-supply-chain-attack?utm_medium=feed"
+      ],
+      "sources": [
+        {
+          "article_text": "jscrambler npm Package Compromised in Supply Chain Attack - ... \ud83c\udfa9 You're Invited: Meet the Socket team at Black Hat in Las Vegas, August 3-6 . RSVP \u2192 Blog Research Security News jscrambler npm Package Compromised in Supply Chain Attack A compromised jscrambler npm release added a malicious preinstall hook that runs hidden native binaries on Linux, macOS, and Windows. Socket Research Team July 11, 2026 7 min read Table of Contents Impact Recommendation Update: the campaign expanded and moved off the install hook (18:34:32 UTC) Technical Analysis Capabilities and Target Surface String Obfuscation: Per-String ChaCha20-Poly1305 Indicators of Compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Table of Contents Impact Recommendation Update: the campaign expanded and moved off the install hook (18:34:32 UTC) Technical Analysis Capabilities and Target Surface String Obfuscation: Per-String ChaCha20-Poly1305 Indicators of Compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install A compromised release of the popular jscrambler npm package introduced hidden native binaries that execute automatically during npm install , exposing users to a supply chain attack before any application code runs. The malicious 8.14.0 release, published on July 11 , adds an undocumented preinstall hook that invokes dist/setup.js . It also introduces new files, including dist/setup.js and dist/intro.js , along with platform-specific binaries for Linux, macOS, and Windows embedded in an obfuscated CSI container. None of these files or the install hook exist in the previous release, 8.13.0 . Socket detected the compromised package 6 minutes after publication. The package selects and executes one of three bundled binaries depending on whether it is installed on Windows, macOS, or Linux. At a glance Compromised package: jscrambler@8.14.0 Published: July 11, 2026 Weekly downloads: ~15,800 Time to detection: 6 minutes Key findings Undocumented preinstall hook executes code automatically during npm install . Hidden native binaries added for Linux, macOS, and Windows. Payloads are embedded in an obfuscated CSI container. Install-time components ( dist/setup.js and dist/intro.js ) are entirely new in version 8.14.0. These behaviors are absent from the previous release, 8.13.0 . Impact # The compromised jscrambler package is used to integrate Jscrambler\u2019s JavaScript code-protection tooling into application build pipelines. Developers commonly install it as a development dependency or invoke it through CI systems to process production builds. Because the malicious code runs through a preinstall hook, simply installing jscrambler@8.14.0 is enough to trigger the bundled platform-specific binary. Users do not need to import the package or run the Jscrambler CLI. This creates potential exposure across developer workstations, automated build systems, and CI environments. Depending on where the package was installed, the malicious binary may have executed with access to source code, environment variables, build credentials, deployment tokens, and other secrets available to the npm process. The package receives approximately 15,800 weekly downloads, although the number of users who installed the compromised version is not yet known. Socket detected and flagged version 8.14.0 six minutes after it was published. Recommendation # Users should remove jscrambler@8.14.0 , rotate any credentials accessible to affected development or CI environments, review installation logs for execution of dist/setup.js , and revert to a verified clean release. Pin to version 8.13.0 or another verified clean release until the maintainers publish a remediation. Socket has reported the compromised release to the Jscrambler maintainers, and a public tracking issue is available on GitHub: https://github.com/jscrambler/jscrambler/issues/322 Update: the campaign expanded and moved off the install hook (18:34:32 UTC) # Since our initial report, the same threat actor published four more malicious releases of jscrambler \u2014 8.16.0, 8.17.0, 8.18.0, and 8.20.0 \u2014 over roughly three hours, interleaved with remediation attempts. The payload did not change: the bundled intro.js blob and the three platform binaries it drops are byte-for-byte identical across every malicious release. What changed is the delivery. Versions 8.14.0, 8.16.0, and 8.17.0 ran the dropper from a preinstall hook (\"preinstall\": \"node dist/setup.js\"). Starting with 8.18.0 the install hook is gone entirely \u2014 the identical dropper is instead injected as a self-executing function at the top of dist/index.js and dist/bin/jscrambler.js , so it fires when the package is imported or its CLI is run rather than at install time. This is a deliberate evasion: it defeats scanners that only inspect preinstall/postinstall scripts and survives npm install --ignore-scripts. Versions 8.18.0 and 8.20.0 also de",
+          "categories": [
+            "research",
+            "security news"
+          ],
+          "feed_url": "https://socket.dev/api/blog/feed.atom",
+          "id": "680fb78fd4fd1747",
+          "published_at": "2026-07-21T14:20:03Z",
+          "source": "Socket",
+          "summary": "A compromised jscrambler npm release added a malicious preinstall hook that runs hidden native binaries on Linux, macOS, and Windows.",
+          "title": "jscrambler npm Package Compromised in Supply Chain Attack",
+          "url": "https://socket.dev/blog/jscrambler-supply-chain-attack?utm_medium=feed"
+        }
+      ],
+      "title": "Compromised jscrambler npm releases executed hidden native payloads across developer and CI environments",
+      "tokens": [
+        "added",
+        "and",
+        "binaries",
+        "compromised",
+        "hidden",
+        "hook",
+        "jscrambler",
+        "linux",
+        "macos",
+        "malicious",
+        "native",
+        "npm",
+        "preinstall",
+        "release",
+        "runs",
+        "windows."
+      ],
+      "updated_at": "2026-07-21T14:20:07Z"
+    },
+    "agents-and-attackers-bitwarden-cli-coding-compromised-developer": {
+      "created_at": "2026-07-21T14:20:07Z",
+      "dek": "A compromised Bitwarden CLI npm package briefly exposed users of @bitwarden/cli 2026.4.0 to a payload that reportedly harvested CI credentials and attempted to propagate through npm projects.",
+      "discovered_on": "2026-07-21",
+      "indicators": [],
+      "last_seen_on": "2026-07-21",
+      "post_path": "research/posts/agents-and-attackers-bitwarden-cli-coding-compromised-developer.html",
+      "published": true,
+      "slug": "agents-and-attackers-bitwarden-cli-coding-compromised-developer",
+      "source_ids": [
+        "2cf72a4402ef6310"
+      ],
+      "source_urls": [
+        "https://www.endorlabs.com/learn/shai-hulud-the-third-coming----inside-the-bitwarden-cli-2026-4-0-supply-chain-attack"
+      ],
+      "sources": [
+        {
+          "article_text": "The Bitwarden CLI Supply Chain Attack: What Happened and What to Do | Blog | Endor Labs --> Open source can't be patched at Mythos-scale alone (so we're starting today) Learn More Learn Research Company LeanAppSec Pricing Docs Login Book a Demo Book Demo By clicking \u201cAccept\u201d, you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. View our Privacy Policy for more information. Deny Accept Blog Inside the Bitwarden Software Supply Chain Attack (Shai-Hulud) How a software supply chain attack compromised the Bitwarden CLI npm package, using AI coding agents to spread a worm and harvest developer secrets. Written by Kiran Raj Published on April 23, 2026 Updated on July 9, 2026 Topics Malware Security Summarize with AI Summary Bitwarden\u2019s command-line interface (CLI) has been compromised in a software supply chain attack. The malicious version 2026.4.0 of the npm package @bitwarden/cli was available on npm for roughly 1.5 hours, between 5:57 PM and 7:30 PM (ET) on April 22, 2026. Bitwarden is an open-source password manager used by millions of individuals and organizations to store, generate, and share credentials across devices. Unlike many of its competitors, its codebase is publicly auditable, and it offers a free tier alongside paid personal, family, and enterprise plans. Alongside user-facing clients, Bitwarden publishes a command-line interface (CLI), distributed via npm as @bitwarden/cli. The CLI is what turns Bitwarden from a consumer password manager into a piece of developer infrastructure: teams wire it into CI/CD pipelines to inject secrets at build or deploy time, use it to pull API keys into scripts, and integrate it with automation frameworks that need programmatic access to a shared vault. That reach is precisely what makes it a high-value target, a compromised CLI doesn't just expose one user's passwords, it potentially sits inside the build systems of every team that depends on it. The malicious payload collects CI secrets such as SSH keys or API tokens, and also replicates in victims\u2019 npm projects. Comparable to previous Shai-Hulud campaigns, secrets are exfiltrated to public GitHub repositories created in victims\u2019 namespaces. According to the official announcement from Bitwarden, the compromise is connected to the recent breach of Checkmarx\u2019 GitHub Actions, one of which (checkmarx/ast-github-action) is used in Bitwarden\u2019s GitHub repository. This is a developing story. We'll update this post as new information becomes available. \u200d Attacks like this are a reminder that open source software is assembled from many software components, and any one of them can be a delivery vehicle for malicious code. Managing that exposure means knowing which open source components you actually run, where they enter your source code and build systems during software development, and which ones can reach sensitive paths. Software composition analysis (SCA) and malicious package detection are how teams get that visibility before a compromised release gains access to their secrets. Affected packages Package Version(s) Publication date Monthly downloads (30d, package name) @bitwarden/cli 2026.4.0 2026-04-22 297,738 (all versions) Last known-clean before compromise: @bitwarden/cli@2026.3.0 , re-released as @bitwarden/cli@2026.4.1 on Apr 23, 2026, at 4:45 PM GMT+2. Technical analysis Infection chain A recursive diff between @bitwarden/cli@2026.4.0 and 2026.3.0 shows the changes are limited but significant. The newer version introduces two files bwsetup.js and bw1.js, absent in the prior release. It also modifies package.json to add a preinstall script (node bwsetup.js) and redirects the bw entry point from build/bw.js to bwsetup.js. While build/bw.js appears in the diff, both versions are nearly identical in size (3.4 MB), indicating no meaningful change to the core CLI bundle. The primary difference is the added installer hook and execution redirection, consistent with a supply-chain insertion rather than a standard release update. The shipped package.json fully controls entry. preinstall runs before install finishes, and bin maps the bw CLI name to bwsetup.js , not build/bw.js . Install-time and default bw entry both go through the same bootstrap file. bwsetup.js is plain Node ESM. If execFileSync(\"bun\", [\"--version\"], { stdio: \"ignore\" }) succeeds (lines 58 \u2013 61 ), the script returns immediately, so an existing Bun install may mask the stager unless bw1.js is reached by another path (the package still ships the large bw1.js beside it). Otherwise it builds a GitHub release URL for Bun 1.3.13 , extracts the binary under the package directory, and calls execFileSync to run bw1.js with inherited stdio. Plaintext stager that pins Bun 1.3.13, builds the official GitHub release ZIP URL, extracts bun/bun.exe, then execFileSync launches the obfuscated bw1.js payload with inherited stdio, this is the bridge from npm install / bw to the 10 MB bundle.",
+          "categories": [],
+          "feed_url": "https://www.endorlabs.com/blog/rss.xml",
+          "id": "2cf72a4402ef6310",
+          "published_at": "2026-07-10T23:11:51Z",
+          "source": "Endor Labs",
+          "summary": "How attackers compromised Bitwarden's CLI and enlisted the help of AI coding agents to spread a worm and harvest developer secrets.",
+          "title": "The Bitwarden CLI Supply Chain Attack: What Happened and What to Do | Blog | Endor Labs",
+          "url": "https://www.endorlabs.com/learn/shai-hulud-the-third-coming----inside-the-bitwarden-cli-2026-4-0-supply-chain-attack"
+        }
+      ],
+      "title": "Malicious @bitwarden/cli release targeted developer secrets through npm install hooks",
+      "tokens": [
+        "agents",
+        "and",
+        "attackers",
+        "bitwarden",
+        "cli",
+        "coding",
+        "compromised",
+        "developer",
+        "endor",
+        "enlisted",
+        "happened",
+        "harvest",
+        "help",
+        "how",
+        "secrets.",
+        "spread",
+        "what",
+        "worm"
+      ],
+      "updated_at": "2026-07-21T14:20:07Z"
+    },
     "agents-are-before-can-code-creating-defend-didn": {
       "created_at": "2026-06-24T15:06:59Z",
       "dek": "A Socket essay highlights a growing AppSec blind spot: AI agents can fetch and execute open source packages in short-lived environments that may bypass repository review, CI scanning, and registry controls.",
@@ -642,6 +969,123 @@
         "yours"
       ],
       "updated_at": "2026-06-24T15:06:59Z"
+    },
+    "agents-endor-hallucinate-malicious-slopsquatting-when": {
+      "created_at": "2026-07-21T14:20:07Z",
+      "dek": "AI coding agents can suggest plausible but nonexistent packages; attackers can register those names in public registries and use normal install paths to deliver malware.",
+      "discovered_on": "2026-07-21",
+      "indicators": [],
+      "last_seen_on": "2026-07-21",
+      "post_path": "research/posts/agents-endor-hallucinate-malicious-slopsquatting-when.html",
+      "published": true,
+      "slug": "agents-endor-hallucinate-malicious-slopsquatting-when",
+      "source_ids": [
+        "657470063f141559"
+      ],
+      "source_urls": [
+        "https://www.endorlabs.com/learn/slopsquatting-when-ai-agents-hallucinate-malicious-packages"
+      ],
+      "sources": [
+        {
+          "article_text": "Slopsquatting: When AI Agents Hallucinate Malicious Packages | Blog | Endor Labs --> Open source can't be patched at Mythos-scale alone (so we're starting today) Learn More Learn Research Company LeanAppSec Pricing Docs Login Book a Demo Book Demo By clicking \u201cAccept\u201d, you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. View our Privacy Policy for more information. Deny Accept Blog Slopsquatting: When AI Agents Hallucinate Malicious Packages Slopsquatting: When AI Agents Hallucinate Malicious Packages Written by Andrew Stiefel Published on July 13, 2026 Updated on July 13, 2026 Topics Open Source Summarize with AI AI coding agents can invent package names that do not exist. Attackers register those names and fill them with malware. Here's how AI hallucinations are compromising your codebase, and what to do about it. What is slopsquatting? Slopsquatting is a software supply chain attack that turns AI hallucinations into malware delivery. An AI coding agent suggests a package that does not exist, an attacker registers that name and loads it with malicious code, and the agent can install it before a developer even realizes it. The name borrows from typosquatting, but the mechanism is different. Typosquatting preys on human error: a developer fat-fingers lodahs instead of lodash and lands on a malicious lookalike. Slopsquatting preys on a model error. The hallucinated name is not a misspelling of a real package. It is a plausible-sounding invention the LLM produced from scratch. That distinction matters for defense, because spell-check and name-similarity heuristics do not catch a package name that no human mistyped. The targets are developers who lean on AI coding agents like Cursor, GitHub Copilot, and Claude Code to write and wire up code. For the wider category of AI-introduced risk, see our hub on the most common security vulnerabilities in AI-generated code . Why AI coding assistants hallucinate package names Large language models predict plausible text, not verified facts. When a model suggests a dependency, it generates a name that fits the statistical shape of real package names, with no check that the package exists. Three patterns drive the hallucinations. First, models blend fragments of real packages into new, nonexistent ones. Second, they confuse names across ecosystems, suggesting an npm-style name for a Python project or the reverse. Third, they fill gaps with confidence, naming a library for a niche task even when no such library exists. Research on package hallucination has measured how often this happens, and the findings are the reason slopsquatting works. Studies have found that models invent nonexistent package names in a meaningful share of coding prompts, that the same hallucinated names recur across repeated prompts, and that the invented names look plausible enough to pass a quick glance. The behavior persists across model families and newer releases. The recurrence is the dangerous part: a name the model invents once, it tends to invent again, which gives an attacker a stable target to pre-register. How attackers weaponize hallucinated dependencies The attack chain is short. Attackers run coding prompts at scale or watch AI outputs to catalog the package names models hallucinate most. They register those names on public registries like npm and PyPI and attach post-install scripts that read environment variables and exfiltrate tokens, cloud keys, and Git credentials the moment the package installs. Once a developer adds the package, it lands in the lockfile and persists, shipping through CI/CD to every environment that builds the project. Vibe coding and agentic IDEs sharpen the risk. As developers let AI write code with little review, and as agentic tools auto-install dependencies without a human in the loop, the gap between a hallucinated suggestion and a running install closes. Tool-use and MCP integrations let agents resolve and install packages on their own, and chained agent commands can pull in a malicious dependency before anyone reads the name. The same automation that speeds development removes the review step that would have caught the fake. A worked example Here is how a slopsquatting attack would unfold in practice. A developer asks an AI assistant for a library to parse a niche file format. The assistant suggests fastparse-xyz, a name that sounds right but points to nothing in the registry. An attacker, having seen this same hallucination recur across prompts, has already registered fastparse-xyz and added a post-install script. The developer runs the install. The script reads environment variables and exfiltrates the project's cloud and Git credentials. The dependency settles into the lockfile and rides CI/CD into production, reaching every environment that builds the project. No step in that chain requires the developer to make a mistake. They asked a reasonable question and trusted a c",
+          "categories": [],
+          "feed_url": "https://www.endorlabs.com/blog/rss.xml",
+          "id": "657470063f141559",
+          "published_at": "2026-07-13T22:59:32Z",
+          "source": "Endor Labs",
+          "summary": "Slopsquatting: When AI Agents Hallucinate Malicious Packages",
+          "title": "Slopsquatting: When AI Agents Hallucinate Malicious Packages | Blog | Endor Labs",
+          "url": "https://www.endorlabs.com/learn/slopsquatting-when-ai-agents-hallucinate-malicious-packages"
+        }
+      ],
+      "title": "Slopsquatting turns AI package hallucinations into dependency risk",
+      "tokens": [
+        "agents",
+        "endor",
+        "hallucinate",
+        "malicious",
+        "slopsquatting",
+        "when"
+      ],
+      "updated_at": "2026-07-21T14:20:07Z"
+    },
+    "ai-generated-and-endor-malware": {
+      "created_at": "2026-07-21T14:20:07Z",
+      "dek": "Endor Labs reports a sharp rise in malware advisories and continued abuse of package ecosystems, with npm account takeovers and malicious package generation highlighted as practical supply-chain risks.",
+      "discovered_on": "2026-07-21",
+      "indicators": [],
+      "last_seen_on": "2026-07-21",
+      "post_path": "research/posts/ai-generated-and-endor-malware.html",
+      "published": true,
+      "slug": "ai-generated-and-endor-malware",
+      "source_ids": [
+        "ef533b4d96e41a91"
+      ],
+      "source_urls": [
+        "https://www.endorlabs.com/learn/ai-generated-malware-and-the-software-supply-chain"
+      ],
+      "sources": [
+        {
+          "article_text": "AI-Generated Malware and the Software Supply Chain | Blog | Endor Labs --> Open source can't be patched at Mythos-scale alone (so we're starting today) Learn More Learn Research Company LeanAppSec Pricing Docs Login Book a Demo Book Demo By clicking \u201cAccept\u201d, you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. View our Privacy Policy for more information. Deny Accept Blog AI-Generated Malware and the Software Supply Chain AI-Generated Malware and the Software Supply Chain Written by Andrew Stiefel Published on July 13, 2026 Updated on July 13, 2026 Topics Open Source Summarize with AI Red hat, black hat, white hat, we all have access to the same AI coding agents generating millions of lines of code a day. The result is a real but misunderstood threat: malware produced or adapted with generative AI. This is what is real, what is hype, and how AppSec teams should prepare. What \"AI-generated malware\" means AI-generated malware is malicious code attackers produce or adapt with the help of generative AI. This form of AI malware can range from writing payloads, to mutating variants that slip past signature detection. AI is not inventing new categories of attack, but it is lowering the cost and raising the speed of attacks that already exist. Attackers who couldn't write malware five years ago, can write it now. AI-generated malware is a force multiplier. Where AI is already changing software supply chain attacks Strip away the speculation and a concrete picture remains. AI is already reshaping supply chain attacks in four ways. Capability uplift and commoditization. Malicious LLM tools like WormGPT and FraudGPT package attack generation for people who lack the skill to build it themselves. The barrier to producing working AI-powered malware has dropped. Malicious package generation at scale. AI helps attackers produce malicious packages and the plausible names to host them faster than manual effort allows, including the hallucinated names behind slopsquatting . When generation is cheap, attackers flood registries with more attempts. Faster variant generation. AI-assisted polymorphism lets each build of a payload differ from the last while keeping its function, which defeats detection that matches known signatures. Speed is the weapon here, not novelty. Social engineering uplift. LLM-crafted phishing and context-aware lures help attackers win the initial access that leads to maintainer account takeover and stolen pipeline credentials, two of the most damaging routes into the supply chain. None of these require a breakthrough. They take techniques security teams already know and run them cheaper and faster. What we've already observed Endor Labs has observed a 14x increase in malware advisories over the past two years as attackers have adopted AI coding agents. That includes 92% of all account takeovers on npm, where an attacker compromises a legitimate maintainer's account and uses it to distribute malware through trusted packages. While it can be difficult to say definitely that an attacker used an AI coding agent to author an attack, we have also observed attackers targeting AI coding agents in software supply chain attacks. Or in another instance, open-sourcing the Shai-hulud worm they wrote to help other attackers use it. Much of the fear and concern around the next generation of frontier AI models like Mythos and GPT-5.5-Cyber are around the ability of attackers to leverage them in attacks. As a result, we've seen governments restrict the availability of these tools. How defenders prepare now Most coverage of AI-generated malware frames defense through network and endpoint security. Those are part of the solution. For the software supply chain, the answer lives as a shared responsibility between application security and platform engineering teams. Detect malicious packages before the build. A malicious package is malicious regardless of whether a human or an AI wrote it. AI malware detection that catches compromised packages as they are uploaded andbefore they enter the pipeline neutralizes the generation-at-scale advantage, because volume does not help an attacker if the package never installs. Block malicious packages before they land on developer machines or CI pipelines. Controls like a package firewall , sometimes referred to as dependency firewalls, enforce blocking across developer workstations, artifact management systems, and CI/CD pipelines. They are usually combined with real-time detection and also help enforce controls like cool-down periods. Harden your CI/CD pipelines. Watch for the behaviors AI-generated malware needs, such as post-install scripts reaching for credentials, rather than the exact code that performs them. Govern dependencies and access. Pin versions, enforce least privilege across the SDLC, and keep an incident response plan ready, because a single compromised dependency reaches every project that",
+          "categories": [],
+          "feed_url": "https://www.endorlabs.com/blog/rss.xml",
+          "id": "ef533b4d96e41a91",
+          "published_at": "2026-07-13T22:59:32Z",
+          "source": "Endor Labs",
+          "summary": "AI-Generated Malware and the Software Supply Chain",
+          "title": "AI-Generated Malware and the Software Supply Chain | Blog | Endor Labs",
+          "url": "https://www.endorlabs.com/learn/ai-generated-malware-and-the-software-supply-chain"
+        }
+      ],
+      "title": "AI-assisted malware is increasing dependency risk across package registries",
+      "tokens": [
+        "ai-generated",
+        "and",
+        "endor",
+        "malware"
+      ],
+      "updated_at": "2026-07-21T14:20:07Z"
+    },
+    "ai-generated-code-dependencies-endor-imports-securing-vulnerable-when": {
+      "created_at": "2026-07-21T14:20:07Z",
+      "dek": "Endor Labs reports that AI-generated code can add more\u2014and older\u2014open source dependencies, creating exposure to known CVEs and package-name abuse such as slopsquatting.",
+      "discovered_on": "2026-07-21",
+      "indicators": [],
+      "last_seen_on": "2026-07-21",
+      "post_path": "research/posts/ai-generated-code-dependencies-endor-imports-securing-vulnerable-when.html",
+      "published": true,
+      "slug": "ai-generated-code-dependencies-endor-imports-securing-vulnerable-when",
+      "source_ids": [
+        "9fb31552cb7d8da0"
+      ],
+      "source_urls": [
+        "https://www.endorlabs.com/learn/when-ai-imports-vulnerable-dependencies-securing-ai-generated-code"
+      ],
+      "sources": [
+        {
+          "article_text": "When AI Imports Vulnerable Dependencies: Securing AI-Generated Code | Blog | Endor Labs --> Open source can't be patched at Mythos-scale alone (so we're starting today) Learn More Learn Research Company LeanAppSec Pricing Docs Login Book a Demo Book Demo By clicking \u201cAccept\u201d, you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. View our Privacy Policy for more information. Deny Accept Blog When AI Imports Vulnerable Dependencies: Securing AI-Generated Code When AI Imports Vulnerable Dependencies: Securing AI-Generated Code Written by Andrew Stiefel Published on July 13, 2026 Updated on July 13, 2026 Topics Open Source Summarize with AI AI coding agents write a growing share of production code, and every suggestion can pull in an open source dependency without human oversight. Securing AI-generated code means treating both the generated code and the AI-suggested packages as untrusted input. Why AI-generated code is a software supply chain problem Most teams scan the code they write. But the adoption of AI coding agentsmoves the risk to the code AI imported. When an agent suggests a few lines, it often suggests the libraries to support them. Those libraries come with their own transitive dependencies that no one selected or reviewed. The attack surface is large because the modern application is mostly other people's code. Open source makes up the bulk of a typical codebase, and AI amplifies that exposure by reaching for dependencies developers never chose. One analysis found AI-generated code pulls in close to 40% more dependencies than human-written code. More dependencies mean more attack surface, and most of it sits in the transitive layer where teams have the least visibility. How AI coding agents pull in risky dependencies AI introduces dependency risk in ways traditional AppSec misses. Two patterns account for most of this. Outdated and vulnerable packages An AI model learns from training data that lags behind current releases. So an assistant recommends the version it saw most during training, which is often months or years old, and sometimes carries known CVEs. In our research, Endor Labs found that 49% of dependency versions imported by AI coding agents had known vulnerabilities.The vulnerable package frequently arrives as a transitive dependency, buried beneath the one the developer asked for, which means it never crosses the developer's screen for review. Hallucinated and malicious packages Models also invent package names that do not exist. Attackers register those plausible-sounding names and load them with malware, an attack called slopsquatting . The same blind spot lets an assistant recommend a package that does exist but is malicious, such as a typosquat or a compromised library. In both cases the developer trusts a confident suggestion and installs code an attacker controls. Reviewing the dependencies AI introduces There is a behavioral gap behind the technical one. Developers review the AI-generated logic line by line, then accept the dependencies without the same scrutiny, assuming the model chose secure packages. That assumption is the opening. AI optimizes for code that runs, not for packages that are safe, current, and real. A real review of an AI-introduced dependency confirms the package exists and is the intended one, checks its provenance (age, download counts, maintainer history), scans both direct and transitive dependencies for vulnerabilities and malware, and verifies the license. No developer can do that by hand across hundreds of transitive packages on every suggestion, which is why the check has to run as automation inside the IDE and the pipeline. Scanning after the fact is the common failure. By the time a CI gate runs, the build and the lockfile already include the dependency. Moving the check left, into the IDE and pre-commit, catches the risky package at the moment the AI suggests it, before it becomes load-bearing. How reachability changes the picture Finding vulnerable dependencies is the easy part. The hard part is the flood. A scan of a real codebase returns thousands of findings, and most of them are not exploitable, because the application never calls the vulnerable function. Teams that chase every CVE burn out, and the real risks hide in the noise. Function-level reachability analysis fixes the signal. It maps the call graph to determine whether your application actually executes the vulnerable code, which cuts the actionable list by up to 95%. This is the difference between probabilistic detection, which pattern-matches every CVE in the tree, and deterministic, evidence-based security, which answers a concrete question: does this code path run? For AI-generated dependencies, that question is the whole game. AI inflates the dependency count and the alert volume along with it. Function-level reachability analysis works across your direct and transitive dependencies andtells you which",
+          "categories": [],
+          "feed_url": "https://www.endorlabs.com/blog/rss.xml",
+          "id": "9fb31552cb7d8da0",
+          "published_at": "2026-07-13T22:59:32Z",
+          "source": "Endor Labs",
+          "summary": "When AI Imports Vulnerable Dependencies: Securing AI-Generated Code",
+          "title": "When AI Imports Vulnerable Dependencies: Securing AI-Generated Code | Blog | Endor Labs",
+          "url": "https://www.endorlabs.com/learn/when-ai-imports-vulnerable-dependencies-securing-ai-generated-code"
+        }
+      ],
+      "title": "AI coding agents expand dependency risk through vulnerable and invented packages",
+      "tokens": [
+        "ai-generated",
+        "code",
+        "dependencies",
+        "endor",
+        "imports",
+        "securing",
+        "vulnerable",
+        "when"
+      ],
+      "updated_at": "2026-07-21T14:20:07Z"
     },
     "akrites-alone-and-can-carries-endor-enterprises-fall": {
       "created_at": "2026-06-27T14:05:34Z",
@@ -702,6 +1146,186 @@
         "zero-day"
       ],
       "updated_at": "2026-06-27T14:05:34Z"
+    },
+    "and-api-apps-braintree-card-cards-credentials-credit": {
+      "created_at": "2026-07-21T14:20:07Z",
+      "dek": "A malicious NuGet package named Braintree.Net impersonated the official Braintree .NET SDK and included code to skim card data and steal API credentials from applications that installed it.",
+      "discovered_on": "2026-07-21",
+      "indicators": [],
+      "last_seen_on": "2026-07-21",
+      "post_path": "research/posts/and-api-apps-braintree-card-cards-credentials-credit.html",
+      "published": true,
+      "slug": "and-api-apps-braintree-card-cards-credentials-credit",
+      "source_ids": [
+        "4e92ad0b96533fd5"
+      ],
+      "source_urls": [
+        "https://socket.dev/blog/braintree-nuget-typosquat-skims-credit-cards?utm_medium=feed"
+      ],
+      "sources": [
+        {
+          "article_text": "Fake Braintree NuGet Package Skims Credit Cards and Harvests... \ud83c\udfa9 You're Invited: Meet the Socket team at Black Hat in Las Vegas, August 3-6 . RSVP \u2192 Blog Research Security News Fake Braintree NuGet Package Skims Credit Cards and Harvests Merchant Credentials A malicious .NET package is typosquatting the Braintree SDK to steal live payment card data, merchant API keys, and host secrets from production apps. Joseph Edwards July 9, 2026 9 min read Table of Contents Affected Packages Comparison to the Legitimate Package Execution Flow Payment Card Interception Merchant Credential Theft Environment Variable and Token Harvesting Production-Only Gating C2 Endpoint Obfuscation Campaign Attributes Recommended Actions Indicators of Compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Table of Contents Affected Packages Comparison to the Legitimate Package Execution Flow Payment Card Interception Merchant Credential Theft Environment Variable and Token Harvesting Production-Only Gating C2 Endpoint Obfuscation Campaign Attributes Recommended Actions Indicators of Compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Socket\u2019s AI scanner flagged a suspicious NuGet package masquerading as the official Braintree payment gateway client, with the first malicious version published on July 3, 2026. It was detected by Socket as potential malware 10 minutes after publication. Follow-on analysis by the Socket Threat Research team revealed a multi-stage .NET implant that intercepts live payment card data, exfiltrates Braintree merchant API keys and harvests host environment secrets upon assembly load. The package Braintree.Net copies the surface API of PayPal Braintree's legitimate Braintree SDK while routing stolen data to attacker-controlled infrastructure at api.348672-shakepay[.]com . The official Braintree .NET library is published on NuGet as Braintree (currently in the 5.x line, maintained by PayPal/Braintree). The malicious package uses a common name variation \u2014 Braintree.Net \u2014 a mismatched version scheme ( 3.36.1 vs official 5.x ), and metadata that points at the real braintree/braintree_dotnet GitHub repository. Developers searching for \"Braintree .NET\" or copy-pasting a slightly wrong package name are the intended victims. We have reported this package to the NuGet security team and requested the removal of the package and the suspension of the publisher\u2019s account. Affected Packages # At the time of analysis, the following NuGet package versions contain confirmed malicious code: pkg:nuget/braintree.net@3.35.8 pkg:nuget/braintree.net@3.35.9 pkg:nuget/braintree.net@3.36.0 pkg:nuget/braintree.net@3.36.1 pkg:nuget/dependencyinjector.core@1.0.0 pkg:nuget/dependencyinjector.core@1.3.0 pkg:nuget/dependencyinjector.core@1.4.0 pkg:nuget/dependencyinjector.core@1.4.1 The following package versions were transitively affected, pulling in the malicious dependencyinjector.core : pkg:nuget/sipnet@12.8.4 pkg:nuget/sipnet@12.8.5 pkg:nuget/sipnet@12.8.6 pkg:nuget/sipnet@12.8.7 pkg:nuget/sipnet.openai.realtime@12.8.3 (indirect, depending on sipnet ) Additional context on the Braintree.Net 's NuGet presence: Package ID: Braintree.Net (official package ID is Braintree ) Claimed author: Braintree (impersonation \u2014 official packages are published under the braintreepayments profile) The malicious Braintree.Net blends in and ranks just after the legitimate package, partially due to inflated download count. Claimed project URL: https://github.com/braintree/braintree_dotnet (legitimate repo; this package is not built or distributed from it) Companion dependency (3.36.0+): DependencyInjector.Core \u2265 1.4.1 - a near-unused package whose primary downstream consumer is this typosquat This companion dependency contains a follow-on payload which functions as a token harvester. Faked Download Counts : Of Braintree.Net 's ~14M reported downloads, roughly 11M is padding sprayed across 120 throwaway 0.0.x versions with published on a single day (2025-10-09, ~93,300 each). The genuinely malicious releases (3.35.8\u20133.36.1) have only ~334 real installs \u2014 a ~32,900x gap between the headline number and the real blast radius. The 120 empty placeholder versions ( 0.0.1 through 0.0.120 ) contained only a .nuspec and no DLL \u2014 a common namespace-squatting technique to occupy the package name and artificially increase the download count before dropping functional payloads: Comparison to the Legitimate Package # The malicious package ships real-looking Braintree.dll assemblies for multiple target frameworks ( net452 , netstandard2.0 , net8.0 , net9.0 , net10.0 ). The public API surface \u2014 BraintreeGateway , CreditCardGateway , TransactionGateway , webhook types, GraphQL client wrappers \u2014 closely mirrors the legitimate SDK. A developer can instantiate a gateway, create customers, run transactions, and receive plausible Result<T> object",
+          "categories": [
+            "research",
+            "security news"
+          ],
+          "feed_url": "https://socket.dev/api/blog/feed.atom",
+          "id": "4e92ad0b96533fd5",
+          "published_at": "2026-07-21T14:20:03Z",
+          "source": "Socket",
+          "summary": "A malicious .NET package is typosquatting the Braintree SDK to steal live payment card data, merchant API keys, and host secrets from production apps.",
+          "title": "Fake Braintree NuGet Package Skims Credit Cards and Harvests Merchant Credentials",
+          "url": "https://socket.dev/blog/braintree-nuget-typosquat-skims-credit-cards?utm_medium=feed"
+        }
+      ],
+      "title": "Typosquatted Braintree NuGet package targeted payment data and merchant secrets",
+      "tokens": [
+        "and",
+        "api",
+        "apps.",
+        "braintree",
+        "card",
+        "cards",
+        "credentials",
+        "credit",
+        "data",
+        "fake",
+        "harvests",
+        "host",
+        "keys",
+        "live",
+        "malicious",
+        "merchant",
+        "net",
+        "nuget",
+        "payment",
+        "production",
+        "sdk",
+        "secrets",
+        "skims",
+        "steal",
+        "typosquatting"
+      ],
+      "updated_at": "2026-07-21T14:20:07Z"
+    },
+    "and-are-auditors-backdoors-can-chains-currently-detect": {
+      "created_at": "2026-07-21T14:20:07Z",
+      "dek": "A Semgrep analysis argues that open-weight and third-party AI models introduce dependency risk that current reverse-engineering and provenance practices do not adequately cover.",
+      "discovered_on": "2026-07-21",
+      "indicators": [],
+      "last_seen_on": "2026-07-21",
+      "post_path": "research/posts/and-are-auditors-backdoors-can-chains-currently-detect.html",
+      "published": true,
+      "slug": "and-are-auditors-backdoors-can-chains-currently-detect",
+      "source_ids": [
+        "2b2304b419a24bd7"
+      ],
+      "source_urls": [
+        "https://semgrep.dev/blog/2026/ai-supply-chain-problem"
+      ],
+      "sources": [
+        {
+          "article_text": "The AI Supply Chain Has a Supply Chain Problem | Semgrep At RSA, we launched Semgrep Multimodal to combine AI reasoning with rule-based detection Learn More \u2192 Products Semgrep Code Find and fix the issues that matter in your code (SAST) Semgrep Supply Chain Fix vulnerabilities in open source dependencies and block malware Semgrep Secrets Find and fix hardcoded secrets with semantic analysis Semgrep Guardian Scan and fix AI-generated code the moment it's written Multimodal Combine AI reasoning with rule-based analysis for detection, triage, and remediation Semgrep AppSec Platform Automate, manage, and enforce security across your organization Semgrep Workflows Build and deploy security pipelines that combine static analysis with AI at scale Product Updates Stay up to date on changes to the Semgrep platform, big and small Solutions Open-Source Malware Protection Protect against software supply chain attacks Static application security testing Increase security while accelerating development OWASP Top 10 Prevent the most critical web application security risks Secure Guardrails Protect Your Code with Secure Guardrails Fintech Mitigate software supply chain risks SaaS & Cloud Increase security while accelerating development Resources Docs Want to read all the docs? Start here Blog Get the latest news about Semgrep ROI Calculator See how Semgrep can save you time and money Community Slack Join the friendly Slack group to ask questions or share feedback Events Join us at a Semgrep Event! Case Studies See why users love Semgrep Video Library View our library of on-demand webinars Community Edition Company About The Semgrep story & values Careers Join the team! Partners Become a Semgrep partner Pricing Sign in Product support Contact us Book demo Try for free Application Security You Can't Reverse Engineer Your Way Out of the AI Supply Chain Problem AI models, even open-weight ones, are far harder to inspect, verify, or trust than traditional software: we currently lack the tools to reliably detect tampering or backdoors in them. The industry urgently needs independent auditors and provenance standards for AI models, just as it has for traditional software supply chains. Isaac Evans Cris Thomas (Space Rogue) Katie Paxton-Fear July 10th, 2026 Are OSS models more or less trustworthy than frontier models? How would we know? Deploying AI models \u2013 even \"open weight\" models \u2013 currently means accepting significant black box risk. Organizations are building corporate strategy on model foundations that are far more inscrutable than traditional 3rd-party software. Let's start with some ground truths about the abysmal state of our understanding of models: We have almost no ability to reverse engineer models today Even when model weights are public (\"open weight\"), we have almost no ability to predict its behavior. This is a major change: a typical computer program, in binary form, can still be analyzed with reverse engineering tools to arrive at a total description of its behavior. With models, we have nowhere close to this capability. Why this matters: Consuming binaries from a 3rd party of questionable origin still has the fallback that you can always reverse engineer those binaries to understand what they're doing. Using a model of unknown origin has no such explainability; the topic of \"mechanistic interpretability\" is still very much a research problem. Models can be backdoored in ways we don't know how to reliably detect Several research papers , including Anthropic's own Small Samples research, demonstrate that limited poisoning during pretraining can produce persistent behaviors. Importantly, their research shows the number of samples required to add a backdoor to the model is small and does not increase as the model increases in size. This is unexpected: large datasets are not necessarily immune to manipulation, which means the provenance of training data becomes increasingly important. Why this matters: A backdoor could be introduced in the training data of a model, or by hosting a malicious post-trained version of the model. We currently have no reliable way to assess the introduction of these backdoors, particularly if they are designed to be targeted at a specific end-user. By looking into logs it is possible to audit the prompt and response from a tool like Claude, but if the weights have been changed via fine tuning we have no visibility into it. Today, there is no public evidence that widely used open-source models have been deliberately poisoned. However, we know that models have been widely influenced to reject offensive/malicious cyber security prompts, or to reject romantic, unhealthy relationships with users, we call this alignment. In a sense, one user's model poisoning is another's alignment problem. If a software dependency contains malicious code, we have mature practices for discovering it, tracking its provenance, and reducing its impact. AI models are different. A compromised or subtly manipulated ",
+          "categories": [],
+          "feed_url": "https://semgrep.dev/blog/rss",
+          "id": "2b2304b419a24bd7",
+          "published_at": "2026-07-10T00:00:00Z",
+          "source": "Semgrep",
+          "summary": "AI models, even open-weight ones, are far harder to inspect, verify, or trust than traditional software: we currently lack the tools to reliably detect tampering or backdoors in them. The industry urgently needs independent auditors and provenance standards for AI models, just as it has for traditional software supply chains.",
+          "title": "You Can't Reverse Engineer Your Way Out of the AI Supply Chain Problem",
+          "url": "https://semgrep.dev/blog/2026/ai-supply-chain-problem"
+        }
+      ],
+      "title": "AI Models Are Emerging Supply-Chain Dependencies With Weak Tamper Detection",
+      "tokens": [
+        "and",
+        "are",
+        "auditors",
+        "backdoors",
+        "can",
+        "chains.",
+        "currently",
+        "detect",
+        "engineer",
+        "even",
+        "far",
+        "for",
+        "harder",
+        "has",
+        "independent",
+        "industry",
+        "inspect",
+        "just",
+        "lack",
+        "models",
+        "needs",
+        "ones",
+        "open-weight",
+        "out",
+        "problem",
+        "provenance",
+        "reliably",
+        "reverse",
+        "standards",
+        "tampering",
+        "them.",
+        "tools",
+        "traditional",
+        "trust",
+        "urgently",
+        "verify",
+        "way",
+        "you"
+      ],
+      "updated_at": "2026-07-21T14:20:07Z"
+    },
+    "and-asyncapi-botnet-compromised-deliver-linux-loader-macos": {
+      "created_at": "2026-07-21T14:20:07Z",
+      "dek": "Four packages under the @asyncapi npm scope shipped malicious versions that execute on module load and retrieve a second-stage payload from IPFS.",
+      "discovered_on": "2026-07-21",
+      "indicators": [],
+      "last_seen_on": "2026-07-21",
+      "post_path": "research/posts/and-asyncapi-botnet-compromised-deliver-linux-loader-macos.html",
+      "published": true,
+      "slug": "and-asyncapi-botnet-compromised-deliver-linux-loader-macos",
+      "source_ids": [
+        "103495394d448242"
+      ],
+      "source_urls": [
+        "https://socket.dev/blog/asyncapi-supply-chain-attack?utm_medium=feed"
+      ],
+      "sources": [
+        {
+          "article_text": "Compromised npm Packages in the AsyncAPI Namespace Deliver M... \ud83c\udfa9 You're Invited: Meet the Socket team at Black Hat in Las Vegas, August 3-6 . RSVP \u2192 Blog Research Security News Compromised npm Packages in the AsyncAPI Namespace Deliver Miasma Botnet Loader 4 compromised asyncapi packages deliver miasma botnet loader on macOS, Linux and Windows. Socket Research Team July 14, 2026 9 min read Table of Contents Technical Analysis How the attack was delivered Stage 1: Primary implant in the published packages Stage 2: IPFS downloader Stage 3: Encrypted sync.js loader Final payload: Miasma tasking framework C2 and channel design Persistence behavior Notable details Recommendations and Mitigations MITRE ATT&CK Indicators of Compromise (IOCs) Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Table of Contents Technical Analysis How the attack was delivered Stage 1: Primary implant in the published packages Stage 2: IPFS downloader Stage 3: Encrypted sync.js loader Final payload: Miasma tasking framework C2 and channel design Persistence behavior Notable details Recommendations and Mitigations MITRE ATT&CK Indicators of Compromise (IOCs) Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Socket's Threat Research Team identified four compromised npm packages in the @asyncapi namespace distributing a multi-stage botnet loader. The affected packages are @asyncapi/generator-helpers@1.1.1 , @asyncapi/generator-components@0.7.1 , @asyncapi/generator@3.3.1 , @asyncapi/specs ( v6.11.2, v6.11.2-alpha.1 ) Based on current analysis, the compromised packages deploy an obfuscated first-stage payload that downloads an encrypted second-stage payload, identified as Miasma, from IPFS. Users should avoid affected versions, upgrade to patched releases when available, and review developer and CI environments for signs of compromise. Socket AI Scanner\u2019s analysis of @asyncapi/generator-helpers1.1.1 , one of the malicious packages identified in the current Miasma wave, flags the compromised release as confirmed malware. Technical Analysis # The compromised AsyncAPI releases ship a hidden JavaScript implant in all the packages: Each package contains one injected source file, and all three injections decode to the same second-stage downloader. This is not an install-hook attack. The malicious code does not need preinstall, postinstall , or any package lifecycle script. It runs when the infected module is loaded by Node.js, then launches a detached background node -e process that downloads and executes a much larger payload from IPFS. The affected files are: @asyncapi/generator-helpers@1.1.1 : src/utils.js @asyncapi/generator-components@0.7.1 : lib/utils/ErrorHandling.js @asyncapi/generator@3.3.1 : lib/templates/config/validator.js @asyncapi/specs@6.11.2-alpha.1 : index.js @asyncapi/specs@6.11.2 : index.js The immediately preceding versions we checked, @asyncapi/generator-helpers@1.1.0 , @asyncapi/generator-components@0.7.0 , @asyncapi/generator@3.3.0 and @asyncapi/specs@6.11.1 did not contain the primary-stage implant signatures. How the attack was delivered # Malicious versions were published in two batches on July 14, 2026. In the first batch, generator related packages were compromised and malicious versions of packages were published within seconds of each other. The second batch included two malicious versions of @asyncapi/specs package: @asyncapi/generator-helpers@1.1.1 : 2026-07-14T07:10:42.653Z @asyncapi/generator-components@0.7.1 : 2026-07-14T07:10:44.328Z @asyncapi/generator@3.3.1 : 2026-07-14T07:10:48.853Z @asyncapi/specs@6.11.2-alpha.1 : 2026-07-14T08:06:20.423Z @asyncapi/specs@6.11.2 : 2026-07-14T08:30:09.742Z The npm metadata attributes all three publishes to GitHub Actions <npm-oidc-no-reply@github.com> through npm trusted publishing. The three package records share: Node.js version: 24.18.0 npm version: 11.16.0 Source commit: 3eab3ec9304aa26081358330491d3cfeb55cc245 Repository: asyncapi/generator Branch: refs/heads/next Workflow: .github/workflows/release-with-changesets.yml Event type: push GitHub Actions run: 29313420558 , attempt 1 The SLSA provenance attestations for the four npm packages identify the same GitHub-hosted Actions runner and the same source commit. The public GitHub API returned 404 for the workflow run and job list at analysis time, so the direct workflow actor and job logs could not be recovered from unauthenticated public data. The source commit itself was public. Its commit object contained unusual identity data: Commit message: fix: test release workflow on next Author: Your Name <you@example.com> Committer: Your Name <you@example.com> GitHub-associated user shown by the commit API: invalid-email-address The malicious code appears in the GitHub commit diff, not only in the npm tarballs. The poisoned commit modified the three infected source files and the package manifests that pro",
+          "categories": [
+            "research",
+            "security news"
+          ],
+          "feed_url": "https://socket.dev/api/blog/feed.atom",
+          "id": "103495394d448242",
+          "published_at": "2026-07-21T14:20:03Z",
+          "source": "Socket",
+          "summary": "4 compromised asyncapi packages deliver miasma botnet loader on macOS, Linux and Windows.",
+          "title": "Compromised npm Packages in the AsyncAPI Namespace Deliver Miasma Botnet Loader",
+          "url": "https://socket.dev/blog/asyncapi-supply-chain-attack?utm_medium=feed"
+        }
+      ],
+      "title": "AsyncAPI npm Releases Compromised to Load Miasma Botnet Payloads",
+      "tokens": [
+        "and",
+        "asyncapi",
+        "botnet",
+        "compromised",
+        "deliver",
+        "linux",
+        "loader",
+        "macos",
+        "miasma",
+        "namespace",
+        "npm",
+        "windows."
+      ],
+      "updated_at": "2026-07-21T14:20:07Z"
     },
     "and-auth-backstage-gitlab-hits-immobiliarelabs-ldap-miasma": {
       "created_at": "2026-06-27T14:05:34Z",
@@ -802,6 +1426,63 @@
         "vsx"
       ],
       "updated_at": "2026-06-23T01:50:44Z"
+    },
+    "and-cheats-control-deploy-drop-for-game-google": {
+      "created_at": "2026-07-21T14:20:07Z",
+      "dek": "A campaign of 11 NuGet DotnetTool packages used game-utility themes to deliver a second-stage Windows executable, with telemetry and control tied to Google Sheets and other hosted infrastructure.",
+      "discovered_on": "2026-07-21",
+      "indicators": [],
+      "last_seen_on": "2026-07-21",
+      "post_path": "research/posts/and-cheats-control-deploy-drop-for-game-google.html",
+      "published": true,
+      "slug": "and-cheats-control-deploy-drop-for-game-google",
+      "source_ids": [
+        "baf43a5cfdc4ccdd"
+      ],
+      "source_urls": [
+        "https://socket.dev/blog/11-malicious-nuget-tools-pose-as-game-cheats?utm_medium=feed"
+      ],
+      "sources": [
+        {
+          "article_text": "11 Malicious NuGet Tools Pose as Game Cheats to Drop a Windo... \ud83c\udfa9 You're Invited: Meet the Socket team at Black Hat in Las Vegas, August 3-6 . RSVP \u2192 Blog Research Security News 11 Malicious NuGet Tools Pose as Game Cheats to Drop a Windows Host-Surveillance Payload 11 malicious NuGet tools pose as game cheats to deploy Windows payloads, track hosts, and use Google Sheets for telemetry and control. Kush Pandya July 14, 2026 17 min read Table of Contents Background on NuGet Dotnet Tools and the Targeted Games First Stage: The .NET Downloader Second Stage: pepesoft.exe Shared Code, Shared Infrastructure Impact Recommendations MITRE ATT&CK Indicators of Compromise (IOCs) Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Table of Contents Background on NuGet Dotnet Tools and the Targeted Games First Stage: The .NET Downloader Second Stage: pepesoft.exe Shared Code, Shared Infrastructure Impact Recommendations MITRE ATT&CK Indicators of Compromise (IOCs) Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Socket\u2019s Threat Research Team analyzed 11 malicious NuGet packages published as .NET command-line tools ( DotnetTool package type) that present themselves as game utilities, bots, and \u201cpanels\u201d. Every package is a first-stage downloader that fetches and executes a second-stage Windows payload named pepesoft.exe from GitHub Releases and Hugging Face paths under the username pepegit666 , with dormant BitTorrent fallback code built in. The campaign splits cleanly into two stages: A .NET downloader stage shipped inside each NuGet package. It resolves GitHub download hosts over DNS-over-HTTPS, bypassing the system resolver and likely bypassing hosts-file or local DNS sinkhole controls, and 10 of the 11 downloaders request elevation to resync the system clock before fetching the payload. A PyInstaller-packed Python payload ( pepesoft.exe ). The recovered payloads use downloader-supplied AWS-style key material to retrieve remote configuration, authenticate to Google Sheets, bind activations to hardware, and honor a remote HWID/UUID ban-list. In the three direct-bytecode payloads, the larger game-automation application also exposes Telegram bot commands that can send screenshots back to the configured chat. All 11 packages share the same AWS-style key material and the same process mutex, which ties the downloader stage to a single toolchain. The payload corpus contains recovered original pepesoft.exe files for the eight PyArmor-protected release tags, and each has a distinct hash. Three payloads, Albion, Calculator, and Throne, ship gtaobus.pyc as direct bytecode and recover to large game-automation applications. The other eight wrap gtaobus.pyc with pyarmor_runtime_015050 ; instrumented recovery produced a roughly 1,040-line licensing and telemetry module for each. The first-stage downloader behavior applies to all 11 packages. The second-stage findings below explicitly distinguish behavior proven across the full recovered payload set from behavior proven only in the direct-bytecode or PyArmor-protected groups. We have reported these packages to the NuGet security team and requested the removal of the package and the suspension of the publisher\u2019s account. Attack chain flow: NuGet DotnetTool downloader stages and launches pepesoft.exe , which reports to Google Sheets, honors a remote HWID ban-list, and (in the direct-bytecode builds) exposes Telegram screenshot control. Background on NuGet Dotnet Tools and the Targeted Games # In addition to libraries, the NuGet package registry also distributes .NET tools, which are packages marked with the DotnetTool package type and installed with dotnet tool install . Once installed, a tool exposes a console command that runs a bundled assembly through the dotnet runner. The packages in this campaign present themselves as game utilities and register commands such as throne-run . The names map directly to Albion Online, GTA5RP, GrandRP, Majestic RP, RMRP, Amazing RP, Lineage 2, Throne and Liberty, Russian Fishing 4, and generic trigger-bot and calculator-themed tools. The package IDs, command names, release tags, updater-like progress output, Russian-language console messages, and Russian comments in the bundled application manifest point to Russian-language game-utility theming. Socket\u2019s AI Scanner flagging amazing-x-x@7.7.8 as known malware. The flagged module is the bundled first-stage downloader tools/net8.0/any/amazingrp.dll. First Stage: The .NET Downloader # Each package places its downloader assembly under tools/net8.0/any/ , named after the game (for example albion.dll , gta5rp.dll , lineage2.dll , and setup.dll for the Throne package). Alongside it, every package bundles the same supporting libraries: Colorful.Console for colored console output, and the full MonoTorrent and Mono.Nat stacks for BitTorrent transfer and NAT traversal. Masquerade and single-",
+          "categories": [
+            "research",
+            "security news"
+          ],
+          "feed_url": "https://socket.dev/api/blog/feed.atom",
+          "id": "baf43a5cfdc4ccdd",
+          "published_at": "2026-07-21T14:20:03Z",
+          "source": "Socket",
+          "summary": "11 malicious NuGet tools pose as game cheats to deploy Windows payloads, track hosts, and use Google Sheets for telemetry and control.",
+          "title": "11 Malicious NuGet Tools Pose as Game Cheats to Drop a Windows Host-Surveillance Payload",
+          "url": "https://socket.dev/blog/11-malicious-nuget-tools-pose-as-game-cheats?utm_medium=feed"
+        }
+      ],
+      "title": "Malicious NuGet .NET tools posed as game cheats and installed Windows surveillance payloads",
+      "tokens": [
+        "and",
+        "cheats",
+        "control.",
+        "deploy",
+        "drop",
+        "for",
+        "game",
+        "google",
+        "host-surveillance",
+        "hosts",
+        "malicious",
+        "nuget",
+        "payload",
+        "payloads",
+        "pose",
+        "sheets",
+        "telemetry",
+        "tools",
+        "track",
+        "use",
+        "windows"
+      ],
+      "updated_at": "2026-07-21T14:20:07Z"
     },
     "and-command-and-control-extensions-found-glasswasm-infrastructure-malware-memos": {
       "created_at": "2026-06-23T01:50:44Z",
@@ -907,6 +1588,133 @@
       ],
       "updated_at": "2026-06-23T01:50:44Z"
     },
+    "asyncapi-generator": {
+      "created_at": "2026-07-21T14:20:07Z",
+      "dek": "Malicious AsyncAPI package versions reached npm with valid provenance after an attacker pushed to the project\u2019s release branch, shifting execution from install-time scripts to runtime module loading.",
+      "discovered_on": "2026-07-21",
+      "indicators": [
+        "@asyncapi/generator",
+        "@asyncapi/generator-components",
+        "@asyncapi/generator-helpers"
+      ],
+      "last_seen_on": "2026-07-21",
+      "post_path": "research/posts/asyncapi-generator.html",
+      "published": true,
+      "slug": "asyncapi-generator",
+      "source_ids": [
+        "619f3bf899d40eb3"
+      ],
+      "source_urls": [
+        "https://semgrep.dev/blog/2026/miasma-v3-asyncapi-npm-hardening"
+      ],
+      "sources": [
+        {
+          "article_text": "Miasma v3 Hits AsyncAPI: Is NPM Hardening Working? | Semgrep At RSA, we launched Semgrep Multimodal to combine AI reasoning with rule-based detection Learn More \u2192 Products Semgrep Code Find and fix the issues that matter in your code (SAST) Semgrep Supply Chain Fix vulnerabilities in open source dependencies and block malware Semgrep Secrets Find and fix hardcoded secrets with semantic analysis Semgrep Guardian Scan and fix AI-generated code the moment it's written Multimodal Combine AI reasoning with rule-based analysis for detection, triage, and remediation Semgrep AppSec Platform Automate, manage, and enforce security across your organization Semgrep Workflows Build and deploy security pipelines that combine static analysis with AI at scale Product Updates Stay up to date on changes to the Semgrep platform, big and small Solutions Open-Source Malware Protection Protect against software supply chain attacks Static application security testing Increase security while accelerating development OWASP Top 10 Prevent the most critical web application security risks Secure Guardrails Protect Your Code with Secure Guardrails Fintech Mitigate software supply chain risks SaaS & Cloud Increase security while accelerating development Resources Docs Want to read all the docs? Start here Blog Get the latest news about Semgrep ROI Calculator See how Semgrep can save you time and money Community Slack Join the friendly Slack group to ask questions or share feedback Events Join us at a Semgrep Event! Case Studies See why users love Semgrep Video Library View our library of on-demand webinars Community Edition Company About The Semgrep story & values Careers Join the team! Partners Become a Semgrep partner Pricing Sign in Product support Contact us Book demo Try for free Security Research Miasma v3 Hit 4 AsyncAPI Packages \u2014 Did NPM's Defenses Work, or Just Get Dodged? On 14 July 2026, malicious versions of three AsyncAPI packages were published to npm: @asyncapi/generator@3.3.1, @asyncapi/generator-helpers@1.1.1, and @asyncapi/generator-components@0.7.1 after an attacker gained push access to the repository's next branch and triggered the project's own CI/CD release pipeline. The malicious packages carry valid npm OIDC provenance attestations and execute a multi-stage downloader when the library is loaded via require(). Katie Paxton-Fear Max Vonblankenburg July 14th, 2026 You\u2019re Joking, Not Another One?! On July 14, 2026 at 07:10 UTC, an attacker gained push access to the asyncapi/generator repository's next branch and pushed a single malicious commit under an unconfigured git identity ('Your Name' < you@example.com >). This triggered the project's legitimate release-with-changesets.yml GitHub Actions workflow. Three packages: @asyncapi/generator@3.3.1 , @asyncapi/generator-helpers@1.1.1 , and @asyncapi/generator-components@0.7.1 followed by @asyncapi/specs later on were published to npm with valid SLSA provenance attestations via npm's GitHub OIDC trusted-publisher integration, making the packages appear fully legitimate. Each package contained an identical, albeit familiar, ~7.7KB obfuscator.io-obfuscated dropper injected into a single source file, padded with ~1000 leading spaces to hide it from diff views. The dropper fires on require(), not at install time, spawning a detached, hidden Node.js process that downloads a second-stage payload from an IPFS gateway and writes it to an OS-specific hidden directory disguised as a Node.js runtime folder before exiting cleanly. None of the affected packages have a preinstall, postinstall, or install script. The dropper fires when the poisoned module is require()'d during normal use. While install-time execution fires on every single npm install, whether the package's code ever runs or not, load-time execution only fires for the subset of installs where something actually calls into the generator. This suggests that the hardening of npm is working, with the default script-blocking actually changing attacker behavior; you can find more information about this change and install scripts in our blog about the v12 changes . Affected Packages @asyncapi/specs@6.11.2 @asyncapi/specs@6.11.2-alpha.1 @asyncapi/generator@3.3.1 @asyncapi/generator-helpers@1.1.1 @asyncapi/generator-components@0.7.1 For Semgrep Customers Trigger a new scan if you haven't recently on your projects Check the advisories page to see if any projects have installed these package versions recently: https://semgrep.dev/orgs/-/advisories Use the Dependency filter to see if you\u2019re using any of these packages: https://semgrep.dev/orgs/-/supply-chain/t/dependencies?packages=@asyncapi/generator%3Aexact-name ,@asyncapi/generator-helpers%3Aexact-name,@asyncapi/generator-components%3Aexact-name Indicators of Compromise C2 host: 85.137.53.71 : ports 8080 (commands), 8081 (credential exfil), 8091 (proxy management) and ipfs.io Malicious commits: 3eab3ec9304aa26081358330491d3cfeb55cc245 (generator); 36269ce8\u2026 , 49cb17a9\u2026 , 61a930",
+          "categories": [],
+          "feed_url": "https://semgrep.dev/blog/rss",
+          "id": "619f3bf899d40eb3",
+          "published_at": "2026-07-14T00:00:00Z",
+          "source": "Semgrep",
+          "summary": "On 14 July 2026, malicious versions of three AsyncAPI packages were published to npm: @asyncapi/generator@3.3.1, @asyncapi/generator-helpers@1.1.1, and @asyncapi/generator-components@0.7.1 after an attacker gained push access to the repository's next branch and triggered the project's own CI/CD release pipeline. The malicious packages carry valid npm OIDC provenance attestations and execute a multi-stage downloader when the library is loaded via require().",
+          "title": "Miasma v3 Hit 4 AsyncAPI Packages \u2014 Did NPM's Defenses Work, or Just Get Dodged?",
+          "url": "https://semgrep.dev/blog/2026/miasma-v3-asyncapi-npm-hardening"
+        }
+      ],
+      "title": "AsyncAPI npm releases poisoned through legitimate CI/CD publishing path",
+      "tokens": [
+        "0.7.1",
+        "1.1.1",
+        "2026",
+        "3.3.1",
+        "access",
+        "and",
+        "asyncapi",
+        "asyncapi/generator",
+        "asyncapi/generator-components",
+        "asyncapi/generator-helpers",
+        "attacker",
+        "attestations",
+        "branch",
+        "carry",
+        "ci/cd",
+        "defenses",
+        "did",
+        "dodged",
+        "downloader",
+        "execute",
+        "gained",
+        "get",
+        "hit",
+        "july",
+        "just",
+        "library",
+        "loaded",
+        "malicious",
+        "miasma",
+        "multi-stage",
+        "next",
+        "npm",
+        "oidc",
+        "own",
+        "pipeline.",
+        "project",
+        "provenance",
+        "published",
+        "push",
+        "release",
+        "repository",
+        "require",
+        "three",
+        "triggered",
+        "valid",
+        "versions",
+        "via",
+        "were",
+        "when",
+        "work"
+      ],
+      "updated_at": "2026-07-21T14:20:07Z"
+    },
+    "attackers-build-confusion-dependency-endor-how-poison": {
+      "created_at": "2026-07-21T14:20:07Z",
+      "dek": "A recent Endor Labs write-up revisits how public registry packages can override private dependencies, with historical examples showing secret theft and code execution in CI environments.",
+      "discovered_on": "2026-07-21",
+      "indicators": [],
+      "last_seen_on": "2026-07-21",
+      "post_path": "research/posts/attackers-build-confusion-dependency-endor-how-poison.html",
+      "published": true,
+      "slug": "attackers-build-confusion-dependency-endor-how-poison",
+      "source_ids": [
+        "5f8133f1ab0a84c6"
+      ],
+      "source_urls": [
+        "https://www.endorlabs.com/learn/dependency-confusion-how-attackers-poison-your-build"
+      ],
+      "sources": [
+        {
+          "article_text": "Dependency Confusion: How Attackers Poison Your Build | Blog | Endor Labs --> Open source can't be patched at Mythos-scale alone (so we're starting today) Learn More Learn Research Company LeanAppSec Pricing Docs Login Book a Demo Book Demo By clicking \u201cAccept\u201d, you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. View our Privacy Policy for more information. Deny Accept Blog Dependency Confusion: How Attackers Poison Your Build Dependency Confusion: How Attackers Poison Your Build Written by Andrew Stiefel Published on July 13, 2026 Updated on July 13, 2026 Topics Open Source Summarize with AI Most of a modern application is code someone else wrote. This proverbial dependency tree, the web of direct and transitive open-source packages a build pulls in, hides most of its growth underground: you chose the trunk, but its roots run down through layer after layer of packages you never picked and never reviewed. That buried growth is what makes the tree a soft target. Poison one root and it travels up through everything that feeds on it. Endor Labs research estimates that anywhere from 70-90% of the code in most applications comes from open-source, and that 95% of vulnerability risk lives in transitive dependencies. Attackers have three ways to work poison into this modern application tree: Trick the package resolver into pulling a malicious package (dependency confusion) Trick the developer into planting the wrong one (typosquatting and combosquatting) Corrupt a package teams trust and let it rot from within (package poisoning and hijacking). Each abuses the trust and automation that make package managers useful. Here is how the three \"tree poisoning\" methods compare at a glance. The sections below define each technique and show how it plays out. For the wider attack landscape, see software supply chain attacks explained . What is dependency confusion? Dependency confusion is a software supply chain attack. An attacker publishes a public package with the same name as a company\u2019s private package. Because many package managers prefer the highest version number, they may choose the attacker's public package. They may check public registries along with private ones. So the build pulls the public version instead of the trusted internal one. This is a design flaw, not a bug. The resolver works as intended. The default \"highest version wins\" behavior, combined with checking both registries, is the whole exploit. An attacker who learns an internal package name can publish a public package with that name and a high version number, and the build resolves to it. Attackers find those internal names through reconnaissance: leaked package.json files, build configs exposed in public repositories, error messages in CI logs, and documentation leaks. Once the malicious package installs, its preinstall and postinstall scripts run. They read environment variables, reach for cloud metadata endpoints, exfiltrate secrets, and establish persistence. The defining proof of concept came from Alex Birsan in 2021. He found internal package names in public JavaScript files, published matching public packages, and used DNS callbacks to prove his code executed. The campaign reached more than 35 major companies, including Apple, Microsoft, and PayPal, and earned over $130,000 in bug bounties. In December 2022, the PyTorch nightly build pulled a malicious torchtriton package that sat on PyPI for five days, targeting nightly builds and stealing SSH keys from affected machines. PyTorch documented the incident in its compromised nightly dependency report . What is typosquatting? Typosquatting registers packages with names a single character off from popular libraries, such as lodahs in place of lodash. A developer who mistypes a name or copies a wrong reference installs the malicious version. Package registries hold thousands of these attempts at any given time. What is combosquatting? Combosquatting is when the attacker registers a name that adds words to a popular package, like a prefix or suffix such as -js, secure-, or -utils, so the result reads as an official companion package. A developer sees a familiar root name and assumes the rest is legitimate. Both combosquatting and typosquatting prey on human error and assumption rather than resolver logic. AI coding agents widen the opening, because they suggest plausible-but-wrong package names that a developer accepts without a second look. The version of this attack built on names that AI invents outright is slopsquatting. Package poisoning and hijacking Package poisoning injects malicious code into an existing, trusted package rather than creating a new malicious one. Hijacking, or account takeover, is how attackers get the access to do it: taking over a maintainer account through social engineering, using stolen credentials, or inheriting a project a burned-out maintainer handed off. Once an attacker controls th",
+          "categories": [],
+          "feed_url": "https://www.endorlabs.com/blog/rss.xml",
+          "id": "5f8133f1ab0a84c6",
+          "published_at": "2026-07-13T22:59:32Z",
+          "source": "Endor Labs",
+          "summary": "Dependency Confusion: How Attackers Poison Your Build",
+          "title": "Dependency Confusion: How Attackers Poison Your Build | Blog | Endor Labs",
+          "url": "https://www.endorlabs.com/learn/dependency-confusion-how-attackers-poison-your-build"
+        }
+      ],
+      "title": "Dependency Confusion Remains a Build-Time Supply-Chain Risk",
+      "tokens": [
+        "attackers",
+        "build",
+        "confusion",
+        "dependency",
+        "endor",
+        "how",
+        "poison"
+      ],
+      "updated_at": "2026-07-21T14:20:07Z"
+    },
     "bioinformatics-endor-hades-hits-pypi-shai-hulud-six-stolen": {
       "created_at": "2026-06-23T01:50:44Z",
       "dek": "Six Python packages used in genomics and phenotype tooling were pushed with malicious releases that hid a credential-stealing payload inside compiled extensions.",
@@ -951,6 +1759,119 @@
       ],
       "updated_at": "2026-06-23T01:50:44Z"
     },
+    "complete-endor-guide-what": {
+      "created_at": "2026-07-21T14:20:07Z",
+      "dek": "A recent Endor Labs guide is not a new incident report, but it usefully connects three recurring exposure patterns: hidden transitive dependencies, compromised build systems, and unpinned third-party CI/CD components.",
+      "discovered_on": "2026-07-21",
+      "indicators": [],
+      "last_seen_on": "2026-07-21",
+      "post_path": "research/posts/complete-endor-guide-what.html",
+      "published": true,
+      "slug": "complete-endor-guide-what",
+      "source_ids": [
+        "e0262b2744445758"
+      ],
+      "source_urls": [
+        "https://www.endorlabs.com/learn/what-is-software-supply-chain-security-the-complete-guide"
+      ],
+      "sources": [
+        {
+          "article_text": "What Is Software Supply Chain Security? The Complete Guide | Blog | Endor Labs --> Open source can't be patched at Mythos-scale alone (so we're starting today) Learn More Learn Research Company LeanAppSec Pricing Docs Login Book a Demo Book Demo By clicking \u201cAccept\u201d, you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. View our Privacy Policy for more information. Deny Accept Blog What Is Software Supply Chain Security? The Complete Guide What Is Software Supply Chain Security? The Complete Guide Written by Andrew Stiefel Published on July 13, 2026 Updated on July 13, 2026 Topics Open Source Summarize with AI Software supply chain security is the practices, tools and controls protecting every component of building, testing, and deploying software. This includes open-source dependencies and build pipelines to container images and deployment artifacts. The supply chain is every input that goes into a deployed application: open-source libraries, internal dependencies, build systems, CI/CD pipelines, container base images, and AI-generated code. Each input is a place where an attacker can insert malicious code or a vulnerability can hide. The code you did not write carries the most risk. The scale explains the urgency. OWASP's 2025 Top 10 ranks software supply chain failures as the number three web application security risk, and 50% of surveyed security practitioners rank it as their top concern. Open-source package downloads exceed trillions per year across major ecosystems, and open-source software underpins 70 to 90% of modern applications (Linux Foundation Census II). A single compromised library can propagate through dependency trees to thousands of downstream projects. Securing the supply chain comes down to three jobs: Know every component in your software Verify that no one has tampered with those components and that none carry known vulnerabilities or malicious code Enforce policy to block compromised packages before they cause harm Software Bill of Materials (SBOMs) provide the visibility foundation. A software composition analysis (SCA) and malware scanning determine what an attacker can exploit. Policy gates control what reaches production. Regulation is speeding up this shift. Executive Order 14028, PCI DSS 4.0, and the EU Cyber Resilience Act all mandate or encourage supply chain security controls and SBOM production. Where the software supply chain breaks Understanding where the software supply chain breaks begins with seeing how each series of inputs, processes, and artifacts running through it introduces risk. Open source dependencies and transitive risk Most teams point their scanning at direct dependencies: the packages they declared in a manifest file. Most of the risk lives somewhere else. Every direct dependency pulls in its own dependencies, and those pull in more. An application with 50 direct dependencies can carry 500 or more transitive dependencies. This includes packages that developers did not choose, did not review, and in many cases did not know existed. According to research from Endor Labs, 95% of the vulnerabilities that affect applications exist in transitive dependencies. When a vulnerability surfaces in a nested transitive dependency, it reaches every project above it in the chain. The XZ Utils backdoor in March 2024 showed the stakes. An attacker spent two years building trust as a maintainer of a compression library that ships across most Linux distributions. Then they inserted a backdoor that could enable remote code execution over SSH. A Microsoft engineer caught it after noticing a 500-millisecond latency increase, not through any scanning tool. Scanning only direct dependencies misses most of the attack surface. Full transitive dependency mapping is the baseline for meaningful supply chain security. Build systems, CI/CD, and artifacts Build pipelines hold the keys to production: secrets, credentials, signing certificates, and deployment access. This makes them high-value targets. When attackers compromise the build, they compromise everything it produces. The SolarWinds attack in 2020 remains the defining example. Attackers modified the Orion build process to inject the SUNBURST backdoor into a legitimate software update, then pushed it to about 18,000 customers, including US federal agencies. The malicious code shipped with a valid digital signature because the compromise lived inside the build system itself. In March 2025, the tj-actions/changed-files GitHub Action compromise exposed CI/CD secrets across thousands of repositories. We exposed the blast radius of this supply chain attack after CISA issued an alert (CVE-2025-30066). The attack vector was straightforward: attackers compromised a GitHub Action used across thousands of workflows, and any workflow that referenced it without pinning to a specific commit hash exposed its secrets. Unpinned third-party actions, hardcoded secrets ",
+          "categories": [],
+          "feed_url": "https://www.endorlabs.com/blog/rss.xml",
+          "id": "e0262b2744445758",
+          "published_at": "2026-07-13T22:59:32Z",
+          "source": "Endor Labs",
+          "summary": "What Is Software Supply Chain Security? The Complete Guide",
+          "title": "What Is Software Supply Chain Security? The Complete Guide | Blog | Endor Labs",
+          "url": "https://www.endorlabs.com/learn/what-is-software-supply-chain-security-the-complete-guide"
+        }
+      ],
+      "title": "Supply-chain risk recap: transitive dependencies and CI/CD actions remain high-impact attack paths",
+      "tokens": [
+        "complete",
+        "endor",
+        "guide",
+        "what"
+      ],
+      "updated_at": "2026-07-21T14:20:07Z"
+    },
+    "dependencies-developer-endor-guide-securing-source": {
+      "created_at": "2026-07-21T14:20:07Z",
+      "discovered_on": "2026-07-21",
+      "indicators": [],
+      "last_seen_on": "2026-07-21",
+      "post_path": "research/posts/dependencies-developer-endor-guide-securing-source.html",
+      "published": false,
+      "skipped_at": "2026-07-21T14:26:06Z",
+      "slug": "dependencies-developer-endor-guide-securing-source",
+      "source_ids": [
+        "e203535dbe56d1d3"
+      ],
+      "source_urls": [
+        "https://www.endorlabs.com/learn/securing-open-source-dependencies-a-developers-guide"
+      ],
+      "sources": [
+        {
+          "article_text": "Securing Open Source Dependencies: A Developer's Guide | Blog | Endor Labs --> Open source can't be patched at Mythos-scale alone (so we're starting today) Learn More Learn Research Company LeanAppSec Pricing Docs Login Book a Demo Book Demo By clicking \u201cAccept\u201d, you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. View our Privacy Policy for more information. Deny Accept Blog Securing Open Source Dependencies: A Developer's Guide Securing Open Source Dependencies: A Developer's Guide Written by Andrew Stiefel Published on July 13, 2026 Updated on July 13, 2026 Topics Open Source Summarize with AI The code you didn't write carries risk, just not where you may expect. While open source speeds up development, and hands you the security posture of every package you pull in, plus every package those packages pull in, the danger lurks in the parts you can't see. Direct dependencies are the ones you chose and can review. The transitive tree below them, the dependencies of your dependencies, is much larger and mostly hidden. Most exposure hides there. According to research by Endor Labs, aproximately 95% of vulnerabilities live in these transitive dependencies.Log4Shell showed the cost: a single logging library buried deep in countless builds detonated across the industry, and most teams discovered their exposure only after the disclosure. The goal is not zero vulnerabilities. The goal is zero exploitable vulnerabilities in production. These steps get you there. Inventory what you depend on You can't secure what you can't see. Start with a complete inventory. List open source components, direct and transitive dependencies, versions, licenses, and known vulnerabilities. This forms your software bill of materials ( SBOM ). Generate it in CycloneDX or SPDX, and automate generation in CI/CD so it stays current. Manual tracking drifts out of date and misses dependencies the moment a package updates. The inventory only gains value when it reaches the transitive layer. That is where hidden risk lives. Prioritize with reachability, not just CVE counts A scan of a real codebase returns thousands of CVEs. Most do not matter. Your code never calls the vulnerable function. Counting CVEs measures noise, not risk. Function-level reachability analysis fixes the signal. For each finding, it answers a concrete question: does your application call the vulnerable code, and can it be exploited? Pair that with exploitability signals like EPSS, and the actionable list drops by up to 95%, from thousands of CVEs to the dozens worth fixing. Fix what is reachable first, and stop triaging what is not. Catch malicious packages before install Vulnerability scanning catches known CVEs. It does not catch a package that is malicious by design. Those are different problems, and they need a different control. Attackers target the dependency tree directly through typosquatting , dependency confusion, and package poisoning. Continous, real-time malicious package detection catches these before they land on a developer's laptop orenter the build, which is the only timing that helps, since finding malware after deployment means it already ran. Reinforce it at the source: pull from verified repositories or a private registry, enable package signing and provenance verification, and block any package that fails a security check using a package firewall . Keep dependencies healthy over time Securing dependencies is continuous work, not a one-time audit. Five habits keep the tree healthy. Scan on every commit and pull request, not on a quarterly schedule, and set quality gates that block critical findings in production branches while warning in development. Automate safe upgrades, but run upgrade impact analysis first, because a minor version bump can still break a build. When a full upgrade is not feasible, apply the security patch on its own. Watch for abandoned packages, since a deprecated-but-popular library like request keeps shipping in projects long after its maintainers stopped patching it. Enforce governance as code, so policies like \"no GPL in production,\" \"no critical CVEs,\" and \"nothing unmaintained past two years\" run at build time rather than depending on a reviewer to remember them. This is one spoke of a larger discipline. For the full program, see software supply chain security . FAQ How do you secure open source dependencies? Start with a complete SBOM that covers direct and transitive dependencies, scan on every commit in CI/CD, prioritize findings with reachability analysis so you fix exploitable risk first, catch malicious packages before they install with malware detection, and keep the tree healthy with automated safe upgrades and policy-as-code governance. What is the difference between direct and transitive dependencies? Direct dependencies are the packages you import and declare in your manifest. Transitive dependencies are the packages those depende",
+          "categories": [],
+          "feed_url": "https://www.endorlabs.com/blog/rss.xml",
+          "id": "e203535dbe56d1d3",
+          "published_at": "2026-07-13T22:59:32Z",
+          "source": "Endor Labs",
+          "summary": "Securing Open Source Dependencies: A Developer's Guide",
+          "title": "Securing Open Source Dependencies: A Developer's Guide | Blog | Endor Labs",
+          "url": "https://www.endorlabs.com/learn/securing-open-source-dependencies-a-developers-guide"
+        }
+      ],
+      "title": "Securing Open Source Dependencies: A Developer's Guide | Blog | Endor Labs",
+      "tokens": [
+        "dependencies",
+        "developer",
+        "endor",
+        "guide",
+        "securing",
+        "source"
+      ],
+      "updated_at": "2026-07-21T14:20:07Z"
+    },
+    "endor-explained-trust-veiled": {
+      "created_at": "2026-07-21T14:20:07Z",
+      "dek": "A recent explainer highlights recurring supply-chain failure modes\u2014malicious packages, maintainer compromise, dependency confusion, and CI/CD abuse\u2014but does not identify a new affected package or active campaign.",
+      "discovered_on": "2026-07-21",
+      "indicators": [],
+      "last_seen_on": "2026-07-21",
+      "post_path": "research/posts/endor-explained-trust-veiled.html",
+      "published": true,
+      "slug": "endor-explained-trust-veiled",
+      "source_ids": [
+        "ba13f407068e56b4"
+      ],
+      "source_urls": [
+        "https://www.endorlabs.com/learn/veiled-in-trust-software-supply-chain-attacks-explained"
+      ],
+      "sources": [
+        {
+          "article_text": "Veiled in Trust: Software Supply Chain Attacks Explained | Blog | Endor Labs --> Open source can't be patched at Mythos-scale alone (so we're starting today) Learn More Learn Research Company LeanAppSec Pricing Docs Login Book a Demo Book Demo By clicking \u201cAccept\u201d, you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. View our Privacy Policy for more information. Deny Accept Blog Veiled in Trust: Software Supply Chain Attacks Explained Veiled in Trust: Software Supply Chain Attacks Explained Written by Andrew Stiefel Published on July 13, 2026 Updated on July 13, 2026 Topics Open Source Summarize with AI What is a software supply chain attack? A software supply chain attack targets the components, tools, and processes that build and deliver software. The application itself often not the target. Instead, attackers use it as a way to bridge into sensitive systems like developer laptop and cloud environments. The attack starts with compromising something upstream, such as open source software, a build system, or a CI/CD pipeline. The bad code flows downstream to everyone who trusts it. As a bonus, it arrives wearing the trust of a legitimate dependency or signed update. How software supply chain attacks work These attacks embody the old adage \"hiding in plain sight\" and share the same strategy: poison something upstream so the payload rides trust downstream. The pattern is consistent: Find a trusted entry point. Attackers target a popular package, a heavily referenced GitHub Action, or a build system that downstream teams already rely on. Gain access. They take over a maintainer account through social engineering, steal pipeline credentials, or exploit a namespace gap that lets a public package shadow a private one. Insert the payload. A backdoor, a credential stealer, or a self-propagating worm enters the component or the build process. Ride the trust downstream. The payload propagates through dependency trees or ships inside a signed update. Because the signature is valid and the source looks legitimate, automation pulls it straight into production. Attackers exploit trust: reputation, valid signatures, and automated dependency resolution all work in their favor. Software supply chain attack examples Attacks cluster around a few entry points. Open source package attacks. Typosquatting , dependency confusion, and malicious package injection target the registries developers pull from. Attackers favor popular packages and their transitive dependencies to maximize reach. Build pipeline and CI/CD compromise. Stolen signing certificates, compromised build environments, and poisoned updates let an attacker taint every artifact a pipeline produces, often with a valid signature attached. Malicious maintainer takeover. An attacker earns or seizes commit access to a legitimate project, then inserts a backdoor that ships to every consumer. Insecure third-party integrations and excess permissions. Over-permissioned actions, tokens, and integrations widen the blast radius when an attacker compromises any one of them. You can explore more in-depth using the Software Supply Chain Risk Explorer produced by the Endor Labs security research team. Real-world examples Concrete, dated incidents show how these attacks play out across registries, build systems, and maintainer accounts. Endor Labs's threat research tracks active campaigns as they break, including the Shai-Hulud worm and PhantomRaven . These incident reports feed the examples above and document how each attack unfolds. How to defend against them Defense comes down to visibility, prioritization, and enforcement across the pipeline. These are the practices that move the needle, ordered by impact. Inventory dependencies and generate SBOMs. Treat the SBOM as a living inventory, not a compliance checkbox. Generate it in CI/CD on every build, support CycloneDX and SPDX, and monitor it for new CVEs over time. Pair it with the SLSA framework and build attestations to prove provenance. Detect malicious packages before the build. Vulnerability scanning catches known CVEs. Malware detection catches code that is malicious by design, before it enters the pipeline or lands on a developer's laptop. Tools like package firewalls can help enforce protections across local and CI builds. Harden the build pipeline. Use hermetic builds and ephemeral environments, sign commits, verify artifacts, rotate tokens on a schedule, and run least-privilege service accounts with build provenance. Control dependencies. Pin versions, commit lock files, use private registries, and route updates through automated pull-request workflows. Enforce least privilege across the SDLC. Apply RBAC, secrets management, and segmentation so a single compromise cannot reach everything. Build and test an incident response plan. A compromised dependency touches every application that uses it, so response speed sets the blast radius. Teams",
+          "categories": [],
+          "feed_url": "https://www.endorlabs.com/blog/rss.xml",
+          "id": "ba13f407068e56b4",
+          "published_at": "2026-07-13T22:59:32Z",
+          "source": "Endor Labs",
+          "summary": "Veiled in Trust: Software Supply Chain Attacks Explained",
+          "title": "Veiled in Trust: Software Supply Chain Attacks Explained | Blog | Endor Labs",
+          "url": "https://www.endorlabs.com/learn/veiled-in-trust-software-supply-chain-attacks-explained"
+        }
+      ],
+      "title": "Supply-chain risk brief: trusted dependencies and build automation remain high-value attack paths",
+      "tokens": [
+        "endor",
+        "explained",
+        "trust",
+        "veiled"
+      ],
+      "updated_at": "2026-07-21T14:20:07Z"
+    },
     "endor-leo-npm-platform-shai-hulud-strikes": {
       "created_at": "2026-06-27T14:05:34Z",
       "dek": "A June 24 npm compromise pushed malicious Leo Platform releases that abused native build configuration rather than package lifecycle scripts, redirected at least one dist-tag, and attempted credential theft and further propagation.",
@@ -991,6 +1912,6 @@
       "updated_at": "2026-06-27T14:05:34Z"
     }
   },
-  "last_run_at": "2026-07-07T15:14:11Z",
+  "last_run_at": "2026-07-21T14:26:27Z",
   "version": 1
 }

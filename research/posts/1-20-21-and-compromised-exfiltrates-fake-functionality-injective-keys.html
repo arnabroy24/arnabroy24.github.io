@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A malicious @injectivelabs/sdk-ts 1.20.21 release and related scoped packages reportedly hooked normal wallet key-derivation paths to exfiltrate private keys and mnemonics." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/1-20-21-and-compromised-exfiltrates-fake-functionality-injective-keys.html" />
+  <title>Compromised Injective npm SDK release targeted wallet secrets</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-07-21 / 1 source</p>
+          <h1>Compromised Injective npm SDK release targeted wallet secrets</h1>
+          <p class="hero-copy">A malicious @injectivelabs/sdk-ts 1.20.21 release and related scoped packages reportedly hooked normal wallet key-derivation paths to exfiltrate private keys and mnemonics.</p>
+          <div class="source-list">
+          <a href="https://socket.dev/blog/compromised-injective-sdk-npm-package?utm_medium=feed" target="_blank" rel="noreferrer">Socket</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Socket reported that npm package @injectivelabs/sdk-ts version 1.20.21 was compromised and modified to steal Injective wallet private keys and mnemonic phrases under the cover of fake telemetry. The malicious behavior was not described as an install-time payload; it was triggered when applications used normal SDK functionality such as creating private keys from mnemonics or hex values. The same 1.20.21 version was also published across multiple @injectivelabs scoped packages that pinned the compromised SDK version, creating transitive exposure for projects that did not depend on @injectivelabs/sdk-ts directly.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>The affected ecosystem is npm, specifically the Injective Labs TypeScript SDK package family.</li>
+          <li>The primary malicious package identified is @injectivelabs/sdk-ts@1.20.21.</li>
+          <li>Socket lists 17 additional @injectivelabs packages at version 1.20.21 that directly or transitively depended on the compromised SDK version, including wallet, network, utility, and strategy packages.</li>
+          <li>The malicious code reportedly hooked key-generation or key-import workflows, including mnemonic- and hex-based private key creation, making exposure dependent on runtime use as well as installation.</li>
+          <li>The source states the malicious changes were introduced through an established contributor account, but the exact account compromise details are not fully established from the available snippet.</li>
+          <li>A clean version was reportedly published shortly after the malicious release, and the npm version was deprecated, but Socket noted that some release artifacts still existed on GitHub at the time of writing.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>npm, @injectivelabs/sdk-ts, @injectivelabs scoped npm packages, Applications handling Injective wallet creation, import, signing, or private-key workflows</p>
+          <h2>Security analysis</h2>
+          <p>This incident is a high-impact supply-chain compromise because the payload targeted wallet material at the point where developers and users would legitimately handle it. The lack of an install-time trigger may have reduced obvious detection signals: a project could install cleanly while still leaking secrets only when wallet functions were exercised. The transitive package releases also broaden the blast radius beyond teams that knowingly imported @injectivelabs/sdk-ts. For AppSec teams, exposure assessment should therefore combine dependency inventory with runtime behavior: identify whether affected builds were deployed, whether wallet-generation/import paths were used, and whether any real mnemonics or private keys passed through those paths. Because the source snippet does not provide complete exfiltration infrastructure details, responders should assume compromise of handled wallet secrets rather than wait for perfect network indicators.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Search package-lock.json, yarn.lock, pnpm-lock.yaml, SBOMs, artifact repositories, and container images for @injectivelabs/sdk-ts@1.20.21 and any @injectivelabs/* package pinned to 1.20.21.</li>
+          <li>Upgrade to a known-clean Injective SDK release and rebuild applications from clean dependency caches; do not rely only on package deprecation status.</li>
+          <li>Treat any wallet private key or mnemonic processed by affected runtime code as potentially compromised. Move funds to newly generated wallets and rotate any secrets derived from exposed mnemonics.</li>
+          <li>Review application logs, proxy logs, browser telemetry, and egress records around the exposure window for unexpected outbound requests from services or clients that used the SDK.</li>
+          <li>Check CI/CD and release artifacts for bundled copies of the compromised dist files, especially if frontend bundles or mobile builds included the SDK during the affected period.</li>
+          <li>Add dependency policy controls to block the specific malicious version and alert on unexpected scoped-package version bursts or dependency pins to compromised transitive packages.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Socket reported the compromised version as @injectivelabs/sdk-ts@1.20.21 and identified fake telemetry used to exfiltrate wallet keys and mnemonics.</li>
+          <li>Socket reported that 17 additional @injectivelabs scoped packages at version 1.20.21 pinned or depended on the malicious SDK version.</li>
+          <li>Available source material says the malicious activity was detected and reverted quickly, but does not fully establish how the contributor account was accessed or whether all downstream artifacts were immediately removed.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+

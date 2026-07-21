@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A fake DNS/subdomain scanning module exposed a broader GitHub-based operation using commit activity, dead-drop infrastructure, and archive payloads to deliver RATs, stealers, and miners." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/222-activity-actor-and-archives-commit-farming-dead-drops.html" />
+  <title>Malicious Go Module Linked to GitHub Lure Network Used for Windows Malware Staging</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-07-21 / 1 source</p>
+          <h1>Malicious Go Module Linked to GitHub Lure Network Used for Windows Malware Staging</h1>
+          <p class="hero-copy">A fake DNS/subdomain scanning module exposed a broader GitHub-based operation using commit activity, dead-drop infrastructure, and archive payloads to deliver RATs, stealers, and miners.</p>
+          <div class="source-list">
+          <a href="https://socket.dev/blog/malicious-go-module-exposes-github-malware-lure-network?utm_medium=feed" target="_blank" rel="noreferrer">Socket</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Socket reported a malicious Go module, github.com/kaleidora/dnsub-scanning-tool, that posed as a DNS or subdomain scanning utility while embedding a Windows malware staging chain. The package reportedly executed hidden PowerShell, resolved next-stage infrastructure through public dead drops, retrieved protected archives, and led to payloads including RATs, infostealers, downloaders, spyware/dropper components, and cryptominers. Pivoting from the module, researchers identified a high-confidence cluster of 222 GitHub repositories across 190 accounts that appeared designed to make deceptive projects look active and maintained through synthetic commit activity. Socket says the Go security team blocked the module from the Go module proxy; the full status of GitHub-hosted infrastructure is not clear from the provided source.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>The initial supply-chain entry point was a Go module impersonating a developer/reconnaissance utility rather than a direct exploit of Go tooling itself.</li>
+          <li>The module showed abnormal release behavior: Socket observed more than 1,200 versions, with more than 700 described as malicious, which is highly suspicious for a small recently created tool.</li>
+          <li>The campaign used GitHub repositories as credibility and delivery infrastructure, including apparent commit-farming workflows to simulate project activity.</li>
+          <li>Socket’s confirmed repository cluster includes 222 repositories across 190 accounts, but the source notes this is a conservative core and may not represent the full scope of related activity.</li>
+          <li>Observed malware families and payload classes included AsyncRAT, Quasar, Remcos, Vidar, trojan downloaders, spyware/dropper payloads, and Monero mining components.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>Go modules, GitHub repositories and accounts, Windows developer workstations and CI environments that execute untrusted tooling, Security/reconnaissance tooling users searching for DNS or subdomain scanners</p>
+          <h2>Security analysis</h2>
+          <p>This incident is a practical example of package ecosystem abuse rather than a novel vulnerability in Go. The attacker’s advantage came from developer trust: a plausible utility name, a familiar security-tooling theme, active-looking GitHub repositories, and many package versions that could make the module appear maintained. The staging chain then crossed from dependency installation into endpoint compromise by using PowerShell and archive-based delivery to run Windows malware. For AppSec teams, the key lesson is that repository popularity and recent commit activity can be manufactured. Dependency review should combine package provenance, maintainer history, version behavior, install-time or runtime execution patterns, and endpoint telemetry. The public source does not provide complete victim counts, all indicators, or final takedown status for every repository, so defenders should treat the named module and related GitHub activity as known-bad while continuing broader hunts for similar impersonation patterns.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Search dependency manifests, module caches, build logs, and developer workstations for github.com/kaleidora/dnsub-scanning-tool and any references to the kaleidora namespace.</li>
+          <li>Treat execution of the module as potential host compromise, especially on Windows systems; review PowerShell logs, process creation telemetry, archive downloads, and outbound connections around the time the package was installed or run.</li>
+          <li>Audit Go projects for unusually high-version, recently created, or namespace-mismatched modules that imitate known tools.</li>
+          <li>Do not rely only on repository activity as a trust signal. Review maintainer identity, release history, code behavior, and whether GitHub Actions activity appears synthetic.</li>
+          <li>Restrict developer and CI execution of newly introduced command-line tools until they have been reviewed, especially tools that invoke PowerShell, download archives, or execute opaque binaries.</li>
+          <li>If exposure is confirmed, rotate credentials accessible to the affected host or CI job, including GitHub tokens, package registry tokens, cloud credentials, and SSH keys.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Socket reported the campaign under the tracking name Operation “Muck and Load.”</li>
+          <li>Socket says it reported the GitHub infrastructure to GitHub and the malicious Go module to the Go security team.</li>
+          <li>According to Socket, the Go security team reviewed the report and blocked the module from the Go module proxy.</li>
+          <li>The provided source snippet contains partial article text, so some indicators and full repository details may be outside the available material.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+

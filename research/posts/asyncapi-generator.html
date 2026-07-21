@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Malicious AsyncAPI package versions reached npm with valid provenance after an attacker pushed to the project’s release branch, shifting execution from install-time scripts to runtime module loading." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/asyncapi-generator.html" />
+  <title>AsyncAPI npm releases poisoned through legitimate CI/CD publishing path</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-07-21 / 1 source</p>
+          <h1>AsyncAPI npm releases poisoned through legitimate CI/CD publishing path</h1>
+          <p class="hero-copy">Malicious AsyncAPI package versions reached npm with valid provenance after an attacker pushed to the project’s release branch, shifting execution from install-time scripts to runtime module loading.</p>
+          <div class="source-list">
+          <a href="https://semgrep.dev/blog/2026/miasma-v3-asyncapi-npm-hardening" target="_blank" rel="noreferrer">Semgrep</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Semgrep reports that on July 14, 2026 an attacker obtained push access to the AsyncAPI generator repository’s `next` branch and committed obfuscated malware. The commit triggered the project’s normal GitHub Actions release workflow, which published compromised npm packages using npm’s trusted-publisher/OIDC provenance flow. Because the releases came through the real pipeline, the affected packages carried legitimate-looking provenance attestations despite containing a downloader. The payload did not use npm install hooks; it executed when the poisoned module was loaded with `require()`, then launched a hidden Node.js process to retrieve a second-stage payload from an IPFS gateway and store it in an OS-specific hidden directory.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>Affected versions reported by Semgrep include `@asyncapi/generator@3.3.1`, `@asyncapi/generator-helpers@1.1.1`, `@asyncapi/generator-components@0.7.1`, and `@asyncapi/specs@6.11.2` / `@asyncapi/specs@6.11.2-alpha.1`.</li>
+          <li>The attacker abused project release automation rather than publishing from an unrelated npm account, allowing malicious artifacts to receive valid npm OIDC/SLSA provenance attestations.</li>
+          <li>The injected code was obfuscated and placed in source files with formatting intended to make review harder, according to the source.</li>
+          <li>Execution occurred at module load time, not during `npm install`, which may reduce exposure to projects that installed but never executed the affected code.</li>
+          <li>Semgrep lists infrastructure indicators including `85.137.53.71` on ports `8080`, `8081`, and `8091`, plus use of `ipfs.io` for payload retrieval.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>npm, Node.js applications and build tooling that depend on AsyncAPI generator packages, CI/CD environments that run AsyncAPI generation or load these packages during builds</p>
+          <h2>Security analysis</h2>
+          <p>This incident is notable because it weakens a common defender shortcut: treating provenance as equivalent to benign content. Provenance can confirm where and how a package was built, but it cannot prove that the source branch, workflow, or maintainer path was uncompromised. Here, the attacker appears to have used the project’s own automation, so downstream consumers would see artifacts that looked consistent with the expected publishing process. The runtime trigger also matters for exposure assessment. Traditional npm malware often relies on install scripts, which execute broadly during dependency installation. This campaign avoided install hooks and instead waited for application or tooling code to load the package, meaning defenders should distinguish between mere presence in a lockfile and confirmed execution in builds or runtime jobs. The source material does not provide complete details on the initial access vector, the full second-stage behavior, or the total number of successful executions, so impact assessments should remain evidence-driven.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Search dependency inventories, lockfiles, package manager caches, build logs, and artifact metadata for the affected package names and exact versions.</li>
+          <li>Do not assume valid npm provenance is sufficient proof of safety; in this case the provenance reflected the legitimate pipeline that had been abused.</li>
+          <li>Prioritize investigation of systems where the affected packages were actually executed, including developer workstations, CI runners, documentation generators, and release pipelines.</li>
+          <li>Review egress logs for connections to `85.137.53.71` on ports `8080`, `8081`, or `8091`, and for unexpected retrievals through `ipfs.io` around the exposure window.</li>
+          <li>Rotate credentials available to any CI runners, developer machines, or build jobs that may have loaded the malicious packages, especially npm, GitHub, cloud, registry, and deployment secrets.</li>
+          <li>Pin to known-clean versions once maintainers publish remediation guidance, clear package caches, and rebuild artifacts generated during the suspected compromise window.</li>
+          <li>Harden release workflows by restricting branch push rights, requiring signed or reviewed changes for release branches, protecting GitHub Actions workflows, and monitoring provenance-bearing releases for unexpected source diffs.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Based on Semgrep’s July 14, 2026 report on malicious AsyncAPI npm package releases.</li>
+          <li>The source text is internally inconsistent on count: it describes three initial packages, says `@asyncapi/specs` followed later, and lists five affected version entries including an alpha release. This article preserves the specific versions reported while noting uncertainty around scope.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+

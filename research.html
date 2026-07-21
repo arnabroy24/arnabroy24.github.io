@@ -42,10 +42,122 @@
         <p class="section-label">LATEST</p>
         <div class="research-list">
           <article class="research-card">
-            <a href="research/posts/across-and-chrome-developer-ecosystems-environments-expands-extensions.html">
-              <p class="research-meta">2026-07-07 / 1 source</p>
-              <h2>PolinRider Campaign Spreads Across npm, Packagist, Go Modules, and Chrome Extensions</h2>
-              <p>Socket reports an active North Korea-linked supply-chain campaign using compromised repositories and hidden JavaScript loaders to target developer environments across multiple ecosystems.</p>
+            <a href="research/posts/and-are-auditors-backdoors-can-chains-currently-detect.html">
+              <p class="research-meta">2026-07-21 / 1 source</p>
+              <h2>AI Models Are Emerging Supply-Chain Dependencies With Weak Tamper Detection</h2>
+              <p>A Semgrep analysis argues that open-weight and third-party AI models introduce dependency risk that current reverse-engineering and provenance practices do not adequately cover.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/agents-and-attackers-bitwarden-cli-coding-compromised-developer.html">
+              <p class="research-meta">2026-07-21 / 1 source</p>
+              <h2>Malicious @bitwarden/cli release targeted developer secrets through npm install hooks</h2>
+              <p>A compromised Bitwarden CLI npm package briefly exposed users of @bitwarden/cli 2026.4.0 to a payload that reportedly harvested CI credentials and attempted to propagate through npm projects.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/attackers-build-confusion-dependency-endor-how-poison.html">
+              <p class="research-meta">2026-07-21 / 1 source</p>
+              <h2>Dependency Confusion Remains a Build-Time Supply-Chain Risk</h2>
+              <p>A recent Endor Labs write-up revisits how public registry packages can override private dependencies, with historical examples showing secret theft and code execution in CI environments.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/ai-generated-and-endor-malware.html">
+              <p class="research-meta">2026-07-21 / 1 source</p>
+              <h2>AI-assisted malware is increasing dependency risk across package registries</h2>
+              <p>Endor Labs reports a sharp rise in malware advisories and continued abuse of package ecosystems, with npm account takeovers and malicious package generation highlighted as practical supply-chain risks.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/ai-generated-code-dependencies-endor-imports-securing-vulnerable-when.html">
+              <p class="research-meta">2026-07-21 / 1 source</p>
+              <h2>AI coding agents expand dependency risk through vulnerable and invented packages</h2>
+              <p>Endor Labs reports that AI-generated code can add more—and older—open source dependencies, creating exposure to known CVEs and package-name abuse such as slopsquatting.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/agents-endor-hallucinate-malicious-slopsquatting-when.html">
+              <p class="research-meta">2026-07-21 / 1 source</p>
+              <h2>Slopsquatting turns AI package hallucinations into dependency risk</h2>
+              <p>AI coding agents can suggest plausible but nonexistent packages; attackers can register those names in public registries and use normal install paths to deliver malware.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/endor-explained-trust-veiled.html">
+              <p class="research-meta">2026-07-21 / 1 source</p>
+              <h2>Supply-chain risk brief: trusted dependencies and build automation remain high-value attack paths</h2>
+              <p>A recent explainer highlights recurring supply-chain failure modes—malicious packages, maintainer compromise, dependency confusion, and CI/CD abuse—but does not identify a new affected package or active campaign.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/complete-endor-guide-what.html">
+              <p class="research-meta">2026-07-21 / 1 source</p>
+              <h2>Supply-chain risk recap: transitive dependencies and CI/CD actions remain high-impact attack paths</h2>
+              <p>A recent Endor Labs guide is not a new incident report, but it usefully connects three recurring exposure patterns: hidden transitive dependencies, compromised build systems, and unpinned third-party CI/CD components.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/asyncapi-generator.html">
+              <p class="research-meta">2026-07-21 / 1 source</p>
+              <h2>AsyncAPI npm releases poisoned through legitimate CI/CD publishing path</h2>
+              <p>Malicious AsyncAPI package versions reached npm with valid provenance after an attacker pushed to the project’s release branch, shifting execution from install-time scripts to runtime module loading.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/actions-asyncapi-attackers-branches-compromise-endor-five-how.html">
+              <p class="research-meta">2026-07-21 / 1 source</p>
+              <h2>AsyncAPI npm Packages Compromised Through Release Branch and CI Abuse</h2>
+              <p>Five official @asyncapi packages reportedly shipped malicious code after attackers pushed to unprotected release branches, producing npm releases through legitimate GitHub Actions workflows.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/and-cheats-control-deploy-drop-for-game-google.html">
+              <p class="research-meta">2026-07-21 / 1 source</p>
+              <h2>Malicious NuGet .NET tools posed as game cheats and installed Windows surveillance payloads</h2>
+              <p>A campaign of 11 NuGet DotnetTool packages used game-utility themes to deliver a second-stage Windows executable, with telemetry and control tied to Google Sheets and other hosted infrastructure.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/and-asyncapi-botnet-compromised-deliver-linux-loader-macos.html">
+              <p class="research-meta">2026-07-21 / 1 source</p>
+              <h2>AsyncAPI npm Releases Compromised to Load Miasma Botnet Payloads</h2>
+              <p>Four packages under the @asyncapi npm scope shipped malicious versions that execute on module load and retrieve a second-stage payload from IPFS.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/added-and-binaries-compromised-hidden-hook-jscrambler-linux.html">
+              <p class="research-meta">2026-07-21 / 1 source</p>
+              <h2>Compromised jscrambler npm releases executed hidden native payloads across developer and CI environments</h2>
+              <p>Multiple malicious jscrambler versions delivered bundled binaries for Windows, macOS, and Linux, first through npm install hooks and later through package import/CLI execution.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/and-api-apps-braintree-card-cards-credentials-credit.html">
+              <p class="research-meta">2026-07-21 / 1 source</p>
+              <h2>Typosquatted Braintree NuGet package targeted payment data and merchant secrets</h2>
+              <p>A malicious NuGet package named Braintree.Net impersonated the official Braintree .NET SDK and included code to skim card data and steal API credentials from applications that installed it.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/1-20-21-and-compromised-exfiltrates-fake-functionality-injective-keys.html">
+              <p class="research-meta">2026-07-21 / 1 source</p>
+              <h2>Compromised Injective npm SDK release targeted wallet secrets</h2>
+              <p>A malicious @injectivelabs/sdk-ts 1.20.21 release and related scoped packages reportedly hooked normal wallet key-derivation paths to exfiltrate private keys and mnemonics.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/2fa-bypass-and-available-beginning-begins-default-deprecating-deprecation.html">
+              <p class="research-meta">2026-07-21 / 1 source</p>
+              <h2>npm v12 Reduces Install-Time Supply-Chain Risk by Requiring Script Opt-In</h2>
+              <p>The npm CLI now skips dependency install scripts by default and begins removing high-risk 2FA-bypass token capabilities, addressing common execution paths used in recent malicious package campaigns.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/222-activity-actor-and-archives-commit-farming-dead-drops.html">
+              <p class="research-meta">2026-07-21 / 1 source</p>
+              <h2>Malicious Go Module Linked to GitHub Lure Network Used for Windows Malware Staging</h2>
+              <p>A fake DNS/subdomain scanning module exposed a broader GitHub-based operation using commit activity, dead-drop infrastructure, and archive payloads to deliver RATs, stealers, and miners.</p>
             </a>
           </article>
           <article class="research-card">
@@ -53,6 +165,13 @@
               <p class="research-meta">2026-07-07 / 1 source</p>
               <h2>AI Coding Agents Increase Dependency Intake Risk Across Open Source Workflows</h2>
               <p>A Socket/Risky Biz discussion highlights a practical supply-chain concern: automated coding tools can introduce packages, extensions, and repository code faster than teams can review them.</p>
+            </a>
+          </article>
+          <article class="research-card">
+            <a href="research/posts/across-and-chrome-developer-ecosystems-environments-expands-extensions.html">
+              <p class="research-meta">2026-07-07 / 1 source</p>
+              <h2>PolinRider Campaign Spreads Across npm, Packagist, Go Modules, and Chrome Extensions</h2>
+              <p>Socket reports an active North Korea-linked supply-chain campaign using compromised repositories and hidden JavaScript loaders to target developer environments across multiple ecosystems.</p>
             </a>
           </article>
           <article class="research-card">

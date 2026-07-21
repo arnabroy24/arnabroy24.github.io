@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A recent Endor Labs guide is not a new incident report, but it usefully connects three recurring exposure patterns: hidden transitive dependencies, compromised build systems, and unpinned third-party CI/CD components." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/complete-endor-guide-what.html" />
+  <title>Supply-chain risk recap: transitive dependencies and CI/CD actions remain high-impact attack paths</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-07-21 / 1 source</p>
+          <h1>Supply-chain risk recap: transitive dependencies and CI/CD actions remain high-impact attack paths</h1>
+          <p class="hero-copy">A recent Endor Labs guide is not a new incident report, but it usefully connects three recurring exposure patterns: hidden transitive dependencies, compromised build systems, and unpinned third-party CI/CD components.</p>
+          <div class="source-list">
+          <a href="https://www.endorlabs.com/learn/what-is-software-supply-chain-security-the-complete-guide" target="_blank" rel="noreferrer">Endor Labs</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>The source does not describe a newly discovered compromise. Instead, it summarizes software supply-chain risk using prior incidents, including the XZ Utils backdoor, the SolarWinds Orion build compromise, and the 2025 compromise of the tj-actions/changed-files GitHub Action. The practical takeaway for AppSec teams is that exposure is often outside code directly written or selected by developers: nested dependencies, build infrastructure, signed artifacts, and reusable CI/CD components can all become delivery paths for malicious code or secret theft.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>The source emphasizes that direct dependency scanning is insufficient because applications commonly inherit large transitive dependency trees.</li>
+          <li>It cites Endor Labs research that most application-impacting vulnerabilities are found in transitive dependencies, though the snippet does not provide methodology details.</li>
+          <li>The XZ Utils case is presented as an example of maintainer trust abuse and malicious code entering a widely distributed open-source component.</li>
+          <li>The SolarWinds case illustrates that compromising a build system can result in malicious code being shipped as a legitimate signed update.</li>
+          <li>The tj-actions/changed-files incident is cited as a CI/CD ecosystem abuse case where workflows using an unpinned third-party GitHub Action could expose secrets.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>Open-source dependency ecosystems with direct and transitive packages, Linux distributions and projects consuming low-level open-source utilities such as XZ Utils, GitHub Actions workflows using third-party actions, CI/CD systems, build pipelines, signed release processes, and deployment artifacts, Container images and other deployable software artifacts</p>
+          <h2>Security analysis</h2>
+          <p>This source is best treated as a risk briefing rather than a fresh incident disclosure. Its value is the connection between three supply-chain failure modes that often require different controls. Dependency risk requires full graph visibility, because the package that introduces exposure may be several layers below the application’s declared dependencies. Build-system risk requires hardening CI/CD, secrets handling, and release integrity, because a clean source repository can still produce a compromised artifact. Package and CI/CD ecosystem abuse requires immutability and provenance controls, because trusted names, tags, or maintainers can change over time.
+
+For AppSec teams, the immediate action is to validate whether existing controls cover the full path from source to production: dependency resolution, build execution, artifact signing, containerization, and deployment. The source does not provide new indicators of compromise or a newly affected package list, so organizations should not treat this as a stand-alone alert. Instead, use the cited incidents as test cases for whether current tooling could identify transitive exposure, detect unexpected build changes, and limit blast radius from a compromised third-party automation component.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Inventory both direct and transitive dependencies for production applications; do not limit SCA to manifest-declared packages only.</li>
+          <li>Generate and maintain SBOMs for applications, containers, and released artifacts so downstream exposure can be assessed quickly.</li>
+          <li>Pin third-party GitHub Actions and similar CI/CD components to immutable commit SHAs rather than mutable tags.</li>
+          <li>Review CI/CD workflows for access to secrets, deployment credentials, signing keys, and package publishing tokens; reduce default permissions where possible.</li>
+          <li>If an environment used a compromised or unpinned CI/CD component, assume exposed workflow secrets may be compromised and rotate them.</li>
+          <li>Add policy gates for known-vulnerable, suspicious, abandoned, or newly introduced high-risk dependencies before merge or release.</li>
+          <li>Monitor build provenance and artifact integrity; signing alone is not enough if the build environment can be tampered with before signing.</li>
+          <li>Track advisories for transitive dependencies and verify whether vulnerable code is actually reachable where tooling supports reachability analysis.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Source: Endor Labs, “What Is Software Supply Chain Security? The Complete Guide,” published July 13, 2026.</li>
+          <li>The article is educational and vendor-authored; it summarizes prior supply-chain incidents rather than reporting a new active campaign.</li>
+          <li>Specific technical details, affected versions, and IOCs for XZ Utils, SolarWinds, and tj-actions/changed-files are not included in the supplied snippet and would need separate primary-source validation.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+
