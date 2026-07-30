@@ -486,6 +486,63 @@
       ],
       "updated_at": "2026-07-07T15:13:30Z"
     },
+    "access-beta-blockchain-compromised-contain-deliver-dev-implant": {
+      "created_at": "2026-07-30T14:29:45Z",
+      "dek": "Two prerelease packages in the @joyfill npm scope included bundled JavaScript that could execute when imported and retrieve follow-on malware using blockchain-hosted instructions.",
+      "discovered_on": "2026-07-30",
+      "indicators": [],
+      "last_seen_on": "2026-07-30",
+      "post_path": "research/posts/access-beta-blockchain-compromised-contain-deliver-dev-implant.html",
+      "published": true,
+      "slug": "access-beta-blockchain-compromised-contain-deliver-dev-implant",
+      "source_ids": [
+        "075835da826db57f"
+      ],
+      "source_urls": [
+        "https://socket.dev/blog/joyfill-npm-beta-releases-compromised?utm_medium=feed"
+      ],
+      "sources": [
+        {
+          "article_text": "Two Joyfill npm Beta Releases Compromised to Deliver DEV#POP... \ud83c\udfa9 You're Invited: Meet the Socket team at Black Hat in Las Vegas, August 3-6 . RSVP \u2192 Blog Research Security News Two Joyfill npm Beta Releases Compromised to Deliver DEV#POPPER Remote Access Trojan Two Joyfill npm beta releases contain an import-time implant that uses blockchain transactions to retrieve a remote-access trojan. Socket Research Team July 28, 2026 10 min read Table of Contents Affected Packages Impact How the packages were compromised Technical Analysis Recommendations MITRE ATT&CK Indicators of Compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Table of Contents Affected Packages Impact How the packages were compromised Technical Analysis Recommendations MITRE ATT&CK Indicators of Compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Two npm beta releases in the @joyfill namespace contain an import-time JavaScript implant that resolves encrypted code through Tron, Aptos, and BNB Smart Chain transactions. Static analysis shows that its primary branch reaches a 77 KB Node.js remote-access trojan. A parallel branch launches a detached Node.js process, requests a separate boot payload from 23[.]27[.]13[.]43/$/boot , sends the marker header Sec-V: A9-0135-3 , decrypts the response, and evaluates it. Joyfill provides software development kits for embedding forms, documents, and PDFs into web and mobile applications. @joyfill/components supplies the React UI components used to build, render, and edit these experiences, while @joyfill/layouts manages their page and field layouts. Each package receives approximately 16,000 weekly downloads on npm. Because @joyfill/components depends on @joyfill/layouts , these figures overlap and should not be combined into a single download total. The affected versions were beta releases, so overall weekly downloads do not indicate how many users installed the compromised beta versions. Affected Packages # @joyfill/layouts@0.1.2-2773.beta.0 @joyfill/components@4.0.0-rc24-2773-beta.4 Neither uses an npm lifecycle hook. The functional layouts implant runs when Node.js loads the CommonJS package entrypoint, so npm install --ignore-scripts does not prevent execution once the affected module is imported. The loader has exact PolinRider-family indicators, including its multi-chain resolver structure, global markers, and XOR keys. The recovered 77 KB final JavaScript has the highly distinctive Socket.IO command set, Sec-V marker design, and developer-tool persistence associated with the DEV#POPPER malware family. These are family assessments based on direct code overlap and published technical research, not an attribution of the Joyfill compromise to a particular group. Impact # The @joyfill/layouts release should be treated as capable of arbitrary code execution in the context of any process that loads it. This includes development environments, CI runners, test tooling, server-side rendering, and builds. The final recovered code can collect host information, establish a Socket.IO remote-control channel, execute supplied JavaScript or shell commands, upload files, read clipboard data, and modify files belonging to developer tools. @joyfill/components@4.0.0-rc24-2773-beta.4 contains the same malicious injection in dist/index.js , dist/index.esm.js , and dist/joyfill.min.js . Its published Rollup bundle supplies a throwing dynamic- require shim, preventing the loader from resolving its network dependencies in the normal bundled execution path. That limits execution in this particular artifact, but does not make the release safe or remove the evidence that the same source-level injection reached a second Joyfill package. The preceding versions examined, @joyfill/layouts@0.1.1 and @joyfill/components@4.0.0-rc24 , do not contain the implant. Other public @joyfill packages checked during this analysis did not contain this signature. How the packages were compromised # Both malicious versions use the 2773 prerelease build marker and were published by the same npm identity using Node.js 18.20.0 and npm 10.5.0 : @joyfill/layouts@0.1.2-2773.beta.0 : 2026-07-28T10:54:57.311Z @joyfill/components@4.0.0-rc24-2773-beta.4 : 2026-07-28T11:03:59.568Z The layouts source map attributes the appended implant to src/utils/reactGridLayoutUtils.js ; the emitted source maps for both packages include the implant\u2019s own identifiers. This establishes that the code was present at bundle time rather than inserted only into a final tarball. It does not, on its own, identify whether the initial access was to a developer workstation, source repository, CI environment, or publishing credential. Technical Analysis # Stage 0: Module-load bootstrap The implant is appended after legitimate package code. It begins with several layers of JavaScript obfuscation: a seeded character shuffle, a small decoded string ",
+          "categories": [
+            "research",
+            "security news"
+          ],
+          "feed_url": "https://socket.dev/api/blog/feed.atom",
+          "id": "075835da826db57f",
+          "published_at": "2026-07-30T14:29:42Z",
+          "source": "Socket",
+          "summary": "Two Joyfill npm beta releases contain an import-time implant that uses blockchain transactions to retrieve a remote-access trojan.",
+          "title": "Two Joyfill npm Beta Releases Compromised to Deliver DEV#POPPER Remote Access Trojan",
+          "url": "https://socket.dev/blog/joyfill-npm-beta-releases-compromised?utm_medium=feed"
+        }
+      ],
+      "title": "Joyfill npm Beta Packages Carried Import-Time RAT Loader",
+      "tokens": [
+        "access",
+        "beta",
+        "blockchain",
+        "compromised",
+        "contain",
+        "deliver",
+        "dev",
+        "implant",
+        "import-time",
+        "joyfill",
+        "npm",
+        "popper",
+        "releases",
+        "remote",
+        "remote-access",
+        "retrieve",
+        "transactions",
+        "trojan",
+        "trojan.",
+        "two",
+        "uses"
+      ],
+      "updated_at": "2026-07-30T14:29:45Z"
+    },
     "account-across-carrying-combined-compromised-dependency-downloads-drop": {
       "created_at": "2026-06-23T01:50:44Z",
       "dek": "A hijacked npm account reportedly republished 116 @mastra packages with a dependency on the malicious dayjs lookalike easy-day-js, exposing AI application build pipelines to install-time code execution.",
@@ -551,6 +608,113 @@
         "via"
       ],
       "updated_at": "2026-06-23T01:50:44Z"
+    },
+    "across-alibaba-benign-looking-cluster-cross-platform-delivers-dependency-deploys": {
+      "created_at": "2026-07-30T14:29:45Z",
+      "dek": "Socket reports that multiple benign-looking npm packages worked together to install a downloader and cross-platform RAT, apparently aimed at developers with access to Alibaba\u2019s private @ali packages.",
+      "discovered_on": "2026-07-30",
+      "indicators": [],
+      "last_seen_on": "2026-07-30",
+      "post_path": "research/posts/across-alibaba-benign-looking-cluster-cross-platform-delivers-dependency-deploys.html",
+      "published": true,
+      "slug": "across-alibaba-benign-looking-cluster-cross-platform-delivers-dependency-deploys",
+      "source_ids": [
+        "28f5d9d9e1550a65"
+      ],
+      "source_urls": [
+        "https://socket.dev/blog/npm-rat-targets-alibaba?utm_medium=feed"
+      ],
+      "sources": [
+        {
+          "article_text": "Distributed npm Package Cluster Delivers Cross-Platform RAT ... \ud83c\udfa9 You're Invited: Meet the Socket team at Black Hat in Las Vegas, August 3-6 . RSVP \u2192 Blog Research Security News Distributed npm Package Cluster Delivers Cross-Platform RAT Targeting Alibaba Developers Benign-looking npm packages split malicious functionality across a dependency chain that deploys a cross-platform RAT targeting Alibaba developers. Karlo Zanki July 28, 2026 8 min read Table of Contents Individual Non-Malicious Packages Combine Together to Provide Loader Functionality Rule Engine Implements Virtual Machine to Construct Downloader Final Payload - Targeted Remote Access Trojan Defensive Guidance Indicators of Compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Table of Contents Individual Non-Malicious Packages Combine Together to Provide Loader Functionality Rule Engine Implements Virtual Machine to Construct Downloader Final Payload - Targeted Remote Access Trojan Defensive Guidance Indicators of Compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Unknown threat actors distribute malicious downloader functionality separated across several npm packages targeting users of Alibaba tools. The final payload is a covert and highly targeted RAT capable of data exfiltration, command execution and lateral spreading using DingTalk tools Analysis of a malicious npm package lib-mtop containing a simple downloader malware led to an investigation into a targeted campaign that remained undetected for 3 months. The lib-mtop package, originally published three years ago, had three new versions published at the end of March, 2026. This indicates a potential maintainer account takeover, but the possibility of a maintainer going rogue can\u2019t be excluded. Whichever the case, it is not that relevant for the story, since there was only one version of the lib-mtop package initially published, with no functionality and an insignificant number of downloads. The only reason why this package is relevant for the research is the fact that it is an unscoped package name imitating a private package from the @ali scope. This scope is not available for registration on npm, and is most likely reserved for security reasons or already registered by Alibaba Group. Code references to packages from this scope can be found across several GitHub repositories. The @ali scope is used for hosting Alibaba's private packages used in internal projects and tooling. The malware in the lib-mtop package is a classic malicious loader fetching a hardcoded remote JavaScript payload using curl, and executing it via require() from the disk. It doesn\u2019t use any novel or interesting techniques. The same maintainer account published 4 other packages, aone-kit , aone-kit-cli , aone-sandbox and **** local-config-parser . The first three are empty wrappers that have the same name as private, @ali -scoped packages which they declare as a dependency in the package.json file. The last package, local-config-parser is the most interesting one. Described as \u201c JSON configuration file parser with built-in rule evaluation engine. \u201d it truly implements that logic. It parses rules from a local json config file and evaluates them using Node.js vm module for isolated expression evaluation. Nothing suspicious to observe, a regular package doing exactly what it describes, communicates only with the local system and even performs execution of untrusted code in an isolated environment. A typical analyst verdict would be non-malicious. But the context around the package led to a different classification. Examination of the dependency tree revealed the malicious nature of several, on their own, innocent-looking packages, published from different user account. Combined together they deliver an advanced remote access tool (RAT) in a campaign targeting developers most likely working in companies that are part of the Alibaba Group. Individual Non-Malicious Packages Combine Together to Provide Loader Functionality # The malicious loader functionality is distributed into several packages delivered to the targets as part of the same dependency tree. The top-layer packages serve as lures that trigger the installation of the dependency tree. They implement the same tactic observed in the lib-mtop package - an unscoped package name impersonating private packages from the @ali scope and including them as a dependency. When such package is installed in an environment that has access to impersonated, scoped private packages, the dependency resolution works as expected, with a little extra functionality delivered through additional dependencies that get installed. Loader malware gets delivered through several modules, implementing their part of the functionality. The top-layer packages serve as lures and implement no functionality. They include dependencies on packages from the targete",
+          "categories": [
+            "research",
+            "security news"
+          ],
+          "feed_url": "https://socket.dev/api/blog/feed.atom",
+          "id": "28f5d9d9e1550a65",
+          "published_at": "2026-07-30T14:29:42Z",
+          "source": "Socket",
+          "summary": "Benign-looking npm packages split malicious functionality across a dependency chain that deploys a cross-platform RAT targeting Alibaba developers.",
+          "title": "Distributed npm Package Cluster Delivers Cross-Platform RAT Targeting Alibaba Developers",
+          "url": "https://socket.dev/blog/npm-rat-targets-alibaba?utm_medium=feed"
+        }
+      ],
+      "title": "npm package cluster used dependency-chain staging to target Alibaba developers",
+      "tokens": [
+        "across",
+        "alibaba",
+        "benign-looking",
+        "cluster",
+        "cross-platform",
+        "delivers",
+        "dependency",
+        "deploys",
+        "developers",
+        "developers.",
+        "distributed",
+        "functionality",
+        "malicious",
+        "npm",
+        "rat",
+        "split",
+        "targeting"
+      ],
+      "updated_at": "2026-07-30T14:29:45Z"
+    },
+    "across-and-available-five-for-frontier-generated-identifies": {
+      "created_at": "2026-07-30T14:29:45Z",
+      "dek": "A new study found 53 nonexistent package names repeatedly suggested by five frontier coding models and still available for registration, creating a practical dependency-confusion risk even without evidence of active exploitation.",
+      "discovered_on": "2026-07-30",
+      "indicators": [],
+      "last_seen_on": "2026-07-30",
+      "post_path": "research/posts/across-and-available-five-for-frontier-generated-identifies.html",
+      "published": true,
+      "slug": "across-and-available-five-for-frontier-generated-identifies",
+      "source_ids": [
+        "8fcc3ddd26437937"
+      ],
+      "source_urls": [
+        "https://socket.dev/blog/slopsquatting-targets-across-frontier-llms?utm_medium=feed"
+      ],
+      "sources": [
+        {
+          "article_text": "New Study Identifies 53 Slopsquatting Targets Across 5 Front... \ud83c\udfa9 You're Invited: Meet the Socket team at Black Hat in Las Vegas, August 3-6 . RSVP \u2192 Blog Security News New Study Identifies 53 Slopsquatting Targets Across 5 Frontier LLMs Five frontier LLMs generated the same nonexistent package names, leaving 53 available for potential slopsquatting across PyPI and npm. Sarah Gooding July 22, 2026 5 min read Table of Contents Frontier models narrowed the gap without eliminating hallucinations Shared package names create targets across model providers Socket\u2019s review removed six npm false positives Registry lookups alone can misclassify valid imports The results do not represent every AI coding workflow Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Table of Contents Frontier models narrowed the gap without eliminating hallucinations Shared package names create targets across model providers Socket\u2019s review removed six npm false positives Registry lookups alone can misclassify valid imports The results do not represent every AI coding workflow Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install A new independent research preprint examining nearly 200,000 code-generation responses found that five frontier large language models continue to invent package names that do not exist on PyPI or npm. The models\u2019 overall package-hallucination rates were much closer than those measured in earlier research, ranging from 4.62% to 6.10%. The study also identified package names generated by every model in the test group. The initial analysis found 127 names shared across Claude Sonnet 4.6, Claude Haiku 4.5, GPT-5.4-mini, Gemini 2.5 Pro, and DeepSeek V3.2. After review by PyPI Security and Socket, researchers determined that 53 of those names, 41 on PyPI and 12 on npm, were still available for registration as of April 2026. An attacker could publish malware under one of these names and wait for an AI coding tool to recommend it to a developer. This technique, known as slopsquatting , exploits package names that AI models repeatedly invent. Because every model in the study generated the same names, one malicious registration could potentially target users across several model providers. The findings appear in \u201cThe Range Shrinks, the Threat Remains: Re-evaluating LLM Package Hallucinations on the 2026 Frontier-Model Cohort,\u201d by independent researcher Aleksandr Churilov. His study has been posted to arXiv but has not been peer-reviewed. The research identifies potential slopsquatting targets, not an active attack. There is no evidence in the study that any of the 53 names have been registered maliciously or used to compromise developers. Frontier models narrowed the gap without eliminating hallucinations # The study replicates the methodology of research presented at USENIX Security 2025 , which tested 16 code-generating LLMs and reported average package-hallucination rates of 5.2% among commercial models and 21.7% among open-source models. Churilov tested five newer models against the same prompt corpus, generating 199,845 responses between April 22 and April 28, 2026. The prompts included approximately 20,000 programming questions collected from Stack Overflow and approximately 20,000 synthetically generated questions, divided between Python and JavaScript. The measured rates were: Model Python JavaScript Overall Claude Haiku 4.5 5.49% 2.76% 4.62% Claude Sonnet 4.6 6.63% 2.62% 5.41% Gemini 2.5 Pro 6.75% 3.61% 5.80% DeepSeek V3.2 6.69% 3.78% 5.89% GPT-5.4-mini 7.27% 3.14% 6.10% The spread between the lowest and highest rates narrowed from 16.5 percentage points in the earlier model cohort to 1.48 percentage points. However, none of the five models improved upon the earlier study\u2019s lowest individual result of approximately 3.6% for GPT-4 Turbo. GPT-5.4-mini\u2019s result also carries an important qualification. It was tested at minimal reasoning effort and refused 32.14% of prompts, substantially more than the other models. Its hallucination rate was calculated only from compliant, parseable responses, which may not represent the full prompt distribution. Python package hallucinations exceeded JavaScript hallucinations across all five models, reversing the earlier study\u2019s finding that JavaScript produced more. The author suggests that newer models may have absorbed npm\u2019s naming conventions more effectively than Python\u2019s mix of import names, distribution names, and naming formats. Shared package names create targets across model providers # The researchers compared the unique package names generated by each model and found an initial intersection of 127 names: 109 associated with PyPI and 18 with npm. These were not merely similar names. Each candidate appeared in output from all five tested models. Each shared name gives an attacker a single registration target that could surface in output from models offered",
+          "categories": [
+            "security news"
+          ],
+          "feed_url": "https://socket.dev/api/blog/feed.atom",
+          "id": "8fcc3ddd26437937",
+          "published_at": "2026-07-30T14:29:42Z",
+          "source": "Socket",
+          "summary": "Five frontier LLMs generated the same nonexistent package names, leaving 53 available for potential slopsquatting across PyPI and npm.",
+          "title": "New Study Identifies 53 Slopsquatting Targets Across 5 Frontier LLMs",
+          "url": "https://socket.dev/blog/slopsquatting-targets-across-frontier-llms?utm_medium=feed"
+        }
+      ],
+      "title": "LLM Package Hallucinations Leave PyPI and npm Names Open to Slopsquatting",
+      "tokens": [
+        "across",
+        "and",
+        "available",
+        "five",
+        "for",
+        "frontier",
+        "generated",
+        "identifies",
+        "leaving",
+        "llms",
+        "names",
+        "nonexistent",
+        "npm.",
+        "potential",
+        "pypi",
+        "same",
+        "slopsquatting",
+        "study",
+        "targets"
+      ],
+      "updated_at": "2026-07-30T14:29:45Z"
     },
     "across-and-chrome-developer-ecosystems-environments-expands-extensions": {
       "created_at": "2026-07-07T15:13:30Z",
@@ -1327,6 +1491,57 @@
       ],
       "updated_at": "2026-07-21T14:20:07Z"
     },
+    "and-attacks-blocks-brief-dependencies-early-endor-incident": {
+      "created_at": "2026-07-30T14:29:45Z",
+      "discovered_on": "2026-07-30",
+      "indicators": [],
+      "last_seen_on": "2026-07-30",
+      "post_path": "research/posts/and-attacks-blocks-brief-dependencies-early-endor-incident.html",
+      "published": false,
+      "skipped_at": "2026-07-30T14:30:41Z",
+      "slug": "and-attacks-blocks-brief-dependencies-early-endor-incident",
+      "source_ids": [
+        "3073341ff977ceb9"
+      ],
+      "source_urls": [
+        "https://www.endorlabs.com/learn/proactive-protection-from-malware-attacks"
+      ],
+      "sources": [
+        {
+          "article_text": "Proactive Protection from Malware Attacks | Solution Brief | Endor Labs --> Meet Endor Labs in Las Vegas for BlackHat 2026 Learn More Learn Research Company LeanAppSec Pricing Docs Login Book a Demo Book Demo By clicking \u201cAccept\u201d, you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. View our Privacy Policy for more information. Deny Accept Solution Brief Proactive Protection from Malware Attacks Protect your software supply chain from rising malware attacks. Endor Labs blocks malicious open-source dependencies early and reduces incident response Open Report View Report Published on September 23, 2025 Updated on July 24, 2026 Topics Malware Security Summarize with AI Software supply chain attacks are increasing Malware in open source dependencies is a fast-growing threat facing application security and engineering teams. The industry has observed a 1,300% increase in malware campaigns since 2023 , primarily targeting registries like npm and PyPI given their popularity and dependency-rich ecosystems. 1 By the Numbers 18,000 malicious open-source packages were identified by security researchers in Q1 2025 2 80% of DevOps teams have delayed CI pipelines due to critical security issues 1 100,000+ downstream packages on average rely on a popular npm package 3 Malware campaigns typically burn out quickly but can still have major impacts. Security teams must run rapid incident responses to verify whether environments were impacted, disrupting regular work and delaying releases. Detect and block malware at the source While malware risk management seems more reactive than CVE remediation programs, there are many proactive steps you can take. Endor Labs helps security teams build lasting programs that block malware early, enforce guardrails in development, and reduce incident response workloads. Trusted by Security Leaders \u201cEndor Labs catches malicious dependencies before we even hear about them. Their security research team goes beyond automated detection to help us verify the threat so we can act early and decisively.\u201d \u2014 Aman Sirohi , SVP - Chief Security Office & Platform @ People.ai Detect supply chain attacks early Block known malware: Block known malicious packages from entering your codebase. Identify suspicious behavior: Scan every package for suspicious code and flags risks such as typosquatting, dependency confusion, and hidden scripts. Expert verification: The Endor Labs security research team reviews suspicious findings, escalating and notifying you when malware is detected. Use policies to set guardrails Detect unpinned dependencies: Prevent developers and CI tools from pulling new versions that may contain malware. Enforce mandatory cooldown periods: Most attacks are resolved in 24-48 hours so simply waiting to adopt new versions is a strong control. Identify unused dependencies: Reduce your attack surface by eliminating unmaintained or forgotten code that could be exploited. Evaluate every dependency for risks Review dependencies: Assesses every open source package against 150+ health checks. Flag weak security practices: Spot unsafe security practices in project repositories. Identify risky activity: Flag projects with single maintainers or abandoned projects. Build a proactive malware prevention program Book a demo today and learn how Endor Labs can help secure your software supply chain. endorlabs.com/demo-request \u200d Sources: 1. Software supply chain security by the numbers: 30 stats that matter (Security Boulevard) 2. Security researchers warn of 18,000 open source malware packages (InfoWorld) 3. A study of The Security Threats in the npm ecosystem (Proceedings of the 28th USENIX Security Symposium) What's next? When you're ready to take the next step in securing your software supply chain, here are 3 ways Endor Labs can help: Explore the Secure Code Prompt Library Download 40+ AI prompts for secure vibe coding. Take a tour of Endor Labs Explore Endor Labs with a self-guided platform tour. Book a Demo See Endor Labs in action with a custom walkthrough. \ud83d\udcd8 Secure code prompt library \ud83e\udded Take a platform tour \ud83e\udd1d\ufeff Book a Demo Contents Table of Contents Share This Resource Malicious Package Detection Detect and block malware Learn More Related Posts Uncover Trends and Show AppSec Value with the Endor Labs Dashboard Vulnerability metrics can help you uncover remediation and SLA trends, and demonstrate the value of AppSec investments to your leadership. Learn More The UK Software Security Code of Practice through a Software Supply Chain Lens How the UK Software Security Code of Practice reshapes supply chain security\u2014and how Endor Labs helps vendors meet its core requirements. Learn More Static SCA vs. Dynamic SCA: Which is Better (and Why It's Neither) Software composition analysis (SCA) tools can take a static or dynamic approach. Learn the pros and cons of each option and see how the results differ. Learn More Thank you! Your ",
+          "categories": [],
+          "feed_url": "https://www.endorlabs.com/blog/rss.xml",
+          "id": "3073341ff977ceb9",
+          "published_at": "2026-07-24T19:35:13Z",
+          "source": "Endor Labs",
+          "summary": "Protect your software supply chain from rising malware attacks. Endor Labs blocks malicious open-source dependencies early and reduces incident response.",
+          "title": "Proactive Protection from Malware Attacks | Solution Brief | Endor Labs",
+          "url": "https://www.endorlabs.com/learn/proactive-protection-from-malware-attacks"
+        }
+      ],
+      "title": "Proactive Protection from Malware Attacks | Solution Brief | Endor Labs",
+      "tokens": [
+        "and",
+        "attacks.",
+        "blocks",
+        "brief",
+        "dependencies",
+        "early",
+        "endor",
+        "incident",
+        "malicious",
+        "malware",
+        "open-source",
+        "proactive",
+        "protect",
+        "protection",
+        "reduces",
+        "response.",
+        "rising",
+        "solution"
+      ],
+      "updated_at": "2026-07-30T14:29:45Z"
+    },
     "and-auth-backstage-gitlab-hits-immobiliarelabs-ldap-miasma": {
       "created_at": "2026-06-27T14:05:34Z",
       "dek": "A reported wave in the Miasma Mini Shai-Hulud campaign republished multiple @immobiliarelabs Backstage plugin versions with credential-stealing payloads, raising exposure concerns for developer portals and CI/CD environments.",
@@ -1588,6 +1803,71 @@
       ],
       "updated_at": "2026-06-23T01:50:44Z"
     },
+    "artifact-brief-endor-signing-solution": {
+      "created_at": "2026-07-30T14:29:45Z",
+      "discovered_on": "2026-07-30",
+      "indicators": [],
+      "last_seen_on": "2026-07-30",
+      "post_path": "research/posts/artifact-brief-endor-signing-solution.html",
+      "published": false,
+      "skipped_at": "2026-07-30T14:30:49Z",
+      "slug": "artifact-brief-endor-signing-solution",
+      "source_ids": [
+        "f439601cc3ac34c3",
+        "737fd7c510db7696",
+        "a641f4d9904fa484"
+      ],
+      "source_urls": [
+        "https://www.endorlabs.com/learn/artifact-signing",
+        "https://www.endorlabs.com/learn/package-firewall",
+        "https://www.endorlabs.com/learn/software-supply-chain-security"
+      ],
+      "sources": [
+        {
+          "article_text": "Artifact Signing | Solution Brief | Endor Labs --> Meet Endor Labs in Las Vegas for BlackHat 2026 Learn More Learn Research Company LeanAppSec Pricing Docs Login Book a Demo Book Demo By clicking \u201cAccept\u201d, you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. View our Privacy Policy for more information. Deny Accept Solution Brief Artifact Signing Artifact Signing by Endor Labs cryptographically signs container images, binaries, and other build artifacts in the CI pipeline, then verifies them at deployment, so unsigned or tampered code never runs. This solution brief shows how it's built on the same principles as Sigstore but keeps everything private to your tenant: your existing SSO identities, single-use ephemeral certificates, and a tamper-resistant signature log. Open Report View Report Published on July 27, 2026 Updated on July 24, 2026 Topics Security Related Posts Why Different SCA Tools Produce Different Results Like anything in computer science and programming, there\u2019s more than one way to solve a problem or get a result. SCA (software composition analysis) is no different. Learn More Bringing Malware Detection Into AI Coding Workflows with Cursor Hooks Endor Labs integrates with Cursor hooks to detect malicious packages before AI agents install dependencies, preventing supply chain attacks at the moment of risk. Learn More AI Security Code Review: A Multi-Agent Approach for Detecting Security Design Flaws at Scale This whitepaper introduces how AI Security Code Review works, what it detects, how it integrates into your workflows, and why it represents the next generation of code scanning technology \u2014 built for the complexity and speed of AI-native software development. Learn More Thank you! Your submission has been received! Oops! Something went wrong while submitting the form.",
+          "categories": [],
+          "feed_url": "https://www.endorlabs.com/blog/rss.xml",
+          "id": "f439601cc3ac34c3",
+          "published_at": "2026-07-24T19:35:13Z",
+          "source": "Endor Labs",
+          "summary": "Artifact Signing",
+          "title": "Artifact Signing | Solution Brief | Endor Labs",
+          "url": "https://www.endorlabs.com/learn/artifact-signing"
+        },
+        {
+          "article_text": "Package Firewall | Solution Brief | Endor Labs --> Meet Endor Labs in Las Vegas for BlackHat 2026 Learn More Learn Research Company LeanAppSec Pricing Docs Login Book a Demo Book Demo By clicking \u201cAccept\u201d, you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. View our Privacy Policy for more information. Deny Accept Solution Brief Package Firewall Every package install, whether from a developer or an AI coding agent, pulls code from the internet straight into your environment, and no post-install scan can undo that. This solution brief shows how Package Firewall by Endor Labs sits between developers, AI agents, and public registries, blocking malicious, vulnerable, and policy-violating packages at install time, before they ever reach a workstation or CI pipeline. Open Report View Report Published on July 27, 2026 Updated on July 24, 2026 Topics Security & Compliance Related Posts Grip Security Reduces Noise by 99% Grip Security replaced their traditional SCA tool with Endor Labs to improve their ability to build trust with customers without taxing developers. Learn More Thank you! Your submission has been received! Oops! Something went wrong while submitting the form.",
+          "categories": [],
+          "feed_url": "https://www.endorlabs.com/blog/rss.xml",
+          "id": "737fd7c510db7696",
+          "published_at": "2026-07-24T19:35:13Z",
+          "source": "Endor Labs",
+          "summary": "Package Firewall",
+          "title": "Package Firewall | Solution Brief | Endor Labs",
+          "url": "https://www.endorlabs.com/learn/package-firewall"
+        },
+        {
+          "article_text": "Software Supply Chain Security | Solution Brief | Endor Labs --> Meet Endor Labs in Las Vegas for BlackHat 2026 Learn More Learn Research Company LeanAppSec Pricing Docs Login Book a Demo Book Demo By clicking \u201cAccept\u201d, you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. View our Privacy Policy for more information. Deny Accept Solution Brief Software Supply Chain Security Supply chain attacks have shifted from rare events to a daily reality, with malicious packages landing in npm and PyPI daily and CI/CD pipelines drawing attacker attention as a soft target. This solution brief shows how Endor Labs covers the full supply chain, from the registry edge to the build pipeline, blocking malicious packages at install time, prioritizing fixes attackers can actually reach, and hardening the pipeline itself. Open Report View Report Published on July 27, 2026 Updated on July 24, 2026 Topics Security Related Posts Understanding the Cyber Resilience Act The Cyber Resilience Act (CRA) sets mandatory security requirements for hardware and software. This blog covers key compliance objectives, challenges with OSS vulnerabilities, and best practices for maintaining security throughout the product life cycle. Learn More Surge in submissions forces NIST to change how it handles CVEs. Here's what it means for vulnerability management. Learn More n8mare on auth street: supply chain attack targets n8n ecosystem Attackers weaponized n8n's community nodes to steal credentials Learn More Thank you! Your submission has been received! Oops! Something went wrong while submitting the form.",
+          "categories": [],
+          "feed_url": "https://www.endorlabs.com/blog/rss.xml",
+          "id": "a641f4d9904fa484",
+          "published_at": "2026-07-24T19:35:13Z",
+          "source": "Endor Labs",
+          "summary": "Software Supply Chain Security",
+          "title": "Software Supply Chain Security | Solution Brief | Endor Labs",
+          "url": "https://www.endorlabs.com/learn/software-supply-chain-security"
+        }
+      ],
+      "title": "Artifact Signing | Solution Brief | Endor Labs",
+      "tokens": [
+        "artifact",
+        "brief",
+        "endor",
+        "firewall",
+        "signing",
+        "solution"
+      ],
+      "updated_at": "2026-07-30T14:29:45Z"
+    },
     "asyncapi-generator": {
       "created_at": "2026-07-21T14:20:07Z",
       "dek": "Malicious AsyncAPI package versions reached npm with valid provenance after an attacker pushed to the project\u2019s release branch, shifting execution from install-time scripts to runtime module loading.",
@@ -1796,6 +2076,61 @@
       ],
       "updated_at": "2026-07-21T14:20:07Z"
     },
+    "cve-2026-41940": {
+      "created_at": "2026-07-30T14:29:45Z",
+      "dek": "A campaign tied to malicious development versions of PHP packages appears to have used compromised repositories, not package installation hooks, to run scanning and exploitation jobs against CVE-2026-41940 targets.",
+      "discovered_on": "2026-07-30",
+      "indicators": [
+        "cve-2026-41940"
+      ],
+      "last_seen_on": "2026-07-30",
+      "post_path": "research/posts/cve-2026-41940.html",
+      "published": true,
+      "slug": "cve-2026-41940",
+      "source_ids": [
+        "4cf38e94dd3d822b"
+      ],
+      "source_urls": [
+        "https://socket.dev/blog/github-actions-abuse-powers-cpanel-and-whm-exploitation?utm_medium=feed"
+      ],
+      "sources": [
+        {
+          "article_text": "Large-Scale GitHub Actions Abuse Powers a Distributed cPanel... \ud83c\udfa9 You're Invited: Meet the Socket team at Black Hat in Las Vegas, August 3-6 . RSVP \u2192 Blog Research Security News Large-Scale GitHub Actions Abuse Powers a Distributed cPanel and WHM Exploitation Campaign A large-scale campaign abused GitHub Actions in compromised repositories to exploit CVE-2026-41940 in cPanel and WHM and steal server credentials. Kirill Boychenko July 22, 2026 9 min read Table of Contents From Packagist Packages to GitHub Actions: The Malware Was Not in the PHP How Malicious Workflows Turned GitHub Actions into Exploitation Infrastructure Continuous Heartbeats and Incremental Exfiltration DNSHook Callbacks Reveal Campaign Scale Threat Infrastructure and Payload cPanel and WHM Exploitation Enables Broad Credential Harvesting MITRE ATT&CK Indicators of Compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Table of Contents From Packagist Packages to GitHub Actions: The Malware Was Not in the PHP How Malicious Workflows Turned GitHub Actions into Exploitation Infrastructure Continuous Heartbeats and Incremental Exfiltration DNSHook Callbacks Reveal Campaign Scale Threat Infrastructure and Payload cPanel and WHM Exploitation Enables Broad Credential Harvesting MITRE ATT&CK Indicators of Compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Malicious Packagist development versions exposed a broader GitHub Actions campaign that abuses compromised repositories to exploit CVE-2026-41940 , a cPanel and WHM authentication bypass vulnerability, and harvest credentials from affected servers. Our investigation into malicious Packagist development versions associated with a legitimate PHP and DevOps developer, dinushchathurya , uncovered a large-scale GitHub Actions abuse campaign. Although the investigation began in the PHP package ecosystem, the PHP library code itself was not the campaign\u2019s execution mechanism. Instead, the malicious functionality was embedded in GitHub Actions workflow files committed to the developer\u2019s source repositories. Between July 12 and 13, 2026, Packagist automatically synchronized malicious development versions across all ten packages associated with the compromised developer, reflecting changes the threat actor pushed to the developer\u2019s GitHub repositories. Each affected development version contained between 55 and 62 malicious GitHub Actions workflow files, totaling 583 files across all ten package versions. These YAML automation files instruct GitHub to launch temporary Ubuntu systems, known as GitHub-hosted runners, after repository pushes or manual execution, detect each runner\u2019s processor architecture, and download a corresponding Linux scanning and exploitation payload from the threat actor-controlled command and control (C2) server at 43[.]228[.]157[.]68 . The payload scans a broad range of internet-facing systems, targets cPanel and WHM services, attempts exploitation of CVE-2026-41940 , and searches compromised servers for credentials, configuration files, environment variables, database access, SSH material, Git tokens, cloud keys, payment service credentials, and other valuable secrets. As written, the workflows continuously report execution status to the threat actor and upload newly collected results through HTTP POST requests. The output files they monitor include AWS credentials, GitHub and GitLab tokens, OpenAI and Google API credentials, Stripe keys, SendGrid and Mailgun credentials, database information, SSH data, Git remotes, and remote code execution results. Packagist profile dinushchathurya , showing the ten PHP packages whose development versions synchronized malicious changes from the maintainer\u2019s compromised GitHub repositories. This attack differs from conventional malicious package campaigns. Installing one of the affected PHP packages through Packagist did not automatically execute the malicious workflows. Packagist placed the package inside the consuming project\u2019s vendor directory, where GitHub ignored the nested workflow files. Cloning the repository also did not execute the payload on the developer\u2019s computer. Execution occurred when the compromised repository, with .github/workflows at its root, received a push or when someone manually launched the workflow. The Linux payload normally ran on an ephemeral GitHub-hosted runner, which the threat actor used as disposable scanning and exploitation infrastructure. The campaign did not rely on package users\u2019 systems: scanning and exploitation ran on GitHub-hosted runners launched from compromised repositories. The principal downstream targets were internet-facing cPanel and WHM systems. These platforms administer website files, databases, email accounts, application configurations, and, in higher-privilege deployments, multiple customer hosting accounts from a single control plane. Compromising one",
+          "categories": [
+            "research",
+            "security news"
+          ],
+          "feed_url": "https://socket.dev/api/blog/feed.atom",
+          "id": "4cf38e94dd3d822b",
+          "published_at": "2026-07-30T14:29:42Z",
+          "source": "Socket",
+          "summary": "A large-scale campaign abused GitHub Actions in compromised repositories to exploit CVE-2026-41940 in cPanel and WHM and steal server credentials.",
+          "title": "Large-Scale GitHub Actions Abuse Powers a Distributed cPanel and WHM Exploitation Campaign",
+          "url": "https://socket.dev/blog/github-actions-abuse-powers-cpanel-and-whm-exploitation?utm_medium=feed"
+        }
+      ],
+      "title": "Compromised Packagist-linked GitHub repositories used Actions runners to attack cPanel and WHM",
+      "tokens": [
+        "abuse",
+        "abused",
+        "actions",
+        "and",
+        "compromised",
+        "cpanel",
+        "credentials.",
+        "cve-2026-41940",
+        "distributed",
+        "exploit",
+        "exploitation",
+        "large-scale",
+        "powers",
+        "repositories",
+        "server",
+        "steal",
+        "whm"
+      ],
+      "updated_at": "2026-07-30T14:29:45Z"
+    },
     "dependencies-developer-endor-guide-securing-source": {
       "created_at": "2026-07-21T14:20:07Z",
       "discovered_on": "2026-07-21",
@@ -1910,8 +2245,62 @@
         "strikes"
       ],
       "updated_at": "2026-06-27T14:05:34Z"
+    },
+    "node-js": {
+      "created_at": "2026-07-30T14:29:45Z",
+      "dek": "A lookalike Corepack website is abusing confusion around Node.js packaging tooling changes to push Windows executables unrelated to the real project.",
+      "discovered_on": "2026-07-30",
+      "indicators": [
+        "node.js"
+      ],
+      "last_seen_on": "2026-07-30",
+      "post_path": "research/posts/node-js.html",
+      "published": true,
+      "slug": "node-js",
+      "source_ids": [
+        "efb305858293fc1d"
+      ],
+      "source_urls": [
+        "https://socket.dev/blog/fake-corepack-site-distributes-infostealer-and-proxyware?utm_medium=feed"
+      ],
+      "sources": [
+        {
+          "article_text": "Fake Corepack Site Distributes Infostealer and Proxyware to ... \ud83c\udfa9 You're Invited: Meet the Socket team at Black Hat in Las Vegas, August 3-6 . RSVP \u2192 Blog Security News Research Fake Corepack Site Distributes Infostealer and Proxyware to Developers A fake corepack.org site is impersonating the Node.js tool and delivers an infostealer and proxyware to developers who download it. Kirill Boychenko Sarah Gooding July 24, 2026 4 min read Table of Contents Corepack's Removal From Node.js Creates an Opening The Download Delivers an Infostealer and Proxyware A Second Path Delivers Adware and Trojan Activity The Site Appears to Be AI-Generated Community Response and Takedown Efforts How to Get Corepack Safely Indicators of Compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install Table of Contents Corepack's Removal From Node.js Creates an Opening The Download Delivers an Infostealer and Proxyware A Second Path Delivers Adware and Trojan Activity The Site Appears to Be AI-Generated Community Response and Takedown Efforts How to Get Corepack Safely Indicators of Compromise Secure your dependencies with us Socket proactively blocks malicious open source packages in your code. Install A website at corepack[.]org is impersonating Corepack, the Node.js tool for managing package managers, and using that identity to push malware to developers who land on the page looking for a download. The site has existed in some form since early 2026 as a low-quality, apparently AI-generated imitation, but it recently started serving executable downloads. Socket's Threat Research team analyzed the site and confirmed it as a developer-targeted phishing and impersonation operation that drops an infostealer and enrolls victims' machines in a bandwidth-sharing proxy network. Corepack is not distributed as a Windows installer, and the real project has no official website at corepack.org. Any download offered there should be treated as malicious. Corepack's Removal From Node.js Creates an Opening # Corepack is an npm package that lets developers manage package managers like Yarn and pnpm and pin a specific version per project. It shipped as an experimental feature bundled with Node.js starting in version 16.9.0. In 2025, the Node.js Technical Steering Committee voted to stop distributing Corepack with future releases. It remains available in Node.js 24 and earlier, and Node.js 25 stopped bundling it. Developers who still want Corepack now install it themselves, most commonly from the npm registry. The attackers are exploiting that transition. Developers searching for how to get Corepack after its removal from Node.js are the exact audience most likely to click a top search result that promises a download. In a Node.js issue tracking the domain, one contributor reported corepack.org showing up as the second result when searching for \"corepack\" on DuckDuckGo. The Download Delivers an Infostealer and Proxyware # Clicking \"Download Free\" on the site redirects the visitor to an OpenShield landing page and downloads a file named vpnsetup_d9gfqvs3dsic73fcvi90.exe , presented as a free VPN client. The tool has nothing to do with Corepack. When executed, the installer drops OpenShield along with a persistent Apprunner component. Socket classifies the payload as an infostealer. Dynamic analysis confirmed: Access to browser-profile data and stored SSH keys Host and process discovery PowerShell and command-shell execution Run-key persistence to survive reboots OpenShield also enrolls the system in bandwidth sharing for third-party data-scraping traffic, effectively turning the machine into a proxy exit node. Hidden bandwidth-sharing installs of this kind are known as proxyjacking , and security vendors classify the clients as proxyware or riskware because the person running the machine has no visibility into what traffic routes through their connection. A Second Path Delivers Adware and Trojan Activity # A different click path on the same site enters a malvertising or affiliate redirect chain and displays a fake \"Your File Download Is Ready\" page. Clicking through downloads OperaGXSetup.exe . This branch is best described as deceptive adware-style software delivery, and the overall detonation was also flagged as trojan activity. Two distinct delivery paths from a single fake domain point to a monetization setup that pays out through more than one channel: an infostealer and proxy enrollment on one side, affiliate or adware installs on the other. The Site Appears to Be AI-Generated # The impersonation is sloppy in ways that point to automated content generation with no understanding of the subject. The site's FAQ reads as LLM-generated, and in at least one answer it confuses the Yarn package manager with yarn the textile craft, responding to a question about \"yarn bombing\" as if the tool were related to knitting and crochet street art. The download link in the header is misspelled \"Downlaod,",
+          "categories": [
+            "research",
+            "security news"
+          ],
+          "feed_url": "https://socket.dev/api/blog/feed.atom",
+          "id": "efb305858293fc1d",
+          "published_at": "2026-07-30T14:29:42Z",
+          "source": "Socket",
+          "summary": "A fake corepack.org site is impersonating the Node.js tool and delivers an infostealer and proxyware to developers who download it.",
+          "title": "Fake Corepack Site Distributes Infostealer and Proxyware to Developers",
+          "url": "https://socket.dev/blog/fake-corepack-site-distributes-infostealer-and-proxyware?utm_medium=feed"
+        }
+      ],
+      "title": "Fake Corepack Download Site Targets Node.js Developers With Malware",
+      "tokens": [
+        "and",
+        "corepack",
+        "corepack.org",
+        "delivers",
+        "developers",
+        "distributes",
+        "download",
+        "fake",
+        "impersonating",
+        "infostealer",
+        "it.",
+        "node.js",
+        "proxyware",
+        "site",
+        "tool",
+        "who"
+      ],
+      "updated_at": "2026-07-30T14:29:45Z"
     }
   },
-  "last_run_at": "2026-07-22T14:20:37Z",
+  "last_run_at": "2026-07-30T14:32:16Z",
   "version": 1
 }
