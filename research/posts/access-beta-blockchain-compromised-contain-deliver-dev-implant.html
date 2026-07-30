@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Two prerelease packages in the @joyfill npm scope included bundled JavaScript that could execute when imported and retrieve follow-on malware using blockchain-hosted instructions." />
+  <meta name="theme-color" content="#0a1020" />
+  <link rel="canonical" href="https://arnabroy24.github.io/research/posts/access-beta-blockchain-compromised-contain-deliver-dev-implant.html" />
+  <title>Joyfill npm Beta Packages Carried Import-Time RAT Loader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../../index.html#top" aria-label="Arnab Roy home"><span class="brand-mark">AR</span><span>Arnab Roy</span></a>
+      <button class="menu-button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Primary navigation">
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#expertise">Expertise</a>
+        <a href="../../index.html#experience">Experience</a>
+        <a href="../../research.html">Research</a>
+        <a href="../../index.html#credentials">Credentials</a>
+        <a class="nav-cta" href="../../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="article-header">
+        <div class="container">
+          <p class="article-meta">Discovered 2026-07-30 / 1 source</p>
+          <h1>Joyfill npm Beta Packages Carried Import-Time RAT Loader</h1>
+          <p class="hero-copy">Two prerelease packages in the @joyfill npm scope included bundled JavaScript that could execute when imported and retrieve follow-on malware using blockchain-hosted instructions.</p>
+          <div class="source-list">
+          <a href="https://socket.dev/blog/joyfill-npm-beta-releases-compromised?utm_medium=feed" target="_blank" rel="noreferrer">Socket</a>
+          </div>
+        </div>
+      </header>
+      <div class="article-body">
+        <div class="container">
+          <h2>What happened</h2>
+          <p>Socket reports that two Joyfill beta releases on npm were compromised: @joyfill/layouts@0.1.2-2773.beta.0 and @joyfill/components@4.0.0-rc24-2773-beta.4. The malicious code was appended into built package artifacts and, at least in the layouts package, ran when the CommonJS entrypoint was loaded rather than during npm install. The implant used transactions on Tron, Aptos, and BNB Smart Chain as part of its payload resolution flow and could reach a Node.js remote-access trojan associated by code overlap with DEV#POPPER. A second branch attempted to fetch and decrypt a boot payload from 23[.]27[.]13[.]43/$/boot using a marker header. The source does not establish how the compromise occurred, whether through a developer machine, repository, CI system, or npm publishing credential.</p>
+          <h2>Key findings</h2>
+          <ul>
+          <li>Affected npm versions: @joyfill/layouts@0.1.2-2773.beta.0 and @joyfill/components@4.0.0-rc24-2773-beta.4.</li>
+          <li>The malicious code was present at bundle time according to source map evidence, not merely injected into a final tarball after build.</li>
+          <li>@joyfill/layouts is the higher-risk artifact because the implant executes when the module is imported; npm install --ignore-scripts would not prevent execution after import.</li>
+          <li>@joyfill/components contained the same injected code in multiple dist files, but Socket observed that the bundled require behavior likely prevented normal execution in that artifact. It should still be treated as compromised.</li>
+          <li>Previously reviewed versions @joyfill/layouts@0.1.1 and @joyfill/components@4.0.0-rc24 reportedly did not contain the implant.</li>
+          <li>The final payload was assessed as capable of host reconnaissance, remote command or JavaScript execution, file upload, clipboard access, and modification of developer-tool files.</li>
+          </ul>
+          <h2>Affected ecosystems</h2>
+          <p>npm, JavaScript/Node.js applications, React applications using Joyfill components, CI/build systems, developer workstations, test runners, and server-side rendering environments that imported the affected packages</p>
+          <h2>Security analysis</h2>
+          <p>This incident is a useful reminder that prerelease packages can carry production-grade supply-chain risk even when overall package download numbers are modest or ambiguous. The affected Joyfill versions were beta/RC builds, so the public weekly download count for the packages does not indicate how many users actually installed the compromised releases. The most important exposure question is not whether install scripts ran, but whether the package was imported by Node.js in a developer, CI, test, SSR, or build context. The reported blockchain transaction lookup pattern also complicates simple domain-based detection, because the loader can use public chains as an indirection layer for retrieving encrypted instructions. The available reporting does not prove the attacker’s initial access path, so organizations should avoid assuming this was only an npm-token issue; repository, build, and workstation compromise remain possible based on the evidence provided.</p>
+          <h2>Defender actions</h2>
+          <ul>
+          <li>Search package-lock.json, yarn.lock, pnpm-lock.yaml, npm logs, artifact manifests, and SBOMs for @joyfill/layouts@0.1.2-2773.beta.0 and @joyfill/components@4.0.0-rc24-2773-beta.4.</li>
+          <li>Treat any system that imported @joyfill/layouts@0.1.2-2773.beta.0 as potentially compromised, including CI runners and developer machines; prioritize credential review for npm tokens, source-control tokens, cloud credentials, and secrets available to build jobs.</li>
+          <li>Downgrade or pin to known-unaffected versions and block the affected prerelease versions in dependency policy tooling.</li>
+          <li>Look for outbound connections or attempted connections to 23[.]27[.]13[.]43, especially requests to /$/boot with unusual Sec-V-style headers, while recognizing that blockchain-based retrieval may reduce reliance on a single command-and-control endpoint.</li>
+          <li>Review build artifacts for unexpected appended or obfuscated JavaScript in Joyfill bundles, particularly around dist/index.js, dist/index.esm.js, dist/joyfill.min.js, and source-map references to src/utils/reactGridLayoutUtils.js.</li>
+          <li>If exposure is confirmed, rotate credentials from affected environments and rebuild from clean runners or workstations before republishing internal artifacts.</li>
+          </ul>
+          <h2>Source notes</h2>
+          <ul>
+          <li>Primary source: Socket Research Team report published July 28/30, 2026, describing two compromised Joyfill npm beta releases.</li>
+          <li>Attribution to DEV#POPPER/PolinRider is based on reported code and indicator overlap, not a definitive attribution of the Joyfill compromise to a specific threat actor.</li>
+          <li>The source states that other checked public @joyfill packages did not contain the same signature, but defenders should still validate their own dependency trees and cached artifacts.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="container"><span>&copy; 2026 Arnab Roy. Built with GitHub Pages.</span></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
+
