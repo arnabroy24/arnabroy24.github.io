@@ -22,6 +22,7 @@
         <a href="#about">About</a>
         <a href="#expertise">Expertise</a>
         <a href="#experience">Experience</a>
+        <a href="#speaking">Speaking</a>
         <a href="research.html">Research</a>
         <a href="assets/documents/Arnab_Roy_Resume.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open Arnab Roy resume PDF in a new tab">Resume</a>
         <a href="#credentials">Credentials</a>
@@ -36,17 +37,17 @@
         <div>
           <p class="eyebrow">ARNAB ROY / APPLICATION SECURITY / DEVSECOPS</p>
           <h1>Application Security Engineer | DevSecOps | Software Supply Chain Security</h1>
-          <p class="hero-copy">Application Security professional focused on CI/CD security, SAST, SCA, secret scanning, software supply chain risk, and risk-based remediation for engineering teams.</p>
+          <p class="hero-copy">Application Security professional focused on CI/CD security, SAST, SCA, secret scanning, and software supply-chain risk. I also share practical research and lessons from real attacks through public advisories and conference talks.</p>
           <div class="hero-actions">
             <a class="button button-primary" href="assets/documents/Arnab_Roy_Resume.pdf" download aria-label="Download Arnab Roy resume as PDF">Download Resume</a>
             <a class="button button-secondary" href="#experience">Experience <span aria-hidden="true">↓</span></a>
-            <a class="button button-secondary" href="research.html">Research notes</a>
+            <a class="button button-secondary" href="#speaking">Talks &amp; research</a>
             <a class="button button-secondary" href="mailto:arnab.cyberapp@gmail.com">Email me</a>
           </div>
           <dl class="hero-stats" aria-label="Professional highlights">
+            <div><dt>3</dt><dd>BSides talks delivered in 2026</dd></div>
+            <div><dt>1</dt><dd>published GitHub Security Advisory</dd></div>
             <div><dt>600+</dt><dd>SAST rules developed</dd></div>
-            <div><dt>3</dt><dd>AppSec signal types unified</dd></div>
-            <div><dt>5+</dt><dd>critical apps threat-modeled</dd></div>
           </dl>
         </div>
         <aside class="signal-panel profile-panel" aria-label="Professional snapshot">
@@ -70,9 +71,79 @@
       </div>
     </section>
 
+
+    <section id="speaking" class="section section-border">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-label">02 / SPEAKING</p>
+          <h2>Taking real-world CI/CD attack paths from research to the stage.</h2>
+        </div>
+        <div class="speaking-intro">
+          <p class="lead">Action and Reaction: Pull Request, Push Secrets</p>
+          <p>My conference talk examines how GitHub Actions trust boundaries can fail, using real software supply-chain incidents and live demonstrations to show how untrusted pull-request data can lead to unintended execution and secret exposure. Co-presented with Diptendu Kar.</p>
+        </div>
+        <div class="speaking-group">
+          <div class="speaking-group-heading"><h3>Presented in 2026</h3><span>3 completed talks</span></div>
+          <div class="achievement-grid">
+            <article class="achievement-card">
+              <p class="achievement-kicker">OCT 24, 2026 · PEORIA, IL</p>
+              <h4>BSides Peoria 2026</h4>
+              <p>Action and Reaction: Pull Request, Push Secrets</p>
+              <a href="https://bsidespeoria.com/speakers/" target="_blank" rel="noopener noreferrer">Conference speakers <span aria-hidden="true">↗</span></a>
+            </article>
+            <article class="achievement-card">
+              <p class="achievement-kicker">OCT 31, 2026 · NORTHERN VIRGINIA</p>
+              <h4>BSides NoVA 2026</h4>
+              <p>Action and Reaction: Pull Request, Push Secrets</p>
+              <a href="https://bsidesnova-2026.sessionize.com/session/1324284" target="_blank" rel="noopener noreferrer">View session <span aria-hidden="true">↗</span></a>
+            </article>
+            <article class="achievement-card">
+              <p class="achievement-kicker">NOV 7, 2026 · CHARLESTON, SC</p>
+              <h4>BSides Charleston 2026</h4>
+              <p>Action and Reaction: Pull Request, Push Secrets</p>
+              <a href="https://www.bsidescharleston.org/" target="_blank" rel="noopener noreferrer">Conference website <span aria-hidden="true">↗</span></a>
+            </article>
+          </div>
+        </div>
+        <div class="speaking-group">
+          <div class="speaking-group-heading"><h3>Upcoming presentations</h3><span>Accepted sessions · times to be announced</span></div>
+          <div class="achievement-grid upcoming-grid">
+            <article class="achievement-card upcoming-card">
+              <p class="achievement-kicker">DEC 11, 2026 · PHILADELPHIA, PA</p>
+              <h4>BSides Philadelphia 2026</h4>
+              <p>Accepted to present “Action and Reaction: Pull Request, Push Secrets.”</p>
+              <a href="https://bsidesphilly.org/" target="_blank" rel="noopener noreferrer">Event details <span aria-hidden="true">↗</span></a>
+            </article>
+            <article class="achievement-card upcoming-card">
+              <p class="achievement-kicker">FEB 5–6, 2027 · ST. PETERSBURG, FL</p>
+              <h4>BSides St. Pete 2027</h4>
+              <p>Accepted session: “Action and Reaction: Pull Request, Push Secrets.” Exact session date and time to be announced.</p>
+              <a href="https://bsidesstpete.com/" target="_blank" rel="noopener noreferrer">Event details <span aria-hidden="true">↗</span></a>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="disclosure" class="section section-border">
+      <div class="container split-grid">
+        <p class="section-label">03 / DISCLOSURE</p>
+        <div>
+          <h2>From responsible disclosure to a published security fix.</h2>
+          <article class="advisory-feature">
+            <p class="achievement-kicker">PUBLISHED OCT 26, 2026 · SVELTIA CMS</p>
+            <h3>Integration credential persistence through magic-link authentication</h3>
+            <p class="lead">GHSA-2vxp-gw92-99r4 · Credited security reporter</p>
+            <p>Reported a gap in the magic-link sign-in flow where copied integration credentials could remain on a device after the associated account session ended. The maintainers published a low-severity GitHub Security Advisory, addressed the issue in v0.253.0, and credited my GitHub account, <a href="https://github.com/arnabroy24" target="_blank" rel="noopener noreferrer">@arnabroy24</a>, for the report.</p>
+            <a class="button button-primary" href="https://github.com/sveltia/sveltia-cms/security/advisories/GHSA-2vxp-gw92-99r4" target="_blank" rel="noopener noreferrer">Read published advisory <span aria-hidden="true">↗</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section id="expertise" class="section section-border">
       <div class="container">
-        <div class="section-heading"><p class="section-label">02 / FOCUS</p><h2>Role focus for AppSec, DevSecOps, and supply-chain security teams.</h2></div>
+        <div class="section-heading"><p class="section-label">04 / FOCUS</p><h2>Role focus for AppSec, DevSecOps, and supply-chain security teams.</h2></div>
         <div class="capability-grid">
           <article class="capability-card"><p class="number">01</p><h3>Application Security Engineering</h3><p>Operationalizing SAST, SCA, secret scanning, threat modeling, and vulnerability management in engineering workflows.</p><ul><li>Secure SDLC</li><li>Threat modeling</li><li>Remediation guidance</li></ul></article>
           <article class="capability-card"><p class="number">02</p><h3>Software Supply Chain Security</h3><p>Monitoring package risk, validating enterprise exposure, and supporting response to compromised dependencies.</p><ul><li>Dependency risk</li><li>Package governance</li><li>Impact assessment</li></ul></article>
@@ -84,7 +155,7 @@
 
     <section id="experience" class="section section-border">
       <div class="container split-grid experience-wrap">
-        <p class="section-label">03 / EXPERIENCE</p>
+        <p class="section-label">05 / EXPERIENCE</p>
         <div class="timeline">
           <article class="role">
             <div class="role-meta"><span>APR 2025 — PRESENT</span><span>BOSTON, MA</span></div>
@@ -126,7 +197,7 @@
 
     <section id="research" class="section section-border">
       <div class="container split-grid">
-        <p class="section-label">04 / RESEARCH</p>
+        <p class="section-label">06 / RESEARCH</p>
         <div>
           <h2>Research notes on software supply-chain attacks.</h2>
           <p class="lead">This is my personal notebook for tracking package ecosystem incidents and practicing the kind of analysis I use in AppSec work: what happened, who is exposed, and what teams should do next.</p>
@@ -141,7 +212,7 @@
 
     <section id="skills" class="section section-border">
       <div class="container">
-        <div class="section-heading"><p class="section-label">05 / SKILLS</p><h2>Grouped technical skills from application security work.</h2></div>
+        <div class="section-heading"><p class="section-label">07 / SKILLS</p><h2>Grouped technical skills from application security work.</h2></div>
         <div class="toolkit-grid skill-grid">
           <div><h3>Application Security</h3><p>SAST, DAST, SCA, secret scanning, threat modeling, vulnerability management, secure SDLC</p></div>
           <div><h3>Software Supply Chain Security</h3><p>Dependency risk, compromised package analysis, JFrog Artifactory exposure validation, package approval governance</p></div>
@@ -155,7 +226,7 @@
 
     <section id="credentials" class="section section-border">
       <div class="container split-grid">
-        <p class="section-label">06 / CREDENTIALS</p>
+        <p class="section-label">08 / CREDENTIALS</p>
         <div class="credentials">
           <div><h3>Education</h3><p><strong>Master of Cybersecurity</strong><br />Northeastern University · 2021–2023</p><p><strong>Bachelor of Technology</strong><br />KIIT University · 2017–2021</p></div>
           <div><h3>Certifications & Publication</h3><ul class="credential-list"><li>OWASP BASC 2026 Presenter</li><li>INE eJPT · May 2025</li><li>CompTIA CySA+ · Apr 2024</li><li>AWS Certified Cloud Practitioner · Jul 2022</li><li>CompTIA Security+ · Jul 2021</li><li>AI-Based Mobile Edge Computing · Springer · Feb 2022</li></ul></div>
@@ -165,7 +236,7 @@
 
     <section id="contact" class="section contact-section">
       <div class="container contact-content">
-        <p class="section-label">07 / CONTACT</p>
+        <p class="section-label">09 / CONTACT</p>
         <h2>Open to Application Security Engineer, DevSecOps Engineer, and software supply-chain security roles.</h2>
         <div class="contact-links">
           <a href="mailto:arnab.cyberapp@gmail.com">arnab.cyberapp@gmail.com <span aria-hidden="true">↗</span></a>
